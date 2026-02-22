@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  pzn-react:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "5173:5173"
+    environment:
+      - NODE_ENV=production
+    container_name: pzn-react-container
+    restart: unless-stopped
+    # For development, use this instead:
+    # command: npm run dev
+    # ports:
+    #   - "5173:5173"
+    # volumes:
+    #   - .:/app
+    #   - /app/node_modules
