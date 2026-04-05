@@ -2,19 +2,15 @@ version: '3.8'
 
 services:
   pzn-react:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: node:20-alpine
     ports:
       - "5173:5173"
     environment:
-      - NODE_ENV=production
+      - NODE_ENV=development
     container_name: pzn-react-container
     restart: unless-stopped
-    # For development, use this instead:
-    # command: npm run dev
-    # ports:
-    #   - "5173:5173"
-    # volumes:
-    #   - .:/app
-    #   - /app/node_modules
+    command: sh -c "npm install && npm run dev -- --host 0.0.0.0"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    working_dir: /app
