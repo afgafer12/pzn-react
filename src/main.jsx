@@ -1,6 +1,7 @@
 import {StrictMode} from 'react'
 import {createRoot} from 'react-dom/client'
 import {BrowserRouter, Route, Routes} from "react-router";
+import 'bootstrap/dist/css/bootstrap.min.css'
 import Layout from "./components/Layout.jsx";
 import UserRegister from "./components/User/UserRegister.jsx";
 import UserLogin from "./components/User/UserLogin.jsx";
@@ -13,6 +14,8 @@ import ContactEdit from "./components/Contact/ContactEdit.jsx";
 import ContactDetail from "./components/Contact/ContactDetail.jsx";
 import AddressCreate from "./components/Address/AddressCreate.jsx";
 import AddressEdit from "./components/Address/AddressEdit.jsx";
+import ProdukList from './components/Produk/ProdukList.jsx';
+import ProdukForm from './components/Produk/ProdukForm.jsx';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -39,6 +42,15 @@ createRoot(document.getElementById('root')).render(
                 <Route path="create" element={<AddressCreate/>}/>
                 <Route path=":addressId/edit" element={<AddressEdit/>}/>
               </Route>
+            </Route>
+          </Route>
+
+          <Route path="produk">
+            <Route index element={<ProdukList/>}/>
+            <Route path="create" element={<ProdukForm/>}/>
+            <Route path=":id">
+              <Route index element={<ContactDetail/>}/>
+              <Route path="edit" element={<ProdukForm/>}/>
             </Route>
           </Route>
 
