@@ -54,9 +54,9 @@ export default function ProdukList() {
             </tr>
           </thead>
           <tbody>
-            {produkList.map(produk => (
+            {produkList.map((produk, i) => (
             <tr>
-              <td>1</td>
+              <td>{i+1}.</td>
               <td>{produk.nama}</td>
               <td>{produk.harga_jual}</td>
               <td>{produk.harga_beli}</td>

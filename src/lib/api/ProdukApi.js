@@ -54,11 +54,6 @@ export const produkUpdate = async (token, produk) => {
       'Accept': 'application/json',
       'Authorization': token
     },
-    body: JSON.stringify({
-      first_name,
-      last_name,
-      email,
-      phone
-    })
+    body: JSON.stringify(produk)
   })
 }
