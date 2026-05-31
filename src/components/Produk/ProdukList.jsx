@@ -1,10 +1,10 @@
 import {useEffectOnce, useLocalStorage} from "react-use";
 import {useEffect, useState} from "react";
-// import {contactDelete, contactList} from "../../lib/api/ContactApi.js";
 import {alertConfirm, alertError, alertSuccess} from "../../lib/alert.js";
 import {Link} from "react-router";
 import { Button, Card, Table } from "react-bootstrap";
 import { getProdukList } from "../../lib/api/ProdukApi.js";
+import { labelConfigs as lbl } from "../../helper/LabelConfigs.js";
 
 export default function ProdukList() {
 
@@ -63,8 +63,8 @@ export default function ProdukList() {
               <td>{produk.stok}</td>
               <td>{produk.is_aktif}</td>
               <td>
-                <Link to={`/dashboard/produk/${produk.id}/edit`} target="_blank" className="block p-6 h-full">
-                  edit
+                <Link to={`/dashboard/produk/${produk.id}/edit`} target="_blank" className={lbl.edit.btnIcon}>
+                  <i className={`${lbl.edit.icon} me-1`}></i>
                 </Link>
               </td>
             </tr>

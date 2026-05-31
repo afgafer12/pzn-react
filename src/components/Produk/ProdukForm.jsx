@@ -5,6 +5,7 @@ import {useEffectOnce, useLocalStorage} from "react-use";
 import {alertError, alertSuccess} from "../../lib/alert.js";
 import { produkCreate, produkDetil, produkUpdate } from "../../lib/api/ProdukApi.js";
 import { Card } from "react-bootstrap";
+import { labelConfigs as lbl } from "../../helper/LabelConfigs.js";
 
 export default function ProdukForm() {
 
@@ -123,7 +124,7 @@ export default function ProdukForm() {
               <label className="form-label">toko_id</label>
               <input type="text" id="toko_id" name="toko_id"
                 value={produkForm?.toko_id} onChange={handleChange}
-                className="form-control" />
+                className="form-control" disabled/>
             </div>
             <div className="col-12"></div>
             <div className="col-sm-6">
@@ -184,14 +185,15 @@ export default function ProdukForm() {
             <div className="col-12">
               <Card className="mt-3">
                 <Card.Body>
-                  <div className="row">
+                  <div className="row justify-content-end">
                     <div className="col-sm-auto">
-                      <button type="button" onClick={handleAddProdukVarian} className="btn btn-success">
-                        Tambah produk varian
+                      <button type="button" onClick={handleAddProdukVarian} className={`${lbl.add.btn}`}>
+                        <i className={`${lbl.add.icon} me-1`}></i>
+                        {lbl.add.lbl} Produk Varian
                       </button>
                     </div>
                   </div>
-                  <table className="table table-bodered table-sm">
+                  <table className={`${lbl.table.class} mt-3`}>
                     <thead>
                       <tr>
                         <th>No.</th>
@@ -239,8 +241,8 @@ export default function ProdukForm() {
                               className="form-control" />
                           </td>
                           <td>
-                            <button type="button" onClick={(e) => handleDeletrProdukVarian(i)} className="btn btn-danger">
-                              Hapus
+                            <button type="button" onClick={(e) => handleDeletrProdukVarian(i)} className={`${lbl.delete.btnIcon} btn-sm`}>
+                              <i className={lbl.delete.icon}></i>
                             </button>
                           </td>
                         </tr>
@@ -253,13 +255,15 @@ export default function ProdukForm() {
           </div>
           <div className="row justify-content-end mt-3">
             <div className="col-md-2">
-              <button type="submit" className="btn btn-primary w-100">
+              <button type="submit" className={`${lbl.submitForm.btn}`}>
+                <i className={`${lbl.submitForm.icon} me-1`}></i>
                 {produkForm?.id ? 'Ubah' : 'Tambah'}
               </button>    
             </div>
             <div className="col-md-2">
-              <button type="button" onClick={create} className="btn btn-primary w-100">
-                Tambah
+              <button type="button" onClick={create} className={`${lbl.submitForm.btn} me-1`}>
+                <i className={`${lbl.submitForm.icon} me-1`}></i>
+                {lbl.create.lbl}
               </button>    
             </div>
           </div>
