@@ -6,13 +6,13 @@ export const labelConfigs = {
   }, 
   create: {
     lbl: "Tambah",
-    // btn: "btn btn-primary",
+    btn: "btn btn-primary",
     btnIcon: "btn btn-outline-primary btn-sm",
     icon: "fa fa-plus",
   }, 
   edit: {
     lbl: "Ubah",
-    // btn: "btn btn-primary",
+    btn: "btn btn-primary",
     btnIcon: "btn btn-outline-primary btn-sm",
     icon: "fa fa-pencil",
   }, 

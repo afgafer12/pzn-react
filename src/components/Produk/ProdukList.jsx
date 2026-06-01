@@ -5,6 +5,7 @@ import {Link} from "react-router";
 import { Button, Card, Table } from "react-bootstrap";
 import { getProdukList } from "../../lib/api/ProdukApi.js";
 import { labelConfigs as lbl } from "../../helper/LabelConfigs.js";
+import ProdukForm from "./ProdukForm.jsx";
 
 export default function ProdukList() {
 
@@ -15,7 +16,7 @@ export default function ProdukList() {
   const [produkList, setContacts] = useState([]);
   const [reload, setReload] = useState(false);
 
-  async function fetchContacts() {
+  async function fetchProduk() {
     const response = await getProdukList(token, {nama, page});
     const responseBody = await response.json();
     console.log(responseBody);
@@ -29,7 +30,7 @@ export default function ProdukList() {
   }
 
   useEffect(() => {
-    fetchContacts()
+    fetchProduk()
       .then(() => console.log("Contacts fetched"));
   }, [reload])
 
@@ -38,9 +39,18 @@ export default function ProdukList() {
 
   return <>
      <Card>
+      <Card.Header>
+        Produk
+      </Card.Header>
       <Card.Body>
         <Card.Title>Produk</Card.Title>
         
+        <div className="text-end mb-3">
+          <Link to={`/dashboard/produk/create`} target="_blank" className={lbl.edit.btn}>
+            <i className={`${lbl.create.icon} me-1`}></i>
+            {lbl.create.lbl}
+          </Link>
+        </div>
         <Table striped bordered hover>
           <thead>
             <tr>
@@ -55,7 +65,7 @@ export default function ProdukList() {
           </thead>
           <tbody>
             {produkList.map((produk, i) => (
-            <tr>
+            <tr key={i}>
               <td>{i+1}.</td>
               <td>{produk.nama}</td>
               <td>{produk.harga_jual}</td>
@@ -71,6 +81,11 @@ export default function ProdukList() {
             ))}
           </tbody>
         </Table>
+      </Card.Body>
+    </Card>
+    <Card className="mt-3">
+      <Card.Body>
+        <ProdukForm/>
       </Card.Body>
     </Card>
   </>

@@ -1,11 +1,13 @@
 import {Link, useParams} from "react-router";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {contactDetail, contactUpdate} from "../../lib/api/ContactApi.js";
 import {useEffectOnce, useLocalStorage} from "react-use";
 import {alertError, alertSuccess} from "../../lib/alert.js";
 import { produkCreate, produkDetil, produkUpdate } from "../../lib/api/ProdukApi.js";
 import { Card } from "react-bootstrap";
 import { labelConfigs as lbl } from "../../helper/LabelConfigs.js";
+import Input from "../Shared/Input/index.jsx";
+// import ProdukList from "./ProdukList.jsx";
 
 export default function ProdukForm() {
 
@@ -25,7 +27,7 @@ export default function ProdukForm() {
     "satuan" : "",
     "produk_varian" : []
   });
-  const [varianFormArr, setVarianFormArr] = useState([]);
+  const [statusList, setStatusList] = useState([]);
 
   const handleChange = (e) => {
     setProdukForm({
@@ -48,10 +50,10 @@ export default function ProdukForm() {
     }));
   };
 
-  async function fetchContact() {
+  async function fetchProduk() {
     const response = await produkDetil(token, id);
     const responseBody = await response.json();
-    console.log(responseBody);
+    // console.log(responseBody);
 
     if (response.status === 200) {
       // setFirstName(responseBody.data.nama);
@@ -59,7 +61,7 @@ export default function ProdukForm() {
       // setEmail(responseBody.data.email);
       // setPhone(responseBody.data.phone);
       setProdukForm(responseBody.data);
-      console.log(produkForm);
+      // console.log(produkForm);
     } else {
       await alertError(responseBody.errors);
     }
@@ -102,17 +104,35 @@ export default function ProdukForm() {
     "stok": "", "harga_jual": "", "harga_beli": "", "warna": "", "ukuran": "",
    }]})
   }
-  const handleDeletrProdukVarian = (i) => {
+  const handleDeleteProdukVarian = (i) => {
    setProdukForm(prev => ({
       ...produkForm,
       produk_varian: prev.produk_varian.filter((_, index) => index !== i)
     }));
   }
 
-  useEffectOnce(() => {
-    fetchContact()
+  useEffect(() => {
+    const statusList = [
+      {value: 1, name: 'Aktif'},
+      {value: 0, name: 'Non aktif'},
+    ];
+    setStatusList(statusList);
+    fetchProduk()
       .then(() => console.log("Contact detail fetched successfully"));
-  })
+  }, [])
+  // const onStatusChange = (e) => {
+  //   const status = statusList.find(category => category.value == e.target.value);
+  //   console.log(e.target);
+  //   handleChange(e);
+  //   console.log(e.target.name);
+  //   console.log(e.target.value);
+    
+  //   // setProdukForm({
+  //   //   ...produkForm,
+  //   //   status_id: e.target.value,
+  //   //   status: e.target.value,
+  //   // });
+  // }
 
   return <>
     <Card>
@@ -121,63 +141,76 @@ export default function ProdukForm() {
         <form onSubmit={handleSubmit}>
           <div className="row">
             <div className="col-sm-6">
-              <label className="form-label">toko_id</label>
+              <label htmlFor="toko_id" className="form-label">toko_id</label>
               <input type="text" id="toko_id" name="toko_id"
                 value={produkForm?.toko_id} onChange={handleChange}
                 className="form-control" disabled/>
             </div>
             <div className="col-12"></div>
             <div className="col-sm-6">
-              <label className="form-label">nama</label>
-              <input type="text" id="nama" name="nama"
+              {/* <label htmlFor="nama" className="form-label">nama</label> */}
+              {/* <input type="text" id="nama" name="nama"
                 value={produkForm?.nama} onChange={handleChange}
-                className="form-control" />
+                className="form-control" /> */}
+              <Input name="nama" label="nama" className=""
+                value={produkForm?.nama} onChange={(e) => handleChange(e)} 
+              />
             </div>
             <div className="col-sm-6">
-              <label className="form-label">slug</label>
+              <label htmlFor="slug" className="form-label">slug</label>
               <input type="text" id="slug" name="slug"
                 value={produkForm?.slug} onChange={handleChange}
                 className="form-control" />
             </div>
             <div className="col-sm-6">
-              <label className="form-label">harga_jual</label>
+              <label htmlFor="harga_jual" className="form-label">harga_jual</label>
               <input type="number" id="harga_jual" name="harga_jual"
                 value={produkForm?.harga_jual} onChange={handleChange}
                 className="form-control" />
             </div>
             <div className="col-sm-6">
-              <label className="form-label">harga_beli</label>
+              <label htmlFor="harga_beli" className="form-label">harga_beli</label>
               <input type="number" id="harga_beli" name="harga_beli"
                 value={produkForm?.harga_beli} onChange={handleChange}
                 className="form-control" />
             </div>
             <div className="col-sm-6">
-              <label className="form-label">kategori_id</label>
+              <label htmlFor="kategori_id" className="form-label">kategori_id</label>
               <input type="text" id="kategori_id" name="kategori_id"
                 value={produkForm?.kategori_id} onChange={handleChange}
                 className="form-control" />
             </div>
             <div className="col-sm-6">
-              <label className="form-label">brand_id</label>
+              <label htmlFor="brand_id" className="form-label">brand_id</label>
               <input type="text" id="brand_id" name="brand_id"
                 value={produkForm?.brand_id} onChange={handleChange}
                 className="form-control" />
             </div>
             <div className="col-sm-6">
-              <label className="form-label">satuan</label>
+              <label htmlFor="satuan" className="form-label">satuan</label>
               <input type="text" id="satuan" name="satuan"
                 value={produkForm?.satuan ?? ''} onChange={handleChange}
                 className="form-control" />
             </div>
             <div className="col-sm-6">
-              <label className="form-label">status</label>
+              {/* <label htmlFor="status" className="form-label">status</label>
               <input type="text" id="status" name="status"
                 value={produkForm?.status} onChange={handleChange}
-                className="form-control" />
+                className="form-control"
+              /> */}
+              <Input 
+                type="select"
+                name="status"
+                value={produkForm?.status}
+                onChange={handleChange}
+                options={statusList}
+                placeholder={'Pilih'}
+                label="status"
+              />
             </div>
             <div className="col-12"></div>
             <div className="col-sm-6">
-              <label className="form-label">deskripsi</label>
+              <label htmlFor="deskripsi" className="form-label">deskripsi</label>
               <textarea id="deskripsi" name="deskripsi"
                 value={produkForm?.deskripsi ?? ''} onChange={handleChange}
                 className="form-control"></textarea>
@@ -197,12 +230,12 @@ export default function ProdukForm() {
                     <thead>
                       <tr>
                         <th>No.</th>
-                        <th>kd_produk</th>
-                        <th>stok</th>
-                        <th>harga_jual</th>
-                        <th>harga_beli</th>
-                        <th>warna</th>
-                        <th>ukuran</th>
+                        <th>Kode Produk</th>
+                        <th>Stok</th>
+                        <th>Harga Jual</th>
+                        <th>Harga Beli</th>
+                        <th>Warna</th>
+                        <th>Ukuran</th>
                         <th>Aksi</th>
                       </tr>
                     </thead>
@@ -211,37 +244,37 @@ export default function ProdukForm() {
                         <tr key={i}>
                           <td>{i+1}.</td>
                           <td>
-                            <input type="text" id="kd_produk" name="kd_produk"
+                            <input type="text" id={`kd_produk_${i}`} name="kd_produk"
                               value={varian?.kd_produk} onChange={(e) => handleProdukVariant(i, e)}
                               className="form-control" />
                           </td>
                           <td>
-                            <input type="number" id="stok" name="stok"
+                            <input type="number" name="stok"
                               value={varian?.stok} onChange={(e) => handleProdukVariant(i, e)}
                               className="form-control" />
                           </td>
                           <td>
-                            <input type="number" id="harga_jual" name="harga_jual"
+                            <input type="number" name="harga_jual"
                               value={varian?.harga_jual} onChange={(e) => handleProdukVariant(i, e)}
                               className="form-control" />
                           </td>
                           <td>
-                            <input type="number" id="harga_beli" name="harga_beli"
+                            <input type="number" name="harga_beli"
                               value={varian?.harga_beli} onChange={(e) => handleProdukVariant(i, e)}
                               className="form-control" />
                           </td>
                           <td>
-                            <input type="text" id="warna" name="warna"
-                              value={varian?.warna ?? ''} onChange={handleChange}
+                            <input type="text" name="warna"
+                              value={varian?.warna ?? ''} onChange={(e) => handleProdukVariant(i, e)}
                               className="form-control" />
                           </td>
                           <td>
-                            <input type="text" id="ukuran" name="ukuran"
-                              value={varian?.ukuran ?? ''} onChange={handleChange}
+                            <input type="text" name="ukuran"
+                              value={varian?.ukuran ?? ''} onChange={(e) => handleProdukVariant(i, e)}
                               className="form-control" />
                           </td>
                           <td>
-                            <button type="button" onClick={(e) => handleDeletrProdukVarian(i)} className={`${lbl.delete.btnIcon} btn-sm`}>
+                            <button type="button" onClick={(e) => handleDeleteProdukVarian(i)} className={`${lbl.delete.btnIcon} btn-sm`}>
                               <i className={lbl.delete.icon}></i>
                             </button>
                           </td>
@@ -272,6 +305,8 @@ export default function ProdukForm() {
         <pre>
           {JSON.stringify(produkForm, null, 2)}
         </pre>
+
+        {/* <ProdukList/> */}
       </Card.Body>
     </Card>
   </>
