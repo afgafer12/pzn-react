@@ -6,6 +6,8 @@ import { Button, Card, Table } from "react-bootstrap";
 import { getProdukList } from "../../lib/api/ProdukApi.js";
 import { labelConfigs as lbl } from "../../helper/LabelConfigs.js";
 import ProdukForm from "./ProdukForm.jsx";
+import { DataTable } from "primereact/datatable";
+import { Column } from "primereact/column";
 
 export default function ProdukList() {
 
@@ -81,6 +83,12 @@ export default function ProdukList() {
             ))}
           </tbody>
         </Table>
+
+        <DataTable value={produkList} stripedRows paginator rows={1} rowsPerPageOptions={[1, 5, 10, 25, 50]} tableStyle={{ minWidth: '50rem', marginTop: '20px', borderCollapse: 'collapse', width: '100%', border: '1px solid #ddd' }} className="p-datatable-striped">
+            <Column field="id" header="id" style={{padding: '12px', border: '1px solid #ddd'}}></Column>
+            <Column field="nama" header="Nama" style={{padding: '12px', border: '1px solid #ddd'}}></Column>
+            <Column field="toko_id" header="toko_id" style={{padding: '12px', border: '1px solid #ddd'}}></Column>
+        </DataTable>
       </Card.Body>
     </Card>
     <Card className="mt-3">
