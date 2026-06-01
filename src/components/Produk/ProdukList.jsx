@@ -2,12 +2,13 @@ import {useEffectOnce, useLocalStorage} from "react-use";
 import {useEffect, useState} from "react";
 import {alertConfirm, alertError, alertSuccess} from "../../lib/alert.js";
 import {Link} from "react-router";
-import { Button, Card, Table } from "react-bootstrap";
+import { Card, Table } from "react-bootstrap";
 import { getProdukList } from "../../lib/api/ProdukApi.js";
 import { labelConfigs as lbl } from "../../helper/LabelConfigs.js";
 import ProdukForm from "./ProdukForm.jsx";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
+import { Button } from "primereact/button";
 
 export default function ProdukList() {
 
@@ -39,6 +40,12 @@ export default function ProdukList() {
   useEffectOnce(() => {
   })
 
+  const buttonAksi = (produk) => {
+    return  (<Link to={`/dashboard/produk/${produk.id}/edit`} target="_blank" className={lbl.edit.btnIcon}>
+              <i className={`${lbl.edit.icon} me-1`}></i>
+            </Link>);
+  };
+
   return <>
      <Card>
       <Card.Header>
@@ -48,12 +55,27 @@ export default function ProdukList() {
         <Card.Title>Produk</Card.Title>
         
         <div className="text-end mb-3">
-          <Link to={`/dashboard/produk/create`} target="_blank" className={lbl.edit.btn}>
+          <Link to={`/dashboard/produk/create`} target="_blank" className={lbl.create.btn}>
             <i className={`${lbl.create.icon} me-1`}></i>
             {lbl.create.lbl}
           </Link>
         </div>
-        <Table striped bordered hover>
+
+        
+        <DataTable value={produkList}
+          paginator rows={10} rowsPerPageOptions={[3, 1, 10]}
+        >
+            <Column header="No." body={(data, options) => options.rowIndex + 1}></Column>
+            <Column field="nama" header="Nama"></Column>
+            <Column field="harga_jual" header="harga_jual"></Column>
+            <Column field="harga_beli" header="harga_beli"></Column>
+            <Column field="stok" header="stok"></Column>
+            <Column field="status" header="status"></Column>
+            <Column header="aksi" body={buttonAksi}></Column>
+        </DataTable>
+        <Button label="Secondary" severity="primary" raised />
+
+        <Table striped hover>
           <thead>
             <tr>
               <th>#</th>
@@ -84,11 +106,6 @@ export default function ProdukList() {
           </tbody>
         </Table>
 
-        <DataTable value={produkList} stripedRows paginator rows={1} rowsPerPageOptions={[1, 5, 10, 25, 50]} tableStyle={{ minWidth: '50rem', marginTop: '20px', borderCollapse: 'collapse', width: '100%', border: '1px solid #ddd' }} className="p-datatable-striped">
-            <Column field="id" header="id" style={{padding: '12px', border: '1px solid #ddd'}}></Column>
-            <Column field="nama" header="Nama" style={{padding: '12px', border: '1px solid #ddd'}}></Column>
-            <Column field="toko_id" header="toko_id" style={{padding: '12px', border: '1px solid #ddd'}}></Column>
-        </DataTable>
       </Card.Body>
     </Card>
     <Card className="mt-3">

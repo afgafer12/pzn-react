@@ -1,12 +1,12 @@
 export const labelConfigs = {
   //button
   submitForm: {
-    btn: "btn btn-primary w-100",
+    btn: "btn btn-primary w-100 fw-bold",
     icon: "fa fa-save",
   }, 
   create: {
     lbl: "Tambah",
-    btn: "btn btn-primary",
+    btn: "btn btn-success fw-bold",
     btnIcon: "btn btn-outline-primary btn-sm",
     icon: "fa fa-plus",
   }, 
@@ -24,7 +24,7 @@ export const labelConfigs = {
   }, 
   add: {
     lbl: "Add",
-    btn: "btn btn-success",
+    btn: "btn btn-success fw-bold",
     icon: "fa fa-plus",
   },
   list: {

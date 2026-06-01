@@ -1,12 +1,16 @@
+import './assets/layers.css';
+
 import {StrictMode} from 'react'
 import {createRoot} from 'react-dom/client'
 import {BrowserRouter, Route, Routes} from "react-router";
 import { PrimeReactProvider, PrimeReactContext } from 'primereact/api';
-import 'bootstrap/dist/css/bootstrap.min.css'
-import 'primereact/resources/themes/lara-light-blue/theme.css';
-import "primereact/resources/themes/lara-light-cyan/theme.css"; 
-import 'primereact/resources/primereact.min.css';
-import 'primeicons/primeicons.css';
+
+// import 'bootstrap/dist/css/bootstrap.min.css';
+// import 'primereact/resources/themes/lara-light-blue/theme.css';
+// // import "primereact/resources/themes/lara-light-cyan/theme.css"; 
+// import 'primereact/resources/primereact.min.css';
+// import 'primeicons/primeicons.css';
+
 import Layout from "./components/Layout.jsx";
 import UserRegister from "./components/User/UserRegister.jsx";
 import UserLogin from "./components/User/UserLogin.jsx";
@@ -21,10 +25,12 @@ import AddressCreate from "./components/Address/AddressCreate.jsx";
 import AddressEdit from "./components/Address/AddressEdit.jsx";
 import ProdukList from './components/Produk/ProdukList.jsx';
 import ProdukForm from './components/Produk/ProdukForm.jsx';
+import Bootstrap_PT from './helper/passthrough.js';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <PrimeReactProvider>
+    {/* <PrimeReactProvider value={{ unstyled: false }}> */}
+    <PrimeReactProvider value={{ unstyled: false, pt: Bootstrap_PT, cssLayer: true }}>
     <BrowserRouter>
       <Routes>
         <Route element={<Layout/>}>
