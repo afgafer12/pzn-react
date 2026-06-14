@@ -1,0 +1,10 @@
+
+/* .dialog{
+    z-index: 1101;
+}
+.swalx{
+    z-index: 1060;
+} */
+.swal2-container{
+    z-index: 1102;
+}

@@ -1,4 +1,5 @@
 import './assets/layers.css';
+import './assets/custom-style.css';
 
 import {StrictMode} from 'react'
 import {createRoot} from 'react-dom/client'
@@ -28,8 +29,9 @@ import ProdukForm from './components/Produk/ProdukForm.jsx';
 import Bootstrap_PT from './helper/passthrough.js';
 
 createRoot(document.getElementById('root')).render(
-  <StrictMode>
-    {/* <PrimeReactProvider value={{ unstyled: false, pt: Bootstrap_PT, cssLayer: true }}> */}
+  // <StrictMode>
+  //   <PrimeReactProvider value={{ unstyled: false, pt: Bootstrap_PT, cssLayer: true }}>
+
     <PrimeReactProvider value={{ unstyled: false, pt: '', cssLayer: true }}>
     <BrowserRouter>
       <Routes>
@@ -71,5 +73,5 @@ createRoot(document.getElementById('root')).render(
       </Routes>
     </BrowserRouter>
     </PrimeReactProvider>
-  </StrictMode>,
+  // </StrictMode>,
 )

@@ -42,10 +42,21 @@ export const labelConfigs = {
     btn: "btn btn-info",
     icon: "fa fa-eye",
   },
+  popUp:{ 
+    lbl: "Pop up",
+    btn: "btn btn-info",
+    btnIcon: "btn btn-outline-primary btn-sm",
+    icon: "fa fa-external-link",
+    variant: "outline-primary btn-sm",
+  },
 
   //component 
   table: {
     class: "table table-borderedx table-sm",
+  },
+  btn:{ 
+    outlineSm: "btn btn-outline-primary btn-sm",
+    vrntOutlSm: "outline-primary",
   },
 }  
 

@@ -10,10 +10,11 @@ import Input from "../Shared/Input/index.jsx";
 import TokoSelect from "../Shared/TokoSelect/TokoSelect.jsx";
 // import ProdukList from "./ProdukList.jsx";
 
-export default function ProdukForm() {
+export default function ProdukForm(props) {
 
   const [token, _] = useLocalStorage("token", "");
   const {id} = useParams();
+  const [produkId, setProdukId] = useState(props.id);
   const [produkForm, setProdukForm] = useState({
     "nama" : "",
     "slug" : "",
@@ -31,9 +32,9 @@ export default function ProdukForm() {
   const [statusList, setStatusList] = useState([]);
 
   const handleChange = (e) => {
-    console.log('e11');
-    console.log(e.target);
-    console.log(e);
+    // console.log('e11');
+    // console.log(e.target);
+    // console.log(e);
     
     setProdukForm({
       ...produkForm,
@@ -54,7 +55,7 @@ export default function ProdukForm() {
   const handleProdukVariant = (index, e) => {
     setProdukForm((prev) => ({
       ...produkForm,
-      produk_varian: prev.produk_varian.map((variant, i) =>
+      produk_varian: prev?.produk_varian?.map((variant, i) =>
         i === index
           ? {
             ...variant,
@@ -66,7 +67,7 @@ export default function ProdukForm() {
   };
 
   async function fetchProduk() {
-    const response = await produkDetil(token, id);
+    const response = await produkDetil(token, produkId);
     const responseBody = await response.json();
     // console.log(responseBody);
     if (response.status === 200) {
@@ -84,6 +85,7 @@ export default function ProdukForm() {
 
     if (response.status === 200) {
       await alertSuccess("Contact created successfully");
+      props.onSubmit();
     } else {
       await alertError(responseBody.message);
     }
@@ -95,6 +97,7 @@ export default function ProdukForm() {
 
     if (response.status === 200) {
       await alertSuccess("Contact updated successfully");
+      props.onSubmit();
     } else {
       await alertError(responseBody.errors);
     }
@@ -109,15 +112,34 @@ export default function ProdukForm() {
   }
 
   const handleAddProdukVarian = () => {
-   setProdukForm({...produkForm, produk_varian: [...produkForm.produk_varian, {
-    "id": "", "produk_id": "", "kd_produk": "", 
-    "stok": "", "harga_jual": "", "harga_beli": "", "warna": "", "ukuran": "",
-   }]})
+    //  setProdukForm({...produkForm, produk_varian: [...produkForm?.produk_varian, {
+    //   "id": "", "produk_id": "", "kd_produk": "", 
+    //   "stok": "", "harga_jual": "", "harga_beli": "", "warna": "", "ukuran": "",
+    //  }]})
+    if(!produkForm?.produk_varian){
+      setProdukForm({...produkForm, produk_varian: [{
+        "id": "", "produk_id": "", "kd_produk": "", 
+        "stok": "", "harga_jual": "", "harga_beli": "", "warna": "", "ukuran": "",
+      }]});
+    }else{
+      setProdukForm({...produkForm, produk_varian: [...produkForm?.produk_varian, {
+        "id": "", "produk_id": "", "kd_produk": "", 
+        "stok": "", "harga_jual": "", "harga_beli": "", "warna": "", "ukuran": "",
+      }]})
+    }
+    // setProdukForm({...produkForm, produk_varian: produkForm?.produk_varian == [] ? [{
+    //     "id": "", "produk_id": "", "kd_produk": "", 
+    //     "stok": "", "harga_jual": "", "harga_beli": "", "warna": "", "ukuran": "",
+    //   }] : [...produkForm?.produk_varian, {
+    //     "id": "", "produk_id": "", "kd_produk": "", 
+    //     "stok": "", "harga_jual": "", "harga_beli": "", "warna": "", "ukuran": "",
+    //   }]
+    // });
   }
   const handleDeleteProdukVarian = (i) => {
    setProdukForm(prev => ({
       ...produkForm,
-      produk_varian: prev.produk_varian.filter((_, index) => index !== i)
+      produk_varian: prev?.produk_varian?.filter((_, index) => index !== i)
     }));
   }
 
@@ -127,8 +149,16 @@ export default function ProdukForm() {
       {id: 0, nama: 'Non aktif'},
     ];
     setStatusList(statusList);
-    fetchProduk()
-      .then(() => console.log("Contact detail fetched successfully"));
+    // setProdukId(props?.id ?? id);
+    setProdukId(3);
+    console.log('props');
+    console.log(props?.id ?? id);
+    console.log(produkId);
+    if(produkId){
+      fetchProduk().then(() => console.log("Contact detail fetched successfully"));
+    }else{
+      handleAddProdukVarian();
+    }
   }, [])
   // const onStatusChange = (e) => {
   //   const status = statusList.find(category => category.value == e.target.value);
@@ -225,6 +255,8 @@ export default function ProdukForm() {
                 value={produkForm?.deskripsi ?? ''} onChange={handleChange}
                 className="form-control"></textarea>
             </div>
+          </div>
+          <div className="row">
             <div className="col-12">
               <Card className="mt-3">
                 <Card.Body>
@@ -236,74 +268,70 @@ export default function ProdukForm() {
                       </button>
                     </div>
                   </div>
-                  <table className={`${lbl.table.class} mt-3`}>
-                    <thead>
-                      <tr>
-                        <th>No.</th>
-                        <th>Kode Produk</th>
-                        <th>Stok</th>
-                        <th>Harga Jual</th>
-                        <th>Harga Beli</th>
-                        <th>Warna</th>
-                        <th>Ukuran</th>
-                        <th>Aksi</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {produkForm?.produk_varian?.map((varian, i) => (
-                        <tr key={i}>
-                          <td>{i+1}.</td>
-                          <td>
-                            <Input type="text" id={`kd_produk_${i}`} name="kd_produk"
-                              value={varian?.kd_produk} onChange={(e) => handleProdukVariant(i, e)}
-                              className="form-control" />
-                          </td>
-                          <td>
-                            {/* <input type="number" name="stok"
-                              value={varian?.stok} onChange={(e) => handleProdukVariant(i, e)}
-                              className="form-control" /> */}
-                            <Input type="number" name="stok"
-                              value={varian?.stok} onChange={(e) => handleProdukVariant(i, e)}
-                              className="form-control" />
-                          </td>
-                          <td>
-                            {/* <input type="number" name="harga_jual"
-                              value={varian?.harga_jual} onChange={(e) => handleProdukVariant(i, e)}
-                              className="form-control" /> */}
-                            <Input type="number" name="harga_jual"
-                              value={varian?.harga_jual} onChange={(e) => handleProdukVariant(i, e)}
-                              className="form-control" />
-                            
-                          </td>
-                          <td>
-                            <Input type="number" name="harga_beli"
-                              value={varian?.harga_beli} onChange={(e) => handleProdukVariant(i, e)}
-                              className="form-control" />
-                          </td>
-                          <td>
-                            <Input type="text" name="warna"
-                              value={varian?.warna ?? ''} onChange={(e) => handleProdukVariant(i, e)}
-                              className="form-control" />
-                          </td>
-                          <td>
-                            <Input type="text" name="ukuran"
-                              value={varian?.ukuran ?? ''} onChange={(e) => handleProdukVariant(i, e)}
-                              className="form-control" />
-                          </td>
-                          <td>
-                            <button type="button" onClick={(e) => handleDeleteProdukVarian(i)} className={`${lbl.delete.btnIcon} btn-sm`}>
-                              <i className={lbl.delete.icon}></i>
-                            </button>
-                          </td>
+                  <div className="table-responsive">
+                    <table className={`${lbl.table.class} mt-3`}>
+                      <thead>
+                        <tr>
+                          <th>No.</th>
+                          <th>Kode Produk</th>
+                          <th>Stok</th>
+                          <th>Harga Jual</th>
+                          <th>Harga Beli</th>
+                          <th>Warna</th>
+                          <th>Ukuran</th>
+                          <th>Aksi</th>
                         </tr>
-                      ))}
-                    </tbody>
-                  </table>
+                      </thead>
+                      <tbody>
+                        {produkForm?.produk_varian?.map((varian, i) => (
+                          <tr key={i}>
+                            <td>{i+1}.</td>
+                            <td>
+                              <Input type="text" id={`kd_produk_${i}`} name="kd_produk"
+                                value={varian?.kd_produk} onChange={(e) => handleProdukVariant(i, e)}
+                                className="form-control" />
+                            </td>
+                            <td>
+                              <Input type="number" name="stok"
+                                value={varian?.stok} onChange={(e) => handleProdukVariant(i, e)}
+                                className="form-control" />
+                            </td>
+                            <td>
+                              <Input type="number" name="harga_jual"
+                                value={varian?.harga_jual} onChange={(e) => handleProdukVariant(i, e)}
+                                className="form-control" />
+                              
+                            </td>
+                            <td>
+                              <Input type="number" name="harga_beli"
+                                value={varian?.harga_beli} onChange={(e) => handleProdukVariant(i, e)}
+                                className="form-control" />
+                            </td>
+                            <td>
+                              <Input type="text" name="warna"
+                                value={varian?.warna ?? ''} onChange={(e) => handleProdukVariant(i, e)}
+                                className="form-control" />
+                            </td>
+                            <td>
+                              <Input type="text" name="ukuran"
+                                value={varian?.ukuran ?? ''} onChange={(e) => handleProdukVariant(i, e)}
+                                className="form-control" />
+                            </td>
+                            <td>
+                              <button type="button" onClick={(e) => handleDeleteProdukVarian(i)} className={`${lbl.delete.btnIcon} btn-sm`}>
+                                <i className={lbl.delete.icon}></i>
+                              </button>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
                 </Card.Body>
               </Card>
             </div>
           </div>
-          <div className="row justify-content-end mt-3">
+          <div className="row justify-content-end mt-3 g-1">
             <div className="col-md-2">
               <button type="submit" className={`${lbl.submitForm.btn}`}>
                 <i className={`${lbl.submitForm.icon} me-1`}></i>
