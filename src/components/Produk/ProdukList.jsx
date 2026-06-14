@@ -9,6 +9,7 @@ import ProdukForm from "./ProdukForm.jsx";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { Button } from "primereact/button";
+import { formatNumber } from "../../helper/MainHelper.js";
 
 export default function ProdukList() {
 
@@ -67,8 +68,8 @@ export default function ProdukList() {
         >
             <Column header="No." body={(data, options) => options.rowIndex + 1}></Column>
             <Column field="nama" header="Nama"></Column>
-            <Column field="harga_jual" header="harga_jual"></Column>
-            <Column field="harga_beli" header="harga_beli"></Column>
+            <Column field="harga_jual" header="harga_jual" body={(rowData) => formatNumber(rowData.harga_jual)}></Column>
+            <Column field="harga_beli" header="harga_beli" body={(rowData) => formatNumber(rowData.harga_beli)}></Column>
             <Column field="stok" header="stok"></Column>
             <Column field="status" header="status"></Column>
             <Column header="aksi" body={buttonAksi}></Column>

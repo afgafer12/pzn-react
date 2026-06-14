@@ -4,3 +4,15 @@
 /* @import "primereact/resources/themes/lara-light-cyan/theme.css" layer(primereact); */
 @import 'primereact/resources/themes/lara-light-blue/theme.css' layer(primereact);
 @import 'primereact/resources/primereact.min.css' layer(primereact);
+
+
+/* @layer bootstrap-reboot, primereact;
+
+@import "bootstrap/dist/css/bootstrap-reboot.css" layer(bootstrap-rebooot);
+
+@layer bootstrap-rebooot {
+    @import "bootstrap/dist/css/bootstrap.min.css";
+}
+@layer bootstrap-rebooot {
+    @import "bootstrap/dist/css/bootstrap.min.css";
+} */

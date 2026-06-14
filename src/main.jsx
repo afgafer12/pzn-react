@@ -29,15 +29,16 @@ import Bootstrap_PT from './helper/passthrough.js';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    {/* <PrimeReactProvider value={{ unstyled: false }}> */}
-    <PrimeReactProvider value={{ unstyled: false, pt: Bootstrap_PT, cssLayer: true }}>
+    {/* <PrimeReactProvider value={{ unstyled: false, pt: Bootstrap_PT, cssLayer: true }}> */}
+    <PrimeReactProvider value={{ unstyled: false, pt: '', cssLayer: true }}>
     <BrowserRouter>
       <Routes>
         <Route element={<Layout/>}>
           <Route path="/register" element={<UserRegister/>}/>
           <Route path="/login" element={<UserLogin/>}/>
         </Route>
-        <Route path="/dashboard" element={<DashboardLayout/>}>
+        {/* <Route path="/dashboard" element={<DashboardLayout/>}> */}
+        <Route path="/dashboard">
 
           <Route path="users">
             <Route path="profile" element={<UserProfile/>}/>
