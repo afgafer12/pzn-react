@@ -3,6 +3,7 @@ import { Form } from 'react-bootstrap';
 import { InputNumber } from 'primereact/inputnumber';
 import { InputText } from 'primereact/inputtext';
 import { Dropdown } from 'primereact/dropdown';
+import { Password } from 'primereact/password';
 
 /**
 * @author
@@ -45,27 +46,59 @@ const Input = (props) => {
       //   name: props.name, value: e.target.value ?? '', a11: e.target 
       // }})} className="p-inputtext-sm"/>
       break;
+    case 'text-group':
+      input = <div className="p-inputgroup flex-1">
+                  <span className="p-inputgroup-addon">
+                      {props.groupText}
+                  </span>
+                  <InputText name={props.name} value={props.value} id={props.name}
+                  onChange={(e) => props.onChange(e)} className="p-inputtext-sm" {...props}/>
+              </div>
+      break;
+    case 'password-group':
+      input = <div className="p-inputgroup flex-1">
+                  <span className="p-inputgroup-addon">
+                      {props.groupText}
+                  </span>
+                  <Password name={props.name} value={props.value} id={props.name}
+                  onChange={(e) => props.onChange(e)} feedback={false} tabIndex={1} />
+              </div>
+      break;
     case 'text':
     default:
-      input = <Form.Group controlId={props.name}>
-                {props.label && <Form.Label>{props.label}</Form.Label>}
-                {/* <Form.Control
+      input = <InputText name={props.name} value={props.value} 
+                  onChange={(e) => props.onChange(e)} className="p-inputtext-sm w-100"/>
+      {/* <Form.Control
                     type={props.type} 
                     placeholder={props.placeholder} 
                     value={props.value}
                     onChange={props.onChange}
                     {...props}
                 /> */}
-                <InputText name={props.name} value={props.value} 
-                  onChange={(e) => props.onChange(e)} className="p-inputtext-sm w-100"/>
-                <Form.Text className="text-muted">
-                  {props.errorMessage}
-                </Form.Text>
-            </Form.Group>
+                
   }
 
 
-  return input;
+  // return <>
+  // <Form.Group controlId={props.name}>
+  //     {props.label && <Form.Label>{props.label}</Form.Label>}
+  //     {input}
+  //     <Form.Text className="text-danger">
+  //       {props.errorMsg}
+  //     </Form.Text>
+  // </Form.Group>
+  // </>;
+  return <>
+  <div className="form-group">
+    <label htmlFor={props.name} className="form-label">
+      {props.label}
+    </label>
+    {input}
+    <div className="text-danger">
+      {props.errorMsg}
+    </div>
+  </div>
+  </>;
 
  }
 
