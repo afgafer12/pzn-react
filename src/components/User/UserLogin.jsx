@@ -3,6 +3,8 @@ import {useState} from "react";
 import {userLogin} from "../../lib/api/UserApi.js";
 import {alertError} from "../../lib/alert.js";
 import {useLocalStorage} from "react-use";
+import {labelConfigs as lbl } from "../../helper/LabelConfigs.js";
+import Input from "../Shared/Input/index.jsx";
 
 export default function UserLogin() {
 
@@ -10,9 +12,20 @@ export default function UserLogin() {
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
   const [_, setToken] = useLocalStorage("token", "")
+  const [errors, setErrors] = useState({});
+  
+
+  const iconUser = <i className="fa fa-user text-dark"></i>
+  const iconLock = <i className="fa fa-lock text-dark"></i>
 
   async function handleSubmit(e) {
     e.preventDefault();
+
+    const validationErrors = validate();
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      return;
+    }
 
     const response = await userLogin({username, password});
     const responseBody = await response.json();
@@ -29,7 +42,60 @@ export default function UserLogin() {
     }
   }
 
-  return <>
+  const validate = () => {
+    const newErrors = {};
+
+    if (!username) {
+      newErrors.username = "Username is required";
+    }
+
+    if (!password) {
+      newErrors.password = "Password is required";
+    } else if (password.length < 6) {
+      newErrors.password = "Password must be at least 6 characters";
+    }
+
+    return newErrors;
+  };
+
+  const viewNew = <>
+    <div className="row justify-content-center" style={{height: '100%'}}>
+      <div className="col-md-4">
+        <div className="card m-auto">
+          <div className="card-body">
+            <div className={'h1 fw-bold text-center text-primary '+lbl.app.textPrimary}>{lbl.app.name}</div>
+            <div className="text-center">Sign in to your account</div>
+            <br />
+            <br />
+            <form onSubmit={handleSubmit}>
+              <div className="mb-3">
+                <Input type="text-group" name="username" onChange={(e) => setUsername(e.target.value)} label="Username" groupText={iconUser} errorMsg={errors.username}></Input>
+              </div>
+              <div className="mb-3">
+                <Input type="password-group" name="password" onChange={(e) => setPassword(e.target.value)} label="Password" groupText={iconLock} errorMsg={errors.password}></Input>
+              </div>
+              <div className="mb-3">
+                <button type="submit" className={lbl.submitForm.btn}>
+                  <i className="fa fa-sign-in me-1"></i>
+                  Sign In
+                </button>
+              </div>
+              <div className="text-center text-sm text-gray-400">
+                Don't have an account?
+                <Link to="/register"
+                      className="ms-1">Sign up</Link>
+              </div>
+            </form>
+            {username}
+            {password}
+            {JSON.stringify(errors)}
+          </div>
+        </div>
+      </div>
+    </div>
+  </>
+
+  const viewOld = <>
     <div
       className="animate-fade-in bg-gray-800 bg-opacity-80 p-8 rounded-xl shadow-custom border border-gray-700 backdrop-blur-sm w-full max-w-md">
       <div className="text-center mb-8">
@@ -82,4 +148,11 @@ export default function UserLogin() {
       </form>
     </div>
   </>
+
+  return <>
+  <br />
+  {viewNew} 
+  {/* {viewOld} */}
+  <br />
+  </>;
 }

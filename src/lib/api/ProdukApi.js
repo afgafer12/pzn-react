@@ -11,7 +11,7 @@ export const produkCreate = async (token, produk) => {
 }
 
 export const getProdukList = async (token, {nama, page}) => {
-  const url = new URL(`${import.meta.env.VITE_API_PATH}/produk`);
+  const url = new URL(`${import.meta.env.VITE_API_PRODUCT_PATH}/produk`);
 
   if (nama) url.searchParams.append('nama', nama);
   url.searchParams.append('with_produk_varian', 1);

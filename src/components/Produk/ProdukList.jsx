@@ -78,7 +78,7 @@ export default function ProdukList() {
         </div>
 
         
-        <DataTable value={produkList}
+        <DataTable value={produkList} size="small"
           paginator rows={10} rowsPerPageOptions={[3, 1, 10]}
         >
             <Column header="No." body={(data, options) => options.rowIndex + 1}></Column>

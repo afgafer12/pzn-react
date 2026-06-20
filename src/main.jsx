@@ -5,6 +5,7 @@ import {StrictMode} from 'react'
 import {createRoot} from 'react-dom/client'
 import {BrowserRouter, Route, Routes} from "react-router";
 import { PrimeReactProvider, PrimeReactContext } from 'primereact/api';
+import 'primeicons/primeicons.css';
 
 // import 'bootstrap/dist/css/bootstrap.min.css';
 // import 'primereact/resources/themes/lara-light-blue/theme.css';
@@ -35,12 +36,13 @@ createRoot(document.getElementById('root')).render(
     <PrimeReactProvider value={{ unstyled: false, pt: '', cssLayer: true }}>
     <BrowserRouter>
       <Routes>
-        <Route element={<Layout/>}>
+        {/* <Route element={<Layout/>}> */}
+        <Route element={<DashboardLayout/>}>
           <Route path="/register" element={<UserRegister/>}/>
           <Route path="/login" element={<UserLogin/>}/>
         </Route>
-        {/* <Route path="/dashboard" element={<DashboardLayout/>}> */}
-        <Route path="/dashboard">
+        <Route path="/dashboard" element={<DashboardLayout/>}>
+        {/* <Route path="/dashboard"> */}
 
           <Route path="users">
             <Route path="profile" element={<UserProfile/>}/>

@@ -58,5 +58,12 @@ export const labelConfigs = {
     outlineSm: "btn btn-outline-primary btn-sm",
     vrntOutlSm: "outline-primary",
   },
+  //app
+  app:{
+    name: "Sky Commerce",
+    bgPrimary: "bg-primary text-white",
+    bgSecondary: "bg-dark text-white",
+    textPrimary: "text-primary",
+  }
 }  
 
