@@ -318,7 +318,7 @@ export default function ProdukForm(props) {
                                 className="form-control" />
                             </td>
                             <td>
-                              <button type="button" onClick={(e) => handleDeleteProdukVarian(i)} className={`${lbl.delete.btnIcon} btn-sm`}>
+                              <button type="button" onClick={(e) => handleDeleteProdukVarian(i)} className={`${lbl.delete.btnIcon} btn-smx`}>
                                 <i className={lbl.delete.icon}></i>
                               </button>
                             </td>

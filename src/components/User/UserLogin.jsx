@@ -14,7 +14,6 @@ export default function UserLogin() {
   const [_, setToken] = useLocalStorage("token", "")
   const [errors, setErrors] = useState({});
   
-
   const iconUser = <i className="fa fa-user text-dark"></i>
   const iconLock = <i className="fa fa-lock text-dark"></i>
 
@@ -35,7 +34,7 @@ export default function UserLogin() {
       const token = responseBody.data.token;
       setToken(token);
       await navigate({
-        pathname: "/dashboard/contacts"
+        pathname: "/dashboard/produk"
       });
     } else {
       await alertError(responseBody.errors);
@@ -63,7 +62,7 @@ export default function UserLogin() {
       <div className="col-md-4">
         <div className="card m-auto">
           <div className="card-body">
-            <div className={'h1 fw-bold text-center text-primary '+lbl.app.textPrimary}>{lbl.app.name}</div>
+            <div className={'h3 fw-bold text-center text-primary '+lbl.app.textPrimary}>{lbl.app.name}</div>
             <div className="text-center">Sign in to your account</div>
             <br />
             <br />
@@ -76,7 +75,7 @@ export default function UserLogin() {
               </div>
               <div className="mb-3">
                 <button type="submit" className={lbl.submitForm.btn}>
-                  <i className="fa fa-sign-in me-1"></i>
+                  <i className={lbl.signIn.icon+` me-1`}></i>
                   Sign In
                 </button>
               </div>

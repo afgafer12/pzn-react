@@ -2,6 +2,8 @@ import {useState} from "react";
 import {alertError, alertSuccess} from "../../lib/alert.js";
 import {userRegister} from "../../lib/api/UserApi.js";
 import {Link, useNavigate} from "react-router";
+import {labelConfigs as lbl } from "../../helper/LabelConfigs.js";
+import Input from "../Shared/Input/index.jsx";
 
 export default function UserRegister() {
 
@@ -10,6 +12,7 @@ export default function UserRegister() {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const navigate = useNavigate();
+  const [errors, setErrors] = useState({});
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -36,8 +39,50 @@ export default function UserRegister() {
       await alertError(responseBody.errors);
     }
   }
+  
+  const viewNew = <>
+    <div className="row justify-content-center" style={{height: '100%'}}>
+      <div className="col-md-4">
+        <div className="card m-auto">
+          <div className="card-body">
+            <div className={'h3 fw-bold text-center text-primary '+lbl.app.textPrimary}>{lbl.app.name}</div>
+            <div className="text-center">Create a new account</div>
+            <br />
+            <br />
+            <form onSubmit={handleSubmit}>
+              <div className="mb-3">
+                <Input type="text" name="username" onChange={(e) => setUsername(e.target.value)} label="Username" errorMsg={errors.username}></Input>
+              </div>
+              <div className="mb-3">
+                <Input type="text" name="name" onChange={(e) => setName(e.target.value)} label="Nama Lengkap" errorMsg={errors.name}></Input>
+              </div>
+              <div className="mb-3">
+                <Input type="password" name="password" onChange={(e) => setPassword(e.target.value)} label="Password" errorMsg={errors.password}></Input>
+              </div>
+              <div className="mb-3">
+                <Input type="password" name="password"  onChange={(e) => setConfirmPassword(e.target.value)} label="Konfirmasi Password" errorMsg={errors.passwordConfirm}></Input>
+              </div>
+              <div className="mb-3">
+                <button type="submit" className={lbl.submitForm.btn}>
+                  {/* <i className="fa fa-user-plus me-1"></i> */}
+                  Daftar
+                </button>
+              </div>
+              <div className="text-center text-sm text-gray-400">
+                Already have an account?
+                <Link to="/register" className="ms-1">
+                  Sign in
+                </Link>
+              </div>
+            </form>
+            {/* {JSON.stringify(errors)} */}
+          </div>
+        </div>
+      </div>
+    </div>
+  </>
 
-  return <>
+  const viewOld = <>
     <div
       className="animate-fade-in bg-gray-800 bg-opacity-80 p-8 rounded-xl shadow-custom border border-gray-700 backdrop-blur-sm w-full max-w-md">
       <div className="text-center mb-8">
@@ -116,4 +161,12 @@ export default function UserRegister() {
       </form>
     </div>
   </>
+
+  return <>
+  <br />
+  {viewNew} 
+  {/* {viewOld} */}
+  <br />
+  </>;
+  
 }

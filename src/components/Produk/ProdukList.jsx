@@ -53,10 +53,10 @@ export default function ProdukList() {
 
   const buttonAksi = (produk) => {
     return  <>
-            <Link to={`/dashboard/produk/${produk.id}/edit`} target="_blank" className={lbl.edit.btnIcon}>
+            <Link to={`/dashboard/produk/${produk.id}/edit`} target="_blank" className={lbl.edit.btnIcon+`btn-smx border me-1`}>
               <i className={`${lbl.edit.icon} me-1`}></i>
             </Link>
-            <Button label="Show" variant={lbl.btn.vrntOutlSm} className={`btn-sm`} onClick={() => {setVisible(true); setProdukId(produk.id)}}>
+            <Button label="Show" variant={lbl.detil.btnIconVrnt} className={`btn-smx border me-1`} onClick={() => {setVisible(true); setProdukId(produk.id)}}>
               <i className={`${lbl.detil.icon} me-1`}></i>
             </Button>
             </>;
