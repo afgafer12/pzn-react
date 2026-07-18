@@ -10,18 +10,26 @@ import { labelConfigs as lbl } from "../helper/LabelConfigs.js";
 import { Sidebar } from 'primereact/sidebar';
 
 export default function DashboardLayout() {
-  const [visible, setVisible] = useState(true);
+  const [visible, setVisible] = useState(false);
 
   let navBar = <>
-    <Navbar expand="lg" className="" bg="primary" data-bs-theme="dark">
+    <Navbar expand="lg" className="" bg="primary" data-bs-theme="dark" sticky="top">
       <Container fluid>
-        <Navbar.Brand href="#" className="text-uppercase fw-bold border border-light p-1">
-          <i className="fa fa-shopping-cart me-1"></i>
+        <button type="button" onClick={() => setVisible(true)} class="navbar-toggler-side-bar mx-1" style={{visibility: "visible"}}>
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <Navbar.Brand href="#" className="text-uppercase fw-bold border-bottom border-light p-1">
+          <i className={lbl.app.icon+` text-white me-1`}></i>
           <Link to="/dashboard/produk" className="text-decoration-none text-white">
             {lbl.app.name}
           </Link>
         </Navbar.Brand>
-        <Navbar.Toggle aria-controls="navbarScroll" />
+        {/* <Navbar.Toggle aria-controls="navbarScroll" /> */}
+        <Navbar.Toggle aria-controls="navbarScroll">
+        <button aria-controls="navbarScroll" type="button" aria-label="Toggle navigation" class="btn btn-link btn-sm">
+          <i className="pi pi-angle-down"></i>
+        </button>
+        </Navbar.Toggle>
         <Navbar.Collapse id="navbarScroll">
           <Nav
             className="me-auto my-2 my-lg-0"
@@ -57,14 +65,14 @@ export default function DashboardLayout() {
               className="me-2"
               aria-label="Search"
             /> */}
-            <input type="text" className="form-control bg-white" />
+            <input type="text" placeholder="search" className="form-control bg-white me-1"/>
             {/* <Button variant="outline-success">Search</Button> */}
-            <button className={'text-nowrap btn ' + lbl.app.bgSecondary} type="button">
+            <button className={'btn btn-light btn-sm text-nowrap'} type="button">
               <i className="me-1 fa fa-search"></i>
               Search
             </button>
-            <Link to="/login" className={'btn text-nowrap ms-1 ' + lbl.app.bgSecondary}>
-              <i className="me-1 fa fa-sign-in"></i>
+            <Link to="/login" className={'btn btn-light btn-sm text-nowrap ms-1 '}>
+              <i className={lbl.signIn.icon+``}></i>
               Sign In
             </Link>
           </Form>
@@ -73,13 +81,15 @@ export default function DashboardLayout() {
     </Navbar>
     <hr className="m-0"/>
     <div className="bg-primary" style={{height: '12px'}}></div>
-    <button className="btn btn-primary m-1 btn-sm" onClick={() => setVisible(true)}>
+    {/* <button className="btn btn-primary m-1 btn-sm" onClick={() => setVisible(true)} style={{position: "fixed", top: "72px", zIndex: 1}}>
       <i className="pi pi-arrow-right"></i>
-    </button>
+    </button> */}
+    <br/>
+    <div className="mb-3"></div>
     <div className="container p-1">
       <Outlet/>
     </div>
-    <div className="bg-dark" style={{height: '240px'}}>
+    <div className="bg-dark mt-3" style={{height: '240px'}}>
 
     </div>
   </>;
