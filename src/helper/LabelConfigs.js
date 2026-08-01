@@ -1,3 +1,7 @@
+// import { useLocalStorage } from 'react-use';
+// const [token, setToken] = useLocalStorage("token", "");
+const token = false;
+
 export const labelConfigs = {
   //button
   //app
@@ -7,6 +11,8 @@ export const labelConfigs = {
     bgPrimary: "bg-primary text-white",
     bgSecondary: "bg-dark text-white",
     textPrimary: "text-primary",
+    // isLogin: false,
+    isLogin: token,
   },
   submitForm: {
     btn: "btn btn-primary w-100 fw-bold",
@@ -51,6 +57,7 @@ export const labelConfigs = {
   detil: {
     lbl: "Detail",
     btn: "btn btn-info",
+    btnIcon: "btn btn-light border",
     icon: "fa fa-eye",
     btnIconVrnt: "light",
   },
@@ -65,6 +72,14 @@ export const labelConfigs = {
     // lbl: "Sign In",
     // icon: "fa fa-sign-in In me-1",
     icon: "",
+  },
+  signOut:{ 
+    // lbl: "Sign In",
+    icon: "fa fa-sign-in In me-1",
+    icon: "",
+  },
+  jual:{ 
+    lbl: "Penjualan",
   },
 
   //component 

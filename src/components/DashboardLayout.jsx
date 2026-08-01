@@ -8,8 +8,10 @@ import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import { labelConfigs as lbl } from "../helper/LabelConfigs.js";
 import { Sidebar } from 'primereact/sidebar';
+import { useLocalStorage } from 'react-use';
 
 export default function DashboardLayout() {
+  const [token, setToken] = useLocalStorage("token", "")
   const [visible, setVisible] = useState(false);
 
   let navBar = <>
@@ -41,6 +43,9 @@ export default function DashboardLayout() {
             <Nav.Link href="#action1">
               <Link to="/dashboard/produk">Produk</Link>  
             </Nav.Link>
+            <Nav.Link href="#jual">
+              <Link to="/dashboard/jual">Jual</Link> 
+            </Nav.Link>
             <Nav.Link href="#action2">
               <Link to="/register">Daftar</Link> 
             </Nav.Link>
@@ -67,14 +72,18 @@ export default function DashboardLayout() {
             /> */}
             <input type="text" placeholder="search" className="form-control bg-white me-1"/>
             {/* <Button variant="outline-success">Search</Button> */}
-            <button className={'btn btn-light btn-sm text-nowrap'} type="button">
+            <button className={'btn btn-light btn-sm text-nowrap me-1'} type="button">
               <i className="me-1 fa fa-search"></i>
               Search
             </button>
-            <Link to="/login" className={'btn btn-light btn-sm text-nowrap ms-1 '}>
+            { !lbl.app.isLogin && <Link to="/login" className={'btn btn-light btn-sm text-nowrap me-1 '}>
               <i className={lbl.signIn.icon+``}></i>
               Sign In
-            </Link>
+            </Link>}
+            { lbl.app.isLogin && <Link to="/dashboard/users/logout" className="btn btn-light btn-sm text-nowrap me-1 ">
+              <i className={lbl.signOut.icon+``}></i>
+              Sign Out
+            </Link>}
           </Form>
         </Navbar.Collapse>
       </Container>

@@ -6,6 +6,7 @@ import {createRoot} from 'react-dom/client'
 import {BrowserRouter, Route, Routes} from "react-router";
 import { PrimeReactProvider, PrimeReactContext } from 'primereact/api';
 import 'primeicons/primeicons.css';
+// import 'bootstrap/dist/css/bootstrap-reboot.min.css';
 
 // import 'bootstrap/dist/css/bootstrap.min.css';
 // import 'primereact/resources/themes/lara-light-blue/theme.css';
@@ -28,6 +29,8 @@ import AddressEdit from "./components/Address/AddressEdit.jsx";
 import ProdukList from './components/Produk/ProdukList.jsx';
 import ProdukForm from './components/Produk/ProdukForm.jsx';
 import Bootstrap_PT from './helper/passthrough.js';
+import JualList from './components/Jual/JualList.jsx';
+import JualForm from './components/Jual/JualForm.jsx';
 
 createRoot(document.getElementById('root')).render(
   // <StrictMode>
@@ -68,6 +71,14 @@ createRoot(document.getElementById('root')).render(
             <Route path=":id">
               <Route index element={<ContactDetail/>}/>
               <Route path="edit" element={<ProdukForm/>}/>
+            </Route>
+          </Route>
+          <Route path="jual">
+            <Route index element={<JualList/>}/>
+            <Route path="create" element={<JualForm/>}/>
+            <Route path=":id">
+              {/* <Route index element={<ContactDetail/>}/> */}
+              <Route path="edit" element={<JualForm/>}/>
             </Route>
           </Route>
 

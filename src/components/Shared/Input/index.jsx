@@ -40,7 +40,7 @@ const Input = (props) => {
       break;
     case 'number':
       input = <InputNumber name={props.name} value={props.value} 
-      onValueChange={(e) => props.onChange(e)} className="p-inputtext-sm w-100"/>
+      onValueChange={(e) => props.onChange(e)} className="p-inputtext-sm w-100" inputClassName="form-control"/>
       // input = <InputNumber name={props.name} value={props.value} 
       // onValueChange={(e) => props.onChange({target: {
       //   name: props.name, value: e.target.value ?? '', a11: e.target 
@@ -68,13 +68,7 @@ const Input = (props) => {
     default:
       input = <InputText name={props.name} value={props.value} 
                   onChange={(e) => props.onChange(e)} className="p-inputtext-sm w-100"/>
-      {/* <Form.Control
-                    type={props.type} 
-                    placeholder={props.placeholder} 
-                    value={props.value}
-                    onChange={props.onChange}
-                    {...props}
-                /> */}
+      // input = <input type={'text'}  placeholder={props.placeholder}  value={props.value} onChange={props.onChange}  className="form-control"/>
                 
   }
 
@@ -90,9 +84,9 @@ const Input = (props) => {
   // </>;
   return <>
   <div className="form-group">
-    <label htmlFor={props.name} className="form-label">
+    {props.label && <label htmlFor={props.name} className="form-label">
       {props.label}
-    </label>
+    </label>}
     {input}
     <div className="text-danger">
       {props.errorMsg}

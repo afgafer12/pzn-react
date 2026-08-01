@@ -13,8 +13,10 @@ import TokoSelect from "../Shared/TokoSelect/TokoSelect.jsx";
 export default function ProdukForm(props) {
 
   const [token, _] = useLocalStorage("token", "");
-  const {id} = useParams();
-  const [produkId, setProdukId] = useState(props.id);
+  // const {id} = useParams();
+  const { id: urlId } = useParams();
+  const id = props.id ?? urlId;
+  // const [id, setProdukId] = useState(props.id);
   const [produkForm, setProdukForm] = useState({
     "nama" : "",
     "slug" : "",
@@ -67,7 +69,7 @@ export default function ProdukForm(props) {
   };
 
   async function fetchProduk() {
-    const response = await produkDetil(token, produkId);
+    const response = await produkDetil(token, id);
     const responseBody = await response.json();
     // console.log(responseBody);
     if (response.status === 200) {
@@ -149,12 +151,14 @@ export default function ProdukForm(props) {
       {id: 0, nama: 'Non aktif'},
     ];
     setStatusList(statusList);
-    // setProdukId(props?.id ?? id);
-    setProdukId(3);
+    let idVar = props?.id ?? id;
+    // setProdukId(idVar);
+    // setProdukId(3);
     console.log('props');
     console.log(props?.id ?? id);
-    console.log(produkId);
-    if(produkId){
+    console.log(idVar);
+    console.log(id);
+    if(idVar){
       fetchProduk().then(() => console.log("Contact detail fetched successfully"));
     }else{
       handleAddProdukVarian();
