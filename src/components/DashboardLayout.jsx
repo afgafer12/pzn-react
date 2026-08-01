@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {Link, Outlet} from "react-router";
-// import Button from 'react-bootstrap/Button';
+import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
 import Nav from 'react-bootstrap/Nav';
@@ -17,20 +17,24 @@ export default function DashboardLayout() {
   let navBar = <>
     <Navbar expand="lg" className="" bg="primary" data-bs-theme="dark" sticky="top">
       <Container fluid>
-        <button type="button" onClick={() => setVisible(true)} class="navbar-toggler-side-bar mx-1" style={{visibility: "visible"}}>
-          <span class="navbar-toggler-icon"></span>
+        <button type="button" onClick={() => setVisible(true)} className="navbar-toggler-side-bar mx-1" style={{visibility: "visible"}}>
+          <span className="navbar-toggler-icon"></span>
         </button>
-        <Navbar.Brand href="#" className="text-uppercase fw-bold border-bottom border-light p-1">
+        
+        {/* <Navbar.Brand href="#">Navbar scroll</Navbar.Brand>
+        <Navbar.Toggle aria-controls="navbarScroll" /> */}
+        <Navbar.Brand href="/dashboard/produk" className="text-uppercase fw-bold border-bottom border-light p-1">
           <i className={lbl.app.icon+` text-white me-1`}></i>
-          <Link to="/dashboard/produk" className="text-decoration-none text-white">
+          {lbl.app.name}
+          {/* <Link to="/dashboard/produk" className="text-decoration-none text-white">
             {lbl.app.name}
-          </Link>
+          </Link> */}
         </Navbar.Brand>
-        {/* <Navbar.Toggle aria-controls="navbarScroll" /> */}
         <Navbar.Toggle aria-controls="navbarScroll">
-        <button aria-controls="navbarScroll" type="button" aria-label="Toggle navigation" class="btn btn-link btn-sm">
           <i className="pi pi-angle-down"></i>
-        </button>
+          {/* <button aria-controls="navbarScroll" type="button" aria-label="Toggle navigation" className="btn btn-link btn-sm">
+            <i className="pi pi-angle-down"></i>
+          </button> */}
         </Navbar.Toggle>
         <Navbar.Collapse id="navbarScroll">
           <Nav
@@ -38,49 +42,48 @@ export default function DashboardLayout() {
             style={{ maxHeight: 'unset' }}
             navbarScroll
           >
-            {/* <Nav.Link href="#action1">Home</Nav.Link>
-            <Nav.Link href="#action2">Link</Nav.Link> */}
-            <Nav.Link href="#action1">
-              <Link to="/dashboard/produk">Produk</Link>  
+            <Nav.Link href="/dashboard/produk">
+              Produk
+              {/* <Link to="/dashboard/produk">Produk</Link>   */}
             </Nav.Link>
-            <Nav.Link href="#jual">
-              <Link to="/dashboard/jual">Jual</Link> 
+            <Nav.Link href="/dashboard/jual">
+              Jual
+              {/* <Link to="/dashboard/jual">Jual</Link>  */}
             </Nav.Link>
-            <Nav.Link href="#action2">
-              <Link to="/register">Daftar</Link> 
+            <Nav.Link href="/register">
+              Daftar
+              {/* <Link to="/register">Daftar</Link>  */}
             </Nav.Link>
             <NavDropdown title="Link" id="navbarScrollingDropdown" data-bs-theme="light">
               <NavDropdown.Item href="#action3">Action</NavDropdown.Item>
-              <NavDropdown.Item href="#action4">
-                <Link to="/dashboard/produk" className="text-dark">Produk</Link> 
+              <NavDropdown.Item href="/dashboard/jual/create">
+                Jual
+                {/* <Link to="/dashboard/produk" className="text-dark">Produk</Link>  */}
               </NavDropdown.Item>
               <NavDropdown.Divider />
               <NavDropdown.Item href="#action5">
                 Something else here
               </NavDropdown.Item>
             </NavDropdown>
-            <Nav.Link href="#" disabled>
-              <Link to="/register">Daftar</Link> 
+            {/* <Nav.Link href="/register" disabled>
+              Daftar
+            </Nav.Link> */}
+            <Nav.Link href="/dashboard/jual/create">
+              Jual
             </Nav.Link>
           </Nav>
           <Form className="d-flex">
-            {/* <Form.Control
-              type="search"
-              placeholder="Search"
-              className="me-2"
-              aria-label="Search"
-            /> */}
             <input type="text" placeholder="search" className="form-control bg-white me-1"/>
-            {/* <Button variant="outline-success">Search</Button> */}
-            <button className={'btn btn-light btn-sm text-nowrap me-1'} type="button">
+            <button type="button" className={'btn btn-light btn-sm text-nowrap me-1'}>
               <i className="me-1 fa fa-search"></i>
               Search
             </button>
-            { !lbl.app.isLogin && <Link to="/login" className={'btn btn-light btn-sm text-nowrap me-1 '}>
+            {/* {JSON.stringify(lbl.app.isLogin)} */}
+            { !(lbl.app.isLogin || token) && <Link to="/login" className={'btn btn-light btn-sm text-nowrap me-1 '}>
               <i className={lbl.signIn.icon+``}></i>
               Sign In
             </Link>}
-            { lbl.app.isLogin && <Link to="/dashboard/users/logout" className="btn btn-light btn-sm text-nowrap me-1 ">
+            { (lbl.app.isLogin || token) && <Link to="/dashboard/users/logout" className="btn btn-light btn-sm text-nowrap me-1 ">
               <i className={lbl.signOut.icon+``}></i>
               Sign Out
             </Link>}
@@ -88,6 +91,7 @@ export default function DashboardLayout() {
         </Navbar.Collapse>
       </Container>
     </Navbar>
+
     <hr className="m-0"/>
     <div className="bg-primary" style={{height: '12px'}}></div>
     {/* <button className="btn btn-primary m-1 btn-sm" onClick={() => setVisible(true)} style={{position: "fixed", top: "72px", zIndex: 1}}>
