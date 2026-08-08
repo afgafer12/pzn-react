@@ -25,7 +25,7 @@ export default function TokoSelectt(props) {
       onChange={(e) => props.onChange({target: {
         name: props.name, value: e.target.value ?? '', a11: e.target 
       }})} optionValue={'id'} optionLabel={'nama'} 
-      showClear editable variant={`${props.disabled ? 'filled' : ''}`} placeholder="-Pilih-" 
+      showClear clearIcon={'pi pi-times me-3'} editable variant={`${props.disabled ? 'filled' : ''}`} placeholder="-Pilih-" 
       className={`p-inputtext-sm w-100 ${props.disabled ? '' : ''}`}
     />
     // <select className="form-control" {...props}>

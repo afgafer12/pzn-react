@@ -35,7 +35,7 @@ export default function UserLogin() {
       setToken(token);
       lbl.app.isLogin = true;
       await navigate({
-        pathname: "/dashboard/produk"
+        pathname: "/produk/catalog"
       });
     } else {
       await alertError(responseBody.errors);

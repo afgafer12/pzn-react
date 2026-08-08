@@ -20,7 +20,7 @@ export const labelConfigs = {
     icon: "fa fa-save",
   }, 
   create: {
-    lbl: "Tambah",
+    lbl: "Buat",
     btn: "btn btn-success fw-bold",
     btnIcon: "btn btn-outline-primary btn-sm",
     icon: "fa fa-plus",
@@ -40,7 +40,7 @@ export const labelConfigs = {
     icon: "fa fa-trash-o",
   }, 
   add: {
-    lbl: "Add",
+    lbl: "Tambah",
     btn: "btn btn-success fw-bold",
     icon: "fa fa-plus",
   },
@@ -80,6 +80,14 @@ export const labelConfigs = {
   },
   jual:{ 
     lbl: "Penjualan",
+  },
+  cart: {
+    lbl: "Keranjang",
+    icon: "fa fa-cart-plus",
+  },
+  order: {
+    lbl: "Beli",
+    icon: "fa fa-money",
   },
 
   //component 

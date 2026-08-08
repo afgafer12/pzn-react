@@ -9,6 +9,7 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 import { labelConfigs as lbl } from "../helper/LabelConfigs.js";
 import { Sidebar } from 'primereact/sidebar';
 import { useLocalStorage } from 'react-use';
+import { Dropdown } from 'react-bootstrap';
 
 export default function DashboardLayout() {
   const [token, setToken] = useLocalStorage("token", "")
@@ -23,10 +24,10 @@ export default function DashboardLayout() {
         
         {/* <Navbar.Brand href="#">Navbar scroll</Navbar.Brand>
         <Navbar.Toggle aria-controls="navbarScroll" /> */}
-        <Navbar.Brand href="/dashboard/produk" className="text-uppercase fw-bold border-bottom border-light p-1">
+        <Navbar.Brand href="/produk/catalog" className="text-uppercase fw-bold border-bottom border-light p-1">
           <i className={lbl.app.icon+` text-white me-1`}></i>
           {lbl.app.name}
-          {/* <Link to="/dashboard/produk" className="text-decoration-none text-white">
+          {/* <Link to="/produk" className="text-decoration-none text-white">
             {lbl.app.name}
           </Link> */}
         </Navbar.Brand>
@@ -42,13 +43,13 @@ export default function DashboardLayout() {
             style={{ maxHeight: 'unset' }}
             navbarScroll
           >
-            <Nav.Link href="/dashboard/produk">
+            <Nav.Link href="/produk">
               Produk
-              {/* <Link to="/dashboard/produk">Produk</Link>   */}
+              {/* <Link to="/produk">Produk</Link>   */}
             </Nav.Link>
-            <Nav.Link href="/dashboard/jual">
+            <Nav.Link href="/jual">
               Jual
-              {/* <Link to="/dashboard/jual">Jual</Link>  */}
+              {/* <Link to="/jual">Jual</Link>  */}
             </Nav.Link>
             <Nav.Link href="/register">
               Daftar
@@ -56,9 +57,10 @@ export default function DashboardLayout() {
             </Nav.Link>
             <NavDropdown title="Link" id="navbarScrollingDropdown" data-bs-theme="light">
               <NavDropdown.Item href="#action3">Action</NavDropdown.Item>
-              <NavDropdown.Item href="/dashboard/jual/create">
+              <NavDropdown.Item href="/Produk">Produk</NavDropdown.Item>
+              <NavDropdown.Item href="/jual/create">
                 Jual
-                {/* <Link to="/dashboard/produk" className="text-dark">Produk</Link>  */}
+                {/* <Link to="/produk" className="text-dark">Produk</Link>  */}
               </NavDropdown.Item>
               <NavDropdown.Divider />
               <NavDropdown.Item href="#action5">
@@ -68,7 +70,7 @@ export default function DashboardLayout() {
             {/* <Nav.Link href="/register" disabled>
               Daftar
             </Nav.Link> */}
-            <Nav.Link href="/dashboard/jual/create">
+            <Nav.Link href="/jual/create">
               Jual
             </Nav.Link>
           </Nav>
@@ -78,15 +80,37 @@ export default function DashboardLayout() {
               <i className="me-1 fa fa-search"></i>
               Search
             </button>
+            <Link to="/keranjang" className={'btn btn-light text-nowrap me-1 rounded-circlex'}>
+              <i className={lbl.cart.icon+``}></i>
+            </Link>
             {/* {JSON.stringify(lbl.app.isLogin)} */}
             { !(lbl.app.isLogin || token) && <Link to="/login" className={'btn btn-light btn-sm text-nowrap me-1 '}>
               <i className={lbl.signIn.icon+``}></i>
               Sign In
             </Link>}
-            { (lbl.app.isLogin || token) && <Link to="/dashboard/users/logout" className="btn btn-light btn-sm text-nowrap me-1 ">
-              <i className={lbl.signOut.icon+``}></i>
-              Sign Out
-            </Link>}
+            { (lbl.app.isLogin || token) && 
+            <Dropdown title="Link" id="navbarScrollingDropdown" align="end" data-bs-theme="light">
+              <Dropdown.Toggle variant="light" id="dropdown-basic">
+                <i className="fa fa-user me-1"></i>
+                User
+              </Dropdown.Toggle>
+              <Dropdown.Menu>
+                <Dropdown.Item href="#action3">Action</Dropdown.Item>
+                <Dropdown.Item href="/Produk">Produk</Dropdown.Item>
+                <Dropdown.Item href="/jual/create">
+                  Jual
+                  {/* <Link to="/produk" className="text-dark">Produk</Link>  */}
+                </Dropdown.Item>
+                <Dropdown.Divider />
+                <Dropdown.Item href="#action5">
+                  <Link to="/users/logout" className="btn btn-light btn-sm text-nowrap me-1 border">
+                    <i className={lbl.signOut.icon+``}></i>
+                    Sign Out
+                  </Link>
+                </Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+            }
           </Form>
         </Navbar.Collapse>
       </Container>
@@ -111,21 +135,21 @@ export default function DashboardLayout() {
   let navBarOld = <div className="bg-gradient-to-br from-gray-900 to-gray-800 min-h-screen flex flex-col">
     <header className="bg-gradient shadow-lg">
       <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-        <Link to="/dashboard/contacts" className="flex items-center hover:opacity-90 transition-opacity duration-200">
+        <Link to="/contacts" className="flex items-center hover:opacity-90 transition-opacity duration-200">
           <i className="fas fa-address-book text-white text-2xl mr-3"></i>
           <div className="text-white font-bold text-xl">Contact Management</div>
         </Link>
         <nav>
           <ul className="flex space-x-6">
             <li>
-              <Link to="/dashboard/users/profile"
+              <Link to="/users/profile"
                   className="text-gray-100 hover:text-white flex items-center transition-colors duration-200">
                 <i className="fas fa-user-circle mr-2"></i>
                 <span>Profile</span>
               </Link>
             </li>
             <li>
-              <Link to="/dashboard/users/logout"
+              <Link to="/users/logout"
                   className="text-gray-100 hover:text-white flex items-center transition-colors duration-200">
                 <i className="fas fa-sign-out-alt mr-2"></i>
                 <span>Logout</span>

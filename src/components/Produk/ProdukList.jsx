@@ -48,12 +48,9 @@ export default function ProdukList() {
       .then(() => console.log("Contacts fetched"));
   }, [reload])
 
-  useEffectOnce(() => {
-  })
-
   const buttonAksi = (produk) => {
     return  <>
-            <Link to={`/dashboard/produk/${produk.id}/edit`} target="_blank" className={lbl.edit.btnIcon+`btn-smx border me-1`}>
+            <Link to={`/produk/${produk.id}/edit`} target="_blank" className={lbl.edit.btnIcon+`btn-smx border me-1`}>
               <i className={`${lbl.edit.icon} me-1`}></i>
             </Link>
             <Button label="Show" variant={lbl.detil.btnIconVrnt} className={`btn-smx border me-1`} onClick={() => {setVisible(true); setProdukId(produk.id)}}>

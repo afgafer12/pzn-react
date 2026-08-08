@@ -1,3 +1,4 @@
+const token = localStorage.getItem("token");
 export const produkCreate = async (token, produk) => {
   return await fetch(`${import.meta.env.VITE_API_ECOMMERCE_PATH}/produk`, {
     method: 'POST',
@@ -52,7 +53,7 @@ export const produkDelete = async (token, id) => {
   })
 }
 
-export const produkDetil = async (token, id) => {
+export const produkDetil = async (id) => {
   return await fetch(`${import.meta.env.VITE_API_ECOMMERCE_PATH}/produk/${id}`, {
     method: 'GET',
     headers: {

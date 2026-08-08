@@ -31,6 +31,8 @@ import ProdukForm from './components/Produk/ProdukForm.jsx';
 import Bootstrap_PT from './helper/passthrough.js';
 import JualList from './components/Jual/JualList.jsx';
 import JualForm from './components/Jual/JualForm.jsx';
+import ProdukCatalog from './components/Produk/ProdukCatalog.jsx';
+import ProdukDetilSelected from './components/Produk/ProdukDetilSelected.jsx';
 
 createRoot(document.getElementById('root')).render(
   // <StrictMode>
@@ -41,11 +43,13 @@ createRoot(document.getElementById('root')).render(
       <Routes>
         {/* <Route element={<Layout/>}> */}
         <Route element={<DashboardLayout/>}>
+          <Route index element={<ProdukCatalog/>}/>
           <Route path="/register" element={<UserRegister/>}/>
           <Route path="/login" element={<UserLogin/>}/>
         </Route>
-        <Route path="/dashboard" element={<DashboardLayout/>}>
-        {/* <Route path="/dashboard"> */}
+        
+        {/* <Route path="/dashboard" element={<DashboardLayout/>}> */}
+        <Route element={<DashboardLayout/>}>
 
           <Route path="users">
             <Route path="profile" element={<UserProfile/>}/>
@@ -71,7 +75,9 @@ createRoot(document.getElementById('root')).render(
             <Route path=":id">
               <Route index element={<ContactDetail/>}/>
               <Route path="edit" element={<ProdukForm/>}/>
+              <Route path="detil-selected" element={<ProdukDetilSelected/>}/>
             </Route>
+            <Route path="catalog" element={<ProdukCatalog/>}/>
           </Route>
           <Route path="jual">
             <Route index element={<JualList/>}/>
