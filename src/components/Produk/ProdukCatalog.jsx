@@ -4,13 +4,13 @@ import {alertConfirm, alertError, alertSuccess} from "../../lib/alert.js";
 import {Link} from "react-router";
 import { Card, Table } from "react-bootstrap";
 import { getProdukList } from "../../lib/api/ProdukApi.js";
-import { labelConfigs as lbl } from "../../helper/LabelConfigs.js";
+import { labelConfigs as lbl } from "../../util/LabelConfigs.js";
 import ProdukForm from "./ProdukForm.jsx";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { Button as ButtonPrm } from "primereact/button";
 import Button from 'react-bootstrap/Button';
-import { formatNumber } from "../../helper/MainHelper.js";
+import { formatNumber } from "../../util/ComponentUtil.js";
 import { Dialog } from "primereact/dialog";
 
 export default function ProdukCatalog() {

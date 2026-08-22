@@ -19,6 +19,12 @@ export const labelConfigs = {
     // icon: "fa fa-save",
     icon: "fa fa-save",
   }, 
+  save: {
+    lbl: "Simpan",
+    btn: "btn btn-success fw-bold",
+    btnIcon: "btn btn-outline-primary btn-sm",
+    icon: "fa fa-plus",
+  }, 
   create: {
     lbl: "Buat",
     btn: "btn btn-success fw-bold",
@@ -86,7 +92,7 @@ export const labelConfigs = {
     icon: "fa fa-cart-plus",
   },
   order: {
-    lbl: "Beli",
+    lbl: "Bayar",
     icon: "fa fa-money",
   },
 

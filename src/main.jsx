@@ -28,11 +28,12 @@ import AddressCreate from "./components/Address/AddressCreate.jsx";
 import AddressEdit from "./components/Address/AddressEdit.jsx";
 import ProdukList from './components/Produk/ProdukList.jsx';
 import ProdukForm from './components/Produk/ProdukForm.jsx';
-import Bootstrap_PT from './helper/passthrough.js';
+import Bootstrap_PT from './util/passthrough.js';
 import JualList from './components/Jual/JualList.jsx';
 import JualForm from './components/Jual/JualForm.jsx';
 import ProdukCatalog from './components/Produk/ProdukCatalog.jsx';
 import ProdukDetilSelected from './components/Produk/ProdukDetilSelected.jsx';
+import KeranjangForm from './components/Keranjang/KeranjangForm.jsx';
 
 createRoot(document.getElementById('root')).render(
   // <StrictMode>
@@ -86,6 +87,9 @@ createRoot(document.getElementById('root')).render(
               {/* <Route index element={<ContactDetail/>}/> */}
               <Route path="edit" element={<JualForm/>}/>
             </Route>
+          </Route>
+          <Route path="keranjang">
+            <Route path="form" element={<KeranjangForm/>}/>
           </Route>
 
         </Route>

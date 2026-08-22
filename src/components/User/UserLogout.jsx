@@ -2,7 +2,7 @@ import {useEffectOnce, useLocalStorage} from "react-use";
 import {userLogout} from "../../lib/api/UserApi.js";
 import {alertError} from "../../lib/alert.js";
 import {useNavigate} from "react-router";
-import {labelConfigs as lbl } from "../../helper/LabelConfigs.js";
+import {labelConfigs as lbl } from "../../util/LabelConfigs.js";
 
 export default function UserLogout() {
 

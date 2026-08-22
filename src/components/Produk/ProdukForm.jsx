@@ -5,7 +5,7 @@ import {useEffectOnce, useLocalStorage} from "react-use";
 import {alertError, alertSuccess} from "../../lib/alert.js";
 import { produkCreate, produkDetil, produkUpdate } from "../../lib/api/ProdukApi.js";
 import { Card } from "react-bootstrap";
-import { labelConfigs as lbl } from "../../helper/LabelConfigs.js";
+import { labelConfigs as lbl } from "../../util/LabelConfigs.js";
 import Input from "../Shared/Input/index.jsx";
 import TokoSelect from "../Shared/TokoSelect/TokoSelect.jsx";
 // import ProdukList from "./ProdukList.jsx";

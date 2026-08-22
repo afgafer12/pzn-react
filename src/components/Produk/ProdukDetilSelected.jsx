@@ -5,10 +5,10 @@ import {useEffectOnce, useLocalStorage} from "react-use";
 import {alertError, alertSuccess} from "../../lib/alert.js";
 import { produkCreate, produkDetil, produkUpdate } from "../../lib/api/ProdukApi.js";
 import { Card } from "react-bootstrap";
-import { labelConfigs as lbl } from "../../helper/LabelConfigs.js";
+import { labelConfigs as lbl } from "../../util/LabelConfigs.js";
 import Input from "../Shared/Input/index.jsx";
 import TokoSelect from "../Shared/TokoSelect/TokoSelect.jsx";
-import { keranjangAdd } from "../../lib/api/KeranjangApi.js";
+import { keranjangAdd, keranjangAddUpdate } from "../../lib/api/KeranjangApi.js";
 // import ProdukList from "./ProdukList.jsx";
 
 export default function ProdukDetilSelected(props) {
@@ -107,7 +107,7 @@ export default function ProdukDetilSelected(props) {
 
   async function create() {
     keranjang.keranjang_produk.push(produkKeranjang)
-    const response = await keranjangAdd(keranjang);
+    const response = await keranjangAddUpdate(keranjang);
     const responseBody = await response.json();
     console.log(responseBody);
 
@@ -117,7 +117,7 @@ export default function ProdukDetilSelected(props) {
       props.onSubmit();
     } else {
       keranjang.keranjang_produk = [];
-      await alertError(responseBody.message);
+      await alertError(responseBody.message, response);
     }
   }
   async function handleSubmit(e) {

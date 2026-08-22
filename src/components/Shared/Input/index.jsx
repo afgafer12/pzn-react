@@ -40,7 +40,7 @@ const Input = (props) => {
       break;
     case 'number':
       input = <InputNumber name={props.name} value={props.value} 
-      onValueChange={(e) => props.onChange(e)} className="p-inputtext-sm w-100" inputClassName="form-control"/>
+      onValueChange={(e) => props?.onChange(e)} className="p-inputtext-sm w-100" inputClassName="form-control"/>
       // input = <InputNumber name={props.name} value={props.value} 
       // onValueChange={(e) => props.onChange({target: {
       //   name: props.name, value: e.target.value ?? '', a11: e.target 

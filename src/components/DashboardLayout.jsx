@@ -6,7 +6,7 @@ import Form from 'react-bootstrap/Form';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
-import { labelConfigs as lbl } from "../helper/LabelConfigs.js";
+import { labelConfigs as lbl } from "../util/LabelConfigs.js";
 import { Sidebar } from 'primereact/sidebar';
 import { useLocalStorage } from 'react-use';
 import { Dropdown } from 'react-bootstrap';
@@ -80,7 +80,7 @@ export default function DashboardLayout() {
               <i className="me-1 fa fa-search"></i>
               Search
             </button>
-            <Link to="/keranjang" className={'btn btn-light text-nowrap me-1 rounded-circlex'}>
+            <Link to="/keranjang/form" className={'btn btn-light text-nowrap me-1 rounded-circlex'}>
               <i className={lbl.cart.icon+``}></i>
             </Link>
             {/* {JSON.stringify(lbl.app.isLogin)} */}

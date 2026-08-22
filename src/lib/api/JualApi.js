@@ -1,4 +1,6 @@
-export const jualCreate = async (token, jual) => {
+const token = localStorage.getItem("token");
+
+export const jualCreate = async (jual) => {
   return await fetch(`${import.meta.env.VITE_API_ECOMMERCE_PATH}/jual`, {
     method: 'POST',
     headers: {
