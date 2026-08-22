@@ -1,6 +1,6 @@
 const token = localStorage.getItem("token");
-export const keranjangAdd = async (produkVarian) => {
-  return await fetch(`${import.meta.env.VITE_API_ECOMMERCE_PATH}/keranjang`, {
+export const keranjangAddUpdate = async (produkVarian) => {
+  return await fetch(`${import.meta.env.VITE_API_ECOMMERCE_PATH}/keranjang/add-update`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -10,18 +10,15 @@ export const keranjangAdd = async (produkVarian) => {
     body: JSON.stringify(produkVarian)
   })
 }
-
-export const getkeranjangList = async (token, {nama, page}) => {
-  const url = new URL(`${import.meta.env.VITE_API_ECOMMERCE_PATH}/keranjang`);
-
-  if (nama) url.searchParams.append('nama', nama);
-
-  return await fetch(url, {
-    method: 'GET',
+export const keranjangAdd = async (produkVarian) => {
+  return await fetch(`${import.meta.env.VITE_API_ECOMMERCE_PATH}/keranjang`, {
+    method: 'POST',
     headers: {
+      'Content-Type': 'application/json',
       'Accept': 'application/json',
       'Authorization': token
-    }
+    },
+    body: JSON.stringify(produkVarian)
   })
 }
 
@@ -51,8 +48,8 @@ export const keranjangDelete = async (token, id) => {
   })
 }
 
-export const keranjangDetil = async (token, id) => {
-  return await fetch(`${import.meta.env.VITE_API_ECOMMERCE_PATH}/keranjang/${id}`, {
+export const keranjangDetil = async () => {
+  return await fetch(`${import.meta.env.VITE_API_ECOMMERCE_PATH}/keranjang/user`, {
     method: 'GET',
     headers: {
       'Accept': 'application/json',
