@@ -14,7 +14,8 @@ export const userRegister = async ({username, password, name}) => {
 }
 
 export const userLogin = async ({username, password}) => {
-  return await fetch(`${import.meta.env.VITE_API_PATH}/users/login`, {
+  // return await fetch(`${import.meta.env.VITE_API_PATH}/users/login`, {
+  return await fetch(`${import.meta.env.VITE_API_ECOMMERCE_PATH}/user/login`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -66,7 +67,9 @@ export const userDetail = async (token) => {
 }
 
 export const userLogout = async (token) => {
-  return await fetch(`${import.meta.env.VITE_API_PATH}/users/logout`, {
+  token = JSON.parse(localStorage.getItem("token"));
+  // return await fetch(`${import.meta.env.VITE_API_PATH}/users/logout`, {
+  return await fetch(`${import.meta.env.VITE_API_ECOMMERCE_PATH}/user/logout`, {
     method: 'DELETE',
     headers: {
       'Accept': 'application/json',

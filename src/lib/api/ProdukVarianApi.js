@@ -21,7 +21,7 @@ export const produkVarianList = async ({nama, page} = {}) => {
     method: 'GET',
     headers: {
       'Accept': 'application/json',
-      // 'Authorization': token
+      'Authorization': token
     }
   })
 }

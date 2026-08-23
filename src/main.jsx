@@ -47,6 +47,7 @@ createRoot(document.getElementById('root')).render(
           <Route index element={<ProdukCatalog/>}/>
           <Route path="/register" element={<UserRegister/>}/>
           <Route path="/login" element={<UserLogin/>}/>
+          <Route path="/logout" element={<UserLogout/>}/>
         </Route>
         
         {/* <Route path="/dashboard" element={<DashboardLayout/>}> */}

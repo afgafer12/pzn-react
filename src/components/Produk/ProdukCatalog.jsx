@@ -70,7 +70,7 @@ export default function ProdukCatalog() {
         <div className="row row-cols-1 row-cols-md-6 g-4">
           {Array.from({ length: 3 }, (_, i) => (
           produkList.map((produk, i) => (
-          <div className="col">
+          <div key={i} className="col">
             <a href={`${produk.id}/detil-selected`}>
             <div className="card">
               <img src="..." className="card-img-top" alt="..."/>

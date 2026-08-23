@@ -1,4 +1,5 @@
 export const tokoList = async () => {
+  const token = JSON.parse(localStorage.getItem("token"));
   const url = new URL(`${import.meta.env.VITE_API_ECOMMERCE_PATH}/toko`);
 
   // if (nama) url.searchParams.append('nama', nama);
@@ -8,7 +9,8 @@ export const tokoList = async () => {
   return await fetch(url, {
     method: 'GET',
     headers: {
-      'Accept': 'application/json'
+      'Accept': 'application/json',
+      'Authorization': token,
     }
   })
 }

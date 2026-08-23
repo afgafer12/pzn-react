@@ -12,8 +12,10 @@ import { useLocalStorage } from 'react-use';
 import { Dropdown } from 'react-bootstrap';
 
 export default function DashboardLayout() {
-  const [token, setToken] = useLocalStorage("token", "")
+  const [token, _] = useLocalStorage("token", "")
   const [visible, setVisible] = useState(false);
+  const isLogin = token;
+  
 
   let navBar = <>
     <Navbar expand="lg" className="" bg="primary" data-bs-theme="dark" sticky="top">
@@ -27,9 +29,6 @@ export default function DashboardLayout() {
         <Navbar.Brand href="/produk/catalog" className="text-uppercase fw-bold border-bottom border-light p-1">
           <i className={lbl.app.icon+` text-white me-1`}></i>
           {lbl.app.name}
-          {/* <Link to="/produk" className="text-decoration-none text-white">
-            {lbl.app.name}
-          </Link> */}
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="navbarScroll">
           <i className="pi pi-angle-down"></i>
@@ -83,12 +82,12 @@ export default function DashboardLayout() {
             <Link to="/keranjang/form" className={'btn btn-light text-nowrap me-1 rounded-circlex'}>
               <i className={lbl.cart.icon+``}></i>
             </Link>
-            {/* {JSON.stringify(lbl.app.isLogin)} */}
-            { !(lbl.app.isLogin || token) && <Link to="/login" className={'btn btn-light btn-sm text-nowrap me-1 '}>
+            {/* {JSON.stringify(token)} */}
+            { !isLogin && <Link to="/login" className={'btn btn-light btn-sm text-nowrap me-1 '}>
               <i className={lbl.signIn.icon+``}></i>
               Sign In
             </Link>}
-            { (lbl.app.isLogin || token) && 
+            { isLogin && 
             <Dropdown title="Link" id="navbarScrollingDropdown" align="end" data-bs-theme="light">
               <Dropdown.Toggle variant="light" id="dropdown-basic">
                 <i className="fa fa-user me-1"></i>
@@ -96,17 +95,13 @@ export default function DashboardLayout() {
               </Dropdown.Toggle>
               <Dropdown.Menu>
                 <Dropdown.Item href="#action3">Action</Dropdown.Item>
-                <Dropdown.Item href="/Produk">Produk</Dropdown.Item>
+                <Dropdown.Item href="/produk">Produk</Dropdown.Item>
                 <Dropdown.Item href="/jual/create">
                   Jual
-                  {/* <Link to="/produk" className="text-dark">Produk</Link>  */}
                 </Dropdown.Item>
-                <Dropdown.Divider />
-                <Dropdown.Item href="#action5">
-                  <Link to="/users/logout" className="btn btn-light btn-sm text-nowrap me-1 border">
-                    <i className={lbl.signOut.icon+``}></i>
-                    Sign Out
-                  </Link>
+                <Dropdown.Divider/>
+                <Dropdown.Item href="/logout">
+                  Sign Out
                 </Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>

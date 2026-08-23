@@ -1,7 +1,7 @@
 import {Link, useNavigate} from "react-router";
 import {useState} from "react";
 import {userLogin} from "../../lib/api/UserApi.js";
-import {alertError} from "../../lib/alert.js";
+import {alertError, alertErrorResp} from "../../lib/alert.js";
 import {useLocalStorage} from "react-use";
 import {labelConfigs as lbl } from "../../util/LabelConfigs.js";
 import Input from "../Shared/Input/index.jsx";
@@ -28,7 +28,7 @@ export default function UserLogin() {
 
     const response = await userLogin({username, password});
     const responseBody = await response.json();
-    console.log(responseBody);
+    // console.log(responseBody);
 
     if (response.status === 200) {
       const token = responseBody.data.token;
