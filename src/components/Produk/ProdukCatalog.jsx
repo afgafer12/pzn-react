@@ -26,10 +26,10 @@ export default function ProdukCatalog() {
 
   async function fetchProduk() {
     const response = await getProdukList(token, {nama, page});
-    const responseBody = await response.json();
-    console.log(responseBody);
 
     if (response.status === 200) {
+      const responseBody = response.data;
+      console.log(responseBody);
       setContacts(responseBody.data);
       // setTotalPage(responseBody.paging.total_page);
     } else {

@@ -114,7 +114,6 @@ export default function JualList() {
     
     <Dialog header="Header" visible={visible} style={{ width: '75vw' }} onHide={() => { if (!visible) return; setVisible(false); }}>
       <JualForm id={jualId} onSubmit={handleSubmitProduk} wrapper={'none'}/>
-      {/* {visible && <ProdukForm id={jualId} onSubmit={handleSubmitProduk}/>} */}
     </Dialog>
   </>
 }

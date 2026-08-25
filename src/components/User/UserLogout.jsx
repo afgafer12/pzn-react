@@ -16,7 +16,6 @@ export default function UserLogout() {
 
     if (response.status === 200) {
       setToken("");
-      lbl.app.isLogin = false;
       await navigate({
         pathname: "/login"
       })

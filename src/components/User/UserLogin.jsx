@@ -33,7 +33,6 @@ export default function UserLogin() {
     if (response.status === 200) {
       const token = responseBody.data.token;
       setToken(token);
-      lbl.app.isLogin = true;
       await navigate({
         pathname: "/produk/catalog"
       });

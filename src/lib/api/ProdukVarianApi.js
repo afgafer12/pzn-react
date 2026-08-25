@@ -1,3 +1,5 @@
+import axios from "../axios";
+
 export const produkVarianCreate = async (token, produkVarian) => {
   return await fetch(`${import.meta.env.VITE_API_ECOMMERCE_PATH}/produk-varian`, {
     method: 'POST',
@@ -13,17 +15,7 @@ export const produkVarianCreate = async (token, produkVarian) => {
 export const produkVarianList = async ({nama, page} = {}) => {
   const url = new URL(`${import.meta.env.VITE_API_ECOMMERCE_PATH}/produk-varian`);
 
-  // if (nama) url.searchParams.append('nama', nama);
-  // url.searchParams.append('with_produkVarian_varian', 1);
-  // url.searchParams.append('with_produkVarian_stok', 1);
-
-  return await fetch(url, {
-    method: 'GET',
-    headers: {
-      'Accept': 'application/json',
-      'Authorization': token
-    }
-  })
+  return await axios.get(`/produk-varian`);
 }
 
 export const produkVarianDelete = async (token, id) => {

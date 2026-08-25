@@ -104,5 +104,16 @@ export const labelConfigs = {
     outlineSm: "btn btn-outline-primary btn-sm",
     vrntOutlSm: "outline-primary",
   },
+  link:{ 
+    btn: "btn btn-primary",
+  },
+  upload:{ 
+    lbl: "Unggah",
+    btn: "btn btn-primary",
+    icon: "fa fa-upload me-1",
+  },
+  image: {
+    lbl: 'Gambar'
+  }
 }  
 

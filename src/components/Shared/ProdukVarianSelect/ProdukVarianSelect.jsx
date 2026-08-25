@@ -7,7 +7,7 @@ export default function ProdukVarianSelect(props) {
 
   async function fetchData() {
     const response = await produkVarianList();
-    const responseBody = await response.json();
+    const responseBody = response.data;
     // console.log(responseBody);
     if (response.status === 200) {
       setDataList(responseBody.data);

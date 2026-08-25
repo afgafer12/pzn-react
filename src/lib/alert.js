@@ -28,3 +28,22 @@ export const alertConfirm = async (message) => {
   })
   return result.isConfirmed;
 }
+
+export const alertErrorResp = async (message, response = {}) => {
+  if(response.httpCode == 422){
+    message += '. ';
+    response.errors?.forEach((v, k) => {
+      message += `${v}`;
+    });
+  }
+
+  if(response.httpCode){
+    console.log(response);
+  };
+  const swal = Swal.fire({
+    icon: 'error',
+    title: "Ups",
+    text: message,
+  });
+  return swal;
+}
