@@ -61,23 +61,29 @@ export default function ProdukCatalog() {
 
   return <>
     <Card>
-      <Card.Header>
+      {/* <Card.Header>
         Produk
-      </Card.Header>
+      </Card.Header> */}
       <Card.Body>
         <Card.Title>Produk</Card.Title>
         
         <div className="row row-cols-1 row-cols-md-6 g-4">
-          {Array.from({ length: 3 }, (_, i) => (
+          {Array.from({ length: 3 }, (_, j) => (
           produkList.map((produk, i) => (
           <div key={i} className="col">
-            <a href={`${produk.id}/detil-selected`}>
-            <div className="card">
-              <img src="..." className="card-img-top" alt="..."/>
+            <a href={`${produk.id}/detil-selected`} className="text-decoration-none">
+            <div className="card h-100">
+              <img src={produk.gambar_link} className="card-img-top" alt={produk.gambar}/>
               <div className="card-body">
-                <h5 className="card-title">{produk.nama}</h5>
-                <h5 className="card-title">Rp {produk.harga_jual}</h5>
-                <p className="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                <div className="h-5 fw-bold">{produk.nama}</div>
+                <div className="fw-bold text-primary">Rp {produk.harga_jual}</div>
+                <div className="mb-1">Stok : {produk.stok}</div>
+                <p className="card-text" style={{ textAlign: "justify" }}>
+                  {produk.deskripsi?.split(" ")?.slice(0,10)?.join(" ")}&nbsp;...
+                  {j > 1 && <span>
+                    {'This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.'?.split(" ")?.slice(0,10)?.join(" ")} ...
+                  </span>}
+                </p>
               </div>
             </div>
             </a>

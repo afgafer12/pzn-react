@@ -6,7 +6,7 @@ export const labelConfigs = {
   //button
   //app
   app:{
-    name: "Sky Commerce",
+    name: "Porjo Commerce",
     icon: "fa fa-opencart",
     bgPrimary: "bg-primary text-white",
     bgSecondary: "bg-dark text-white",
@@ -38,6 +38,7 @@ export const labelConfigs = {
     btnIcon: "btn btn-light btn-smx border",
     // icon: "fa fa-pencil-square-o",
     icon: "fa fa-pencil",
+    success: 'Edit berhasil'
   }, 
   delete: {
     lbl: "Delete",

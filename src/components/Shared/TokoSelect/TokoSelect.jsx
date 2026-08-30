@@ -23,7 +23,7 @@ export default function TokoSelectt(props) {
   return (
     <Dropdown {...props} name={props.name} options={dataList} value={props.value}
       onChange={(e) => props.onChange({target: {
-        name: props.name, value: e.target.value ?? '', a11: e.target 
+        name: props.name, value: e.target.value ?? '' 
       }})} optionValue={'id'} optionLabel={'nama'} 
       showClear clearIcon={'pi pi-times me-3'} editable variant={`${props.disabled ? 'filled' : ''}`} placeholder="-Pilih-" 
       className={`p-inputtext-sm w-100 ${props.disabled ? '' : ''}`}

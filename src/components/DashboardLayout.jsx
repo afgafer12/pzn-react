@@ -42,6 +42,9 @@ export default function DashboardLayout() {
             style={{ maxHeight: 'unset' }}
             navbarScroll
           >
+            <Nav.Link href="/produk/catalog">
+              Katalog
+            </Nav.Link>
             <Nav.Link href="/produk">
               Produk
               {/* <Link to="/produk">Produk</Link>   */}

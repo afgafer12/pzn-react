@@ -13,6 +13,7 @@ import TokoSelect from "../Shared/TokoSelect/TokoSelect.jsx";
 export default function ProdukForm(props) {
 
   const [token, _] = useLocalStorage("token", "");
+  const [entitas, setEntitas] = useState('Produk');
   // const {id} = useParams();
   const { id: urlId } = useParams();
   const id = props.id ?? urlId;
@@ -27,10 +28,11 @@ export default function ProdukForm(props) {
     "brand_id" : "",
     "deskripsi" : "",
     "image" : "",
-    "status" : "",
+    "status_id" : null,
     "satuan" : "",
     "produk_varian" : []
   });
+  
   const [statusList, setStatusList] = useState([]);
 
   const handleChange = (e) => {
@@ -41,6 +43,12 @@ export default function ProdukForm(props) {
     setProdukForm({
       ...produkForm,
       [e.target.name]: e.target.value
+    });
+  };
+  const handleChangeGambar = (e) => {
+    setProdukForm({
+      ...produkForm,
+      ['gambar_file']: e.target.files[0]
     });
   };
   // const handleChangeTarget = (name, value) => {
@@ -70,9 +78,10 @@ export default function ProdukForm(props) {
 
   async function fetchProduk() {
     const response = await produkDetil(id);
-    const responseBody = await response.json();
+    // const responseBody = await response.json();
     // console.log(responseBody);
     if (response.status === 200) {
+      const responseBody = response.data;
       setProdukForm(responseBody.data);
       // console.log(produkForm);
     } else {
@@ -81,24 +90,19 @@ export default function ProdukForm(props) {
   }
 
   async function create() {
-    const response = await produkCreate(token, produkForm);
-    const responseBody = await response.json();
-    console.log(responseBody);
-
+    const response = await produkCreate(produkForm);
     if (response.status === 200) {
-      await alertSuccess("Contact created successfully");
+      await alertSuccess(`${entitas} created successfully`);
       props.onSubmit();
     } else {
       await alertError(responseBody.message);
     }
   }
   async function update() {
-    const response = await produkUpdate(token, produkForm);
-    const responseBody = await response.json();
-    console.log(responseBody);
+    const response = await produkUpdate(produkForm);
 
     if (response.status === 200) {
-      await alertSuccess("Contact updated successfully");
+      await alertSuccess(`${entitas} ${lbl.edit.success}`);
       props.onSubmit();
     } else {
       await alertError(responseBody.errors);
@@ -120,12 +124,12 @@ export default function ProdukForm(props) {
     //  }]})
     if(!produkForm?.produk_varian){
       setProdukForm({...produkForm, produk_varian: [{
-        "id": "", "produk_id": "", "kd_produk": "", 
+        "id": "", "produk_id": "", "kd_produk_varian": "", 
         "stok": "", "harga_jual": "", "harga_beli": "", "warna": "", "ukuran": "",
       }]});
     }else{
       setProdukForm({...produkForm, produk_varian: [...produkForm?.produk_varian, {
-        "id": "", "produk_id": "", "kd_produk": "", 
+        "id": "", "produk_id": "", "kd_produk_varian": "", 
         "stok": "", "harga_jual": "", "harga_beli": "", "warna": "", "ukuran": "",
       }]})
     }
@@ -154,10 +158,10 @@ export default function ProdukForm(props) {
     let idVar = props?.id ?? id;
     // setProdukId(idVar);
     // setProdukId(3);
-    console.log('props');
-    console.log(props?.id ?? id);
-    console.log(idVar);
-    console.log(id);
+    // console.log('props');
+    // console.log(props?.id ?? id);
+    // console.log(idVar);
+    // console.log(id);
     if(idVar){
       fetchProduk().then(() => console.log("Contact detail fetched successfully"));
     }else{
@@ -184,6 +188,24 @@ export default function ProdukForm(props) {
         <Card.Title>Produk</Card.Title>
         <form onSubmit={handleSubmit}>
           <div className="row">
+            {produkForm.gambar && <div className="col-auto">
+              <div className="card">
+                <div className="card-body">
+                  <img src={produkForm.gambar_link} height={`240px`} alt={produkForm.gambar} className="rounded-3 img-fluidx" />
+                </div>
+              </div>
+            </div>}
+            <div className="col-12"></div>
+            <div className="col-sm-6">
+              <label htmlFor="deskripsi" className="form-label">{lbl.image.lbl}</label>
+              <div className="input-group">
+                <input type="file" name="gambar" onChange={handleChangeGambar} className="form-control"/>
+                {/* <button type="submit" className={lbl.upload.btn}>
+                  <i className={lbl.upload.icon}></i>{lbl.upload.lbl}
+                </button> */}
+              </div>
+            </div>
+            <div className="col-12"></div>
             <div className="col-sm-6">
               <label htmlFor="toko_id" className="form-label">toko_id</label>
               {/* <input type="text" id="toko_id" name="toko_id"
@@ -239,11 +261,11 @@ export default function ProdukForm(props) {
                 className="form-control" />
             </div>
             <div className="col-sm-6">
-              <label htmlFor="status" className="form-label">status</label>
+              {/* <label htmlFor="status" className="form-label">status</label> */}
               <Input 
                 type="select"
-                name="status"
-                value={produkForm?.status}
+                name="status_id"
+                value={produkForm?.status_id}
                 onChange={handleChange}
                 options={statusList}
                 placeholder={'-Pilih-'}
@@ -291,8 +313,8 @@ export default function ProdukForm(props) {
                           <tr key={i}>
                             <td>{i+1}.</td>
                             <td>
-                              <Input type="text" id={`kd_produk_${i}`} name="kd_produk"
-                                value={varian?.kd_produk} onChange={(e) => handleProdukVariant(i, e)}
+                              <Input type="text" id={`varian_${i}`} name="varian"
+                                value={varian?.varian} onChange={(e) => handleProdukVariant(i, e)}
                                 className="form-control" />
                             </td>
                             <td>

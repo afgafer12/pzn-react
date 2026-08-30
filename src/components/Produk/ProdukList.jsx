@@ -26,10 +26,11 @@ export default function ProdukList() {
 
   async function fetchProduk() {
     const response = await getProdukList(token, {nama, page});
-    const responseBody = await response.json();
-    console.log(responseBody);
+    // const responseBody = await response.json();
+    // console.log(responseBody);
 
     if (response.status === 200) {
+      const responseBody = response.data;
       setContacts(responseBody.data);
       // setTotalPage(responseBody.paging.total_page);
     } else {
@@ -68,7 +69,7 @@ export default function ProdukList() {
         <Card.Title>Produk</Card.Title>
         
         <div className="text-end mb-3">
-          <Link to={`/dashboard/produk/create`} target="_blank" className={lbl.create.btn}>
+          <Link to={`/produk/create`} target="_blank" className={lbl.create.btn}>
             <i className={`${lbl.create.icon} me-1`}></i>
             {lbl.create.lbl}
           </Link>

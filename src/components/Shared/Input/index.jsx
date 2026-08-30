@@ -17,9 +17,10 @@ const Input = (props) => {
     case 'select':
       input = <Dropdown {...props} options={props.options} value={props.value}
                 onChange={(e) => props.onChange({target: {
-                  name: props.name, value: e.target.value ?? '', a11: e.target 
+                  name: props.name, value: e.target.value ?? '' 
                 }})} optionValue={props.optionValue} optionLabel={props.optionLabel} 
-                showClear editable className="p-inputtext-sm w-100"
+                showClear clearIcon={'pi pi-times me-3'} editable 
+                className="p-inputtext-sm w-100"
               />
       // input = <Form.Group controlId={props.name}>
       //           {props.label && <Form.Label>{props.label}</Form.Label>}
