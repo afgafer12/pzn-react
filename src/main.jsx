@@ -1,5 +1,6 @@
 import './assets/layers.css';
 import './assets/custom-style.css';
+import './assets/color.css';
 
 import {StrictMode} from 'react'
 import {createRoot} from 'react-dom/client'

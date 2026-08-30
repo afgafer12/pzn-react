@@ -6,10 +6,11 @@ import Form from 'react-bootstrap/Form';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
-import { labelConfigs as lbl } from "../util/LabelConfigs.js";
+// import { labelConfigs as lbl } from "../util/LabelConfigs.js";
 import { Sidebar } from 'primereact/sidebar';
 import { useLocalStorage } from 'react-use';
 import { Dropdown } from 'react-bootstrap';
+import lbl from '../util/LabelConfigs2.js';
 
 export default function DashboardLayout() {
   const [token, _] = useLocalStorage("token", "")
@@ -18,7 +19,8 @@ export default function DashboardLayout() {
   
 
   let navBar = <>
-    <Navbar expand="lg" className="" bg="primary" data-bs-theme="dark" sticky="top">
+    {/* <Navbar expand="lg" bg="primary" data-bs-theme="dark" sticky="top"> */}
+    <Navbar expand="lg" className={lbl.app.bgPrimary} data-bs-theme="dark" sticky="top">
       <Container fluid>
         <button type="button" onClick={() => setVisible(true)} className="navbar-toggler-side-bar mx-1" style={{visibility: "visible"}}>
           <span className="navbar-toggler-icon"></span>
@@ -115,7 +117,7 @@ export default function DashboardLayout() {
     </Navbar>
 
     <hr className="m-0"/>
-    <div className="bg-primary" style={{height: '12px'}}></div>
+    <div className={lbl.app.bgPrimary} style={{height: '12px'}}></div>
     {/* <button className="btn btn-primary m-1 btn-sm" onClick={() => setVisible(true)} style={{position: "fixed", top: "72px", zIndex: 1}}>
       <i className="pi pi-arrow-right"></i>
     </button> */}
@@ -124,7 +126,9 @@ export default function DashboardLayout() {
     <div className="container p-1">
       <Outlet/>
     </div>
-    <div className="bg-dark mt-3" style={{height: '240px'}}>
+    {/* <div className={lbl.bg.primary}>&nbsp;</div> */}
+    <div className={lbl.bg.primary+` mt-3`} style={{height: '4px'}}></div>
+    <div className="bg-white" style={{height: '240px'}}>
 
     </div>
   </>;

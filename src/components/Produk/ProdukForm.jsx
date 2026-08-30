@@ -5,10 +5,11 @@ import {useEffectOnce, useLocalStorage} from "react-use";
 import {alertError, alertSuccess} from "../../lib/alert.js";
 import { produkCreate, produkDetil, produkUpdate } from "../../lib/api/ProdukApi.js";
 import { Card } from "react-bootstrap";
-import { labelConfigs as lbl } from "../../util/LabelConfigs.js";
+// import { labelConfigs as lbl } from "../../util/LabelConfigs.js";
 import Input from "../Shared/Input/index.jsx";
 import TokoSelect from "../Shared/TokoSelect/TokoSelect.jsx";
 // import ProdukList from "./ProdukList.jsx";
+import lbl from '../../util/LabelConfigs2.js';
 
 export default function ProdukForm(props) {
 
@@ -93,17 +94,19 @@ export default function ProdukForm(props) {
     const response = await produkCreate(produkForm);
     if (response.status === 200) {
       await alertSuccess(`${entitas} created successfully`);
-      props.onSubmit();
+      props?.onSubmit();
     } else {
       await alertError(responseBody.message);
     }
   }
   async function update() {
     const response = await produkUpdate(produkForm);
-
     if (response.status === 200) {
+      let produk = response.data.data;
       await alertSuccess(`${entitas} ${lbl.edit.success}`);
-      props.onSubmit();
+      let gambar = produk.gambar_link+'?time='+new Date();
+      setProdukForm({...produk, gambar_link: gambar});
+      props?.onSubmit();
     } else {
       await alertError(responseBody.errors);
     }

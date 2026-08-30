@@ -66,15 +66,15 @@ export const produkDetil = async (id) => {
 }
 
 export const produkUpdate = async (produk) => {
-  const response = await fetch('http://localhost:5173/vite.svg');
-  const blob = await response.blob();
+  const image = await fetch('http://localhost:5173/vite.svg');
+  const blob = await image.blob();
 
   const file = new File(
     [blob],
     'dummy.jpg',
     { type: blob.type }
   );
-  console.log(file);
+  // console.log(file);
   const formData = new FormData();
   formData.append("nama", produk.nama);
   formData.append("kd_produk", produk.kd_produk);
