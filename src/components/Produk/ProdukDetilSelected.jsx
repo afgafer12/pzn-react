@@ -84,8 +84,8 @@ export default function ProdukDetilSelected(props) {
     keranjang.keranjang_produk.push(produkKeranjang)
     try{
     const response = await keranjangCreateUpdate(keranjang);
-    const responseBody = response.data;
     if (response.status === 200) {
+      const responseBody = response.data;
       keranjang.keranjang_produk = [];
       await alertSuccess(`${entitas} ${lbl.add.success}`);
       // await navigate({
