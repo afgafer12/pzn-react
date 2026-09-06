@@ -42,18 +42,21 @@ const labelConfigs2 = {
     btnIcon: "btn btn-light btn-smx border",
     // icon: "fa fa-pencil-square-o",
     icon: "fa fa-pencil",
-    success: 'Edit berhasil'
+    success: 'edit berhasil'
   }, 
   delete: {
     lbl: "Delete",
     btn: "btn btn-danger",
     btnIcon: "btn btn-light btn-smx border",
     icon: "fa fa-trash-o",
+    success: 'hapus berhasil',
+    failed: 'hapus gagal',
   }, 
   add: {
     lbl: "Tambah",
     btn: "btn btn-success fw-bold",
     icon: "fa fa-plus",
+    success: 'tambah berhasil',
   },
   list: {
     lbl: "Data",

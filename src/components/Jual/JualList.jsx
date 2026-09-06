@@ -86,6 +86,8 @@ export default function JualList() {
           paginator rows={10} rowsPerPageOptions={[3, 1, 10]}
         >
             <Column header="No." body={(data, options) => options.rowIndex + 1 + `.`}></Column>
+            <Column field="created_at" header="created_at" body={(rowData) => new Date(rowData.created_at)?.toLocaleString()}></Column>
+            {/* <Column field="created_at" header="created_at" body={(rowData) => rowData.created_at.toLocaleDateString("id-ID")}></Column> */}
             <Column field="no_trans" header="no_trans"></Column>
             <Column field="user_id" header="user_id"></Column>
             <Column field="status_id" header="status_id"></Column>
