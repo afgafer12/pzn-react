@@ -1,15 +1,7 @@
-const token = localStorage.getItem("token");
+import axios from "../axios";
 
 export const jualCreate = async (jual) => {
-  return await fetch(`${import.meta.env.VITE_API_ECOMMERCE_PATH}/jual`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-      'Authorization': token
-    },
-    body: JSON.stringify(jual)
-  })
+  return await axios.post(`/jual`, jual);
 }
 
 export const jualList = async (token, {nama, page}) => {

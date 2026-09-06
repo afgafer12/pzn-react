@@ -128,8 +128,5 @@ export const produkUpdate = async (produk) => {
       varian.ukuran
     );
   });
-  // return await axios.put(`/produk/${produk.id}`, produk);
-  // return await axios.put(`/produk/${produk.id}`, formData);
-  // return await axios.post(`/produk`, formData);
   return await axios.post(`/produk/${produk.id}`, formData);
 }

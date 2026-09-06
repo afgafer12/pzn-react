@@ -1,25 +1,21 @@
-import {Link, useParams} from "react-router";
+import {Link, useNavigate, useParams} from "react-router";
 import {useEffect, useState} from "react";
-import {contactDetail, contactUpdate} from "../../lib/api/ContactApi.js";
 import {useEffectOnce, useLocalStorage} from "react-use";
 import {alertError, alertSuccess} from "../../lib/alert.js";
 import { produkCreate, produkDetil, produkUpdate } from "../../lib/api/ProdukApi.js";
 import { Card } from "react-bootstrap";
-import { labelConfigs as lbl } from "../../util/LabelConfigs.js";
 import Input from "../Shared/Input/index.jsx";
 import TokoSelect from "../Shared/TokoSelect/TokoSelect.jsx";
-import { keranjangAdd, keranjangAddUpdate } from "../../lib/api/KeranjangApi.js";
-// import ProdukList from "./ProdukList.jsx";
+import lbl from '../../util/LabelConfigs2.js';
+import { keranjangCreateUpdate } from "../../lib/api/KeranjangApi.js";
 
 export default function ProdukDetilSelected(props) {
-
-  const [token, _] = useLocalStorage("token", "");
-  // const {id} = useParams();
+  const navigate = useNavigate();
+  const entitas = 'Produk';
   const { id: urlId } = useParams();
   const id = props.id ?? urlId;
-  // const [id, setProdukId] = useState(props.id);
   const [produk, setProduk] = useState({
-    "id" : null,
+    // "id" : null,
     "nama" : "",
     "slug" : "",
     "harga_jual" : "",
@@ -41,40 +37,22 @@ export default function ProdukDetilSelected(props) {
   });
   const [produkKeranjang, setProdukKeranjang] = useState({
     "produk_varian_id": null,
-    "jumlah": null,
+    // "jumlah": null,
+    "jumlah": 0,
   })
 
   const handleChangeProdukKeranjang = (e) => {
-    // console.log('e11');
-    // console.log(e.target);
-    // console.log(e.target.value);
-    // console.log(e);
-    
     setProdukKeranjang({
       ...produkKeranjang,
       [e.target.name]: Number(e.target.value)
     });
   };
   const handleChange = (e) => {
-    // console.log('e11');
-    // console.log(e.target);
-    // console.log(e);
-    
     setProduk({
       ...produk,
       [e.target.name]: e.target.value
     });
   };
-  // const handleChangeTarget = (name, value) => {
-  //   console.log('name');
-  //   console.log(name);
-  //   console.log(value);
-    
-  //   setProduk({
-  //     ...produk,
-  //     [name]: value
-  //   });
-  // };
 
   const handleProdukVariant = (index, e) => {
     setProduk((prev) => ({
@@ -92,33 +70,35 @@ export default function ProdukDetilSelected(props) {
 
   async function fetchProduk() {
     const response = await produkDetil(id);
-    const responseBody = await response.json();
-    // console.log(responseBody);
     if (response.status === 200) {
+      const responseBody = response.data;
       const produk = responseBody.data
       setProduk(produk);
       setProdukKeranjang({...produkKeranjang, produk_varian_id: produk.produk_varian[0].id});
-
-      // console.log(produk);
-    } else {
-      await alertError(responseBody.errors);
+    // } else {
+    //   await alertError(responseBody.errors);
     }
   }
 
   async function create() {
     keranjang.keranjang_produk.push(produkKeranjang)
-    const response = await keranjangAddUpdate(keranjang);
-    const responseBody = await response.json();
-    console.log(responseBody);
-
+    try{
+    const response = await keranjangCreateUpdate(keranjang);
+    const responseBody = response.data;
     if (response.status === 200) {
       keranjang.keranjang_produk = [];
-      await alertSuccess("Contact created successfully");
-      props.onSubmit();
-    } else {
-      keranjang.keranjang_produk = [];
-      await alertError(responseBody.message, response);
+      await alertSuccess(`${entitas} ${lbl.add.success}`);
+      // await navigate({
+      //   pathname: `/keranjang/form`
+      // });
     }
+    }catch(error){
+      console.log(error);
+      keranjang.keranjang_produk = [];
+      const msg = error.response?.data?.message ?? error; 
+      await alertError(msg);
+    }
+
   }
   async function handleSubmit(e) {
     e.preventDefault();
@@ -126,10 +106,6 @@ export default function ProdukDetilSelected(props) {
   }
 
   const handleAddProdukVarian = () => {
-    //  setProduk({...produk, produk_varian: [...produk?.produk_varian, {
-    //   "id": "", "produk_id": "", "kd_produk": "", 
-    //   "stok": "", "harga_jual": "", "harga_beli": "", "warna": "", "ukuran": "",
-    //  }]})
     if(!produk?.produk_varian){
       setProduk({...produk, produk_varian: [{
         "id": null, "produk_id": "", "kd_produk": "", 
@@ -141,20 +117,6 @@ export default function ProdukDetilSelected(props) {
         "stok": "", "harga_jual": "", "harga_beli": "", "warna": "", "ukuran": "",
       }]})
     }
-    // setProduk({...produk, produk_varian: produk?.produk_varian == [] ? [{
-    //     "id": "", "produk_id": "", "kd_produk": "", 
-    //     "stok": "", "harga_jual": "", "harga_beli": "", "warna": "", "ukuran": "",
-    //   }] : [...produk?.produk_varian, {
-    //     "id": "", "produk_id": "", "kd_produk": "", 
-    //     "stok": "", "harga_jual": "", "harga_beli": "", "warna": "", "ukuran": "",
-    //   }]
-    // });
-  }
-  const handleDeleteProdukVarian = (i) => {
-   setProduk(prev => ({
-      ...produk,
-      produk_varian: prev?.produk_varian?.filter((_, index) => index !== i)
-    }));
   }
 
   useEffectOnce(() => {
@@ -164,31 +126,12 @@ export default function ProdukDetilSelected(props) {
     ];
     setStatusList(statusList);
     let idVar = props?.id ?? id;
-    // setProdukId(idVar);
-    // setProdukId(3);
-    console.log('props');
-    console.log(props?.id ?? id);
-    console.log(idVar);
-    console.log(id);
     if(idVar){
-      fetchProduk().then(() => console.log("Contact detail fetched successfully"));
+      fetchProduk();
     }else{
       handleAddProdukVarian();
     }
   })
-  // const onStatusChange = (e) => {
-  //   const status = statusList.find(category => category.value == e.target.value);
-  //   console.log(e.target);
-  //   handleChange(e);
-  //   console.log(e.target.name);
-  //   console.log(e.target.value);
-    
-  //   // setProduk({
-  //   //   ...produk,
-  //   //   status_id: e.target.value,
-  //   //   status: e.target.value,
-  //   // });
-  // }
 
   return <>
     <Card>
@@ -196,16 +139,27 @@ export default function ProdukDetilSelected(props) {
         <Card.Title>Produk</Card.Title>
         <form onSubmit={handleSubmit}>
           <div className="row">
+            {produk.gambar && <div className="col-auto">
+              <div className="card">
+                <div className="card-body">
+                  <img src={produk.gambar_link} height={`240px`} alt={produk.gambar} className="rounded-3 img-fluidx" />
+                </div>
+              </div>
+            </div>}
+            {/* <div className="col-12"></div>
+            <div className="col-sm-6">
+              <label htmlFor="deskripsi" className="form-label">{lbl.image.lbl}</label>
+              <div className="input-group">
+                <input type="file" name="gambar" onChange={handleChangeGambar} className="form-control"/>
+              </div>
+            </div> */}
+            <div className="col-12"></div>
             <div className="col-sm-6">
               <label htmlFor="toko_id" className="form-label">toko_id</label>
-              {/* <input type="text" id="toko_id" name="toko_id"
-                value={produk?.toko_id} onChange={handleChange}
-                className="form-control" disabled/> */}
               <TokoSelect name="toko_id" value={produk?.toko_id} onChange={handleChange}></TokoSelect>
             </div>
             <div className="col-12"></div>
             <div className="col-sm-6">
-              {/* <label htmlFor="nama" className="form-label">nama</label> */}
               <Input name="nama" label="nama" className=""
                 value={produk?.nama} onChange={handleChange} 
               />
@@ -218,18 +172,15 @@ export default function ProdukDetilSelected(props) {
             </div>
             <div className="col-sm-6">
               <label htmlFor="harga_jual" className="form-label">harga_jual</label>
-              {/* <input type="number" id="harga_jual" name="harga_jual"
-                value={produk?.harga_jual ?? ''} onChange={handleChange}
-                className="form-control" /> */}
               <Input type="number" name="harga_jual" label=""
                 value={produk?.harga_jual ?? ''} onChange={handleChange} 
               />
             </div>
             <div className="col-sm-6">
-              {/* <label htmlFor="harga_beli" className="form-label">harga_beli</label>
+              <label htmlFor="harga_beli" className="form-label">harga_beli</label>
               <Input type="number" id="harga_beli" name="harga_beli"
                 value={produk?.harga_beli} onChange={handleChange}
-                className="form-control" /> */}
+                className="form-control" />
             </div>
             <div className="col-sm-6">
               <label htmlFor="kategori_id" className="form-label">kategori_id</label>
@@ -250,11 +201,10 @@ export default function ProdukDetilSelected(props) {
                 className="form-control" />
             </div>
             <div className="col-sm-6">
-              {/* <label htmlFor="status" className="form-label">status</label> */}
               <Input 
                 type="select"
-                name="status"
-                value={produk?.status}
+                name="status_id"
+                value={produk?.status_id}
                 onChange={handleChange}
                 options={statusList}
                 placeholder={'-Pilih-'}
@@ -308,9 +258,9 @@ export default function ProdukDetilSelected(props) {
                                   onChange={handleChangeProdukKeranjang} className="form-check-input" checked={varian.id == produkKeranjang.produk_varian_id}/>
                                 </div>
                                 <div className="col-auto">
-                                  <Input type="text" id={`kd_produk_${i}`} name="kd_produk"
-                                  value={varian?.kd_produk} onChange={(e) => handleProdukVariant(i, e)}
-                                  className="form-control" />
+                                  <Input type="text" id={`varian_${i}`} name="varian"
+                                    value={varian?.varian} onChange={(e) => handleProdukVariant(i, e)}
+                                    className="form-control" />
                                 </div>
                               </div>
                             </td>

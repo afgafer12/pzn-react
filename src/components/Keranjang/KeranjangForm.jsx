@@ -3,55 +3,39 @@ import {useEffect, useState} from "react";
 import {useEffectOnce, useLocalStorage} from "react-use";
 import {alertError, alertSuccess} from "../../lib/alert.js";
 import { Card } from "react-bootstrap";
-import { labelConfigs as lbl } from "../../util/LabelConfigs.js";
 import Input from "../Shared/Input/index.jsx";
-import TokoSelect from "../Shared/TokoSelect/TokoSelect.jsx";
-import ProdukVarianSelect from "../Shared/ProdukVarianSelect/ProdukVarianSelect.jsx";
 import { jualCreate, jualDetil, jualUpdate } from "../../lib/api/JualApi.js";
-import { keranjangDetil } from "../../lib/api/KeranjangApi.js";
+import { keranjangDelete, keranjangDetil } from "../../lib/api/KeranjangApi.js";
+import lbl from '../../util/LabelConfigs2.js';
 
 export default function KeranjangForm(props) {
 
-  // const [token, _] = useLocalStorage("token", "");
-  // const {id} = useParams();
-  // const [produkId, setProdukId] = useState(props.id);
-  const [keranjangForm, setKeranjangForm] = useState({
-    "keranjang_id" : "",
-    "keranjang_produk" : []
-  });
+  const [entitas, setEntitas] = useState(lbl.order.lbl);
   const [keranjang, setKeranjang] = useState({
-    "id" : "",
+    "keranjang_id" : "",
     "keranjang_produk" : []
   });
 
   async function fetchKeranjangDetil() {
     const response = await keranjangDetil();
-    const responseBody = await response.json();
-    console.log(responseBody);
     if (response.status === 200) {
-      // setKeranjang(responseBody.data);
-      setKeranjangForm(responseBody.data);
+      const responseBody = response.data;
+      setKeranjang(responseBody.data);
     } else {
       await alertError(responseBody.errors);
     }
   }
 
   const handleChange = (e) => {
-    // console.log('e11');
-    // console.log(e.target);
-    // console.log(e);
-    
-    setKeranjangForm({
-      ...keranjangForm,
+    setKeranjang({
+      ...keranjang,
       [e.target.name]: e.target.value
     });
   };
 
   const handleKeranjangProduk = (index, e) => {
-    // console.log('event');
-    // console.log(e);
-    setKeranjangForm((prev) => ({
-      ...keranjangForm,
+    setKeranjang((prev) => ({
+      ...keranjang,
       keranjang_produk: prev?.keranjang_produk?.map((variant, i) =>
         i === index ? { ...variant, [e.target.name]: e.target.value } : variant
       ),
@@ -60,13 +44,13 @@ export default function KeranjangForm(props) {
 
   async function create() {
     const payload = {
-      "keranjang_id" : keranjangForm.id,
+      "keranjang_id" : keranjang.id,
       "bayar_metode_id" : 1,
       "total_bayar" : 0,
       "tgl_bayar" : "2026-11-11",
       "jual_produk" : []
     };
-    keranjangForm.keranjang_produk?.forEach(produk => {
+    keranjang.keranjang_produk?.forEach(produk => {
       payload.jual_produk.push({
         "produk_varian_id": produk.produk_varian_id,
         "jumlah": produk.jumlah,
@@ -74,16 +58,19 @@ export default function KeranjangForm(props) {
       });
     });
 
+    try{
     const response = await jualCreate(payload);
-    const responseBody = await response.json();
-    console.log(responseBody);
-
     if (response.status === 200) {
-      await alertSuccess("Contact created successfully");
-      props.onSubmit();
-    } else {
-      await alertError(responseBody.message);
+      const responseBody = response.data;
+      await alertSuccess(`${entitas} ${lbl.add.success}`);
     }
+    }catch(error){
+      console.log(error);
+      keranjang.keranjang_produk = [];
+      const msg = error.response?.data?.message ?? error; 
+      await alertError(msg);
+    }
+
   }
 
   async function handleSubmit(e) {
@@ -91,8 +78,14 @@ export default function KeranjangForm(props) {
     create();
   }
 
-  const handleDeleteProdukVarian = (i) => {
-
+  async function handleDeleteProdukVarian(id){
+    const response = await keranjangDelete(id);
+    if (response.status === 200) {
+      fetchKeranjangDetil();
+      await alertSuccess(`${entitas} ${lbl.delete.success}`);
+    } else {
+      await alertError(`${entitas} ${lbl.delete.failed}`);
+    }
   }
 
   useEffectOnce(() => {
@@ -121,20 +114,21 @@ export default function KeranjangForm(props) {
                         </tr>
                       </thead>
                       <tbody>
-                        {keranjangForm?.keranjang_produk?.map((varian, i) => (
-                          <tr key={i} class="align-middle">
+                        {keranjang?.keranjang_produk?.map((produkKrj, i) => (
+                          <tr key={i} className="align-middle">
                             <td>{i+1}.</td>
                             <td>
-                              {varian.produk_varian.kd_produk}&nbsp;-&nbsp;
-                              {varian.produk_varian_id}
+                              {produkKrj.produk_varian.produk_id}&nbsp;-&nbsp;
+                              {produkKrj.produk_varian_id}&nbsp;
+                              {produkKrj.produk_varian.varian}
                             </td>
                             <td></td>
                             <td>
-                              {varian.jumlah}
+                              {produkKrj.jumlah}
                             </td>
                             <td>
-                              {/* {varian.produk_varian.harga_jual} */}
-                              {varian.produk_varian.harga_jual.toLocaleString("id-ID")}
+                              {/* {produkKrj.produk_varian.harga_jual} */}
+                              {produkKrj.produk_varian.harga_jual.toLocaleString("id-ID")}
                             </td>
                             <td>
                               <div style={{"minWidth":"5%"}}>  
@@ -145,16 +139,16 @@ export default function KeranjangForm(props) {
                             </td>
                             <td>
                               {/* <Input type="number"
-                                value={(varian?.jumlah * varian.produk_varian.harga_jual * varian?.diskon / 100)} 
+                                value={(produkKrj?.jumlah * produkKrj.produk_varian.harga_jual * produkKrj?.diskon / 100)} 
                                 className="form-control"/> */}
                             </td>
                             <td>
                               <Input type="number" name="sub_total"
-                                value={(varian?.jumlah * varian.produk_varian.harga_jual * varian?.diskon)} onChange={(e) => handleKeranjangProduk(i, e)}
+                                value={(produkKrj?.jumlah * produkKrj.produk_varian.harga_jual * produkKrj?.diskon)} onChange={(e) => handleKeranjangProduk(i, e)}
                                 className="form-control" />
                             </td>
                             <td>
-                              <button type="button" onClick={(e) => handleDeleteProdukVarian(i)} className={`${lbl.delete.btnIcon} btn-smx`}>
+                              <button type="button" onClick={(e) => handleDeleteProdukVarian(produkKrj.id)} className={`${lbl.delete.btnIcon} btn-smx`}>
                                 <i className={lbl.delete.icon}></i>
                               </button>
                             </td>
@@ -167,7 +161,7 @@ export default function KeranjangForm(props) {
                           </td>
                           <td>
                               <Input type="number" name="total" label=""
-                                value={keranjangForm?.total ?? ''} onChange={handleChange} 
+                                value={keranjang?.total ?? ''} onChange={handleChange} 
                               />
                           </td>
                           <td></td>
@@ -191,18 +185,16 @@ export default function KeranjangForm(props) {
         </form>
         <pre>
           {JSON.stringify(keranjang, null, 2)}
-          <hr />
-          {JSON.stringify(keranjangForm, null, 2)}
         </pre>
   </>
 
-  if(props.wrapper == 'none'){
-    return formKeranjang;
-  }
+  // if(props.wrapper == 'none'){
+  //   return formKeranjang;
+  // }
   return <>
     <Card>
       <Card.Header as="h5">
-        {/* {lbl.keranjangForm.lbl} */}
+        {/* {lbl.keranjang.lbl} */}
       </Card.Header>
       <Card.Body>
         {formKeranjang}
