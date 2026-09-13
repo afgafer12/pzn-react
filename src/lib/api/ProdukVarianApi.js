@@ -28,14 +28,16 @@ export const produkVarianDelete = async (token, id) => {
   })
 }
 
-export const produkVarianDetil = async (token, id) => {
-  return await fetch(`${import.meta.env.VITE_API_ECOMMERCE_PATH}/produk-varian/${id}`, {
-    method: 'GET',
-    headers: {
-      'Accept': 'application/json',
-      'Authorization': token
-    }
-  })
+export const produkVarianDetil = async (id) => {
+  const response = await axios.get(`/produk-varian/${id}`);
+  return response.data;
+  // return await fetch(`${import.meta.env.VITE_API_ECOMMERCE_PATH}/produk-varian/${id}`, {
+  //   method: 'GET',
+  //   headers: {
+  //     'Accept': 'application/json',
+  //     'Authorization': token
+  //   }
+  // })
 }
 
 export const produkVarianUpdate = async (token, produkVarian) => {

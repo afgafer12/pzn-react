@@ -128,7 +128,7 @@ export default function ProdukForm(props) {
       {id: 0, nama: 'Non aktif'},
     ];
     setStatusList(statusList);
-    let idVar = props?.id ?? id;
+    const idVar = props?.id ?? id;
     if(idVar){
       fetchProduk().then(() => console.log("Contact detail fetched successfully"));
     }else{

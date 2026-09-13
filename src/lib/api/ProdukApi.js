@@ -62,7 +62,8 @@ export const produkDelete = async (token, id) => {
 }
 
 export const produkDetil = async (id) => {
-  return await axios.get(`produk/${id}`);
+  const response = await axios.get(`/produk/${id}`);
+  return response.data;
 }
 
 export const produkUpdate = async (produk) => {

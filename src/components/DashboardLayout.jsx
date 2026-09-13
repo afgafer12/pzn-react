@@ -55,12 +55,12 @@ export default function DashboardLayout() {
               Jual
               {/* <Link to="/jual">Jual</Link>  */}
             </Nav.Link>
-            <Nav.Link href="/register">
+            {/* <Nav.Link href="/register">
               Daftar
-              {/* <Link to="/register">Daftar</Link>  */}
-            </Nav.Link>
+            </Nav.Link> */}
             <NavDropdown title="Link" id="navbarScrollingDropdown" data-bs-theme="light">
               <NavDropdown.Item href="#action3">Action</NavDropdown.Item>
+              <NavDropdown.Item href="/register">register</NavDropdown.Item>
               <NavDropdown.Item href="/Produk">Produk</NavDropdown.Item>
               <NavDropdown.Item href="/jual/create">
                 Jual
@@ -75,7 +75,7 @@ export default function DashboardLayout() {
               Daftar
             </Nav.Link> */}
             <Nav.Link href="/jual/create">
-              Jual
+              Jual Create
             </Nav.Link>
           </Nav>
           <Form className="d-flex">

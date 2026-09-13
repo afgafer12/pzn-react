@@ -62,9 +62,9 @@ export default function ProdukList() {
 
   return <>
     <Card>
-      <Card.Header>
+      {/* <Card.Header>
         Produk
-      </Card.Header>
+      </Card.Header> */}
       <Card.Body>
         <Card.Title>Produk</Card.Title>
         

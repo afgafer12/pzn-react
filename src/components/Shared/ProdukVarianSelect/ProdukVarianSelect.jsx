@@ -24,7 +24,7 @@ export default function ProdukVarianSelect(props) {
     <Dropdown name={props.name} options={dataList} value={props.value}
       onChange={(e) => props.onChange({target: {
         name: props.name, value: e.target.value ?? null
-      }})} optionValue={props.optionValue} optionLabel={ props.optionLabel ?? 'kd_produk'} 
+      }})} optionValue={props.optionValue} optionLabel={ props.optionLabel ?? 'varian'} 
       showClear={true} clearIcon={'pi pi-times me-3'} dropdownIcon={''} editable variant={`${props.disabled ? 'filled' : ''}`} placeholder="-Pilih-" 
       className={`p-inputtext-sm w-100 ${props.disabled ? '' : ''}`}
     />

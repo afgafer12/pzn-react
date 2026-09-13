@@ -35,6 +35,7 @@ import JualForm from './components/Jual/JualForm.jsx';
 import ProdukCatalog from './components/Produk/ProdukCatalog.jsx';
 import ProdukDetilSelected from './components/Produk/ProdukDetilSelected.jsx';
 import KeranjangForm from './components/Keranjang/KeranjangForm.jsx';
+import AuthProtectedRoute from './util/AuthProtectedRoute.jsx';
 
 createRoot(document.getElementById('root')).render(
   // <StrictMode>
@@ -50,10 +51,9 @@ createRoot(document.getElementById('root')).render(
           <Route path="/login" element={<UserLogin/>}/>
           <Route path="/logout" element={<UserLogout/>}/>
         </Route>
-        
-        {/* <Route path="/dashboard" element={<DashboardLayout/>}> */}
+                
+        <Route element={<AuthProtectedRoute/>}>
         <Route element={<DashboardLayout/>}>
-
           <Route path="users">
             <Route path="profile" element={<UserProfile/>}/>
             <Route path="logout" element={<UserLogout/>}/>
@@ -94,6 +94,7 @@ createRoot(document.getElementById('root')).render(
             <Route path="form" element={<KeranjangForm/>}/>
           </Route>
 
+        </Route>
         </Route>
       </Routes>
     </BrowserRouter>

@@ -5,6 +5,7 @@ export const alertSuccess = async (message) => {
     icon: 'success',
     title: "Success",
     text: message,
+    showConfirmButton: false,
   })
 }
 
@@ -13,6 +14,7 @@ export const alertError = async (message) => {
     icon: 'error',
     title: "Ups",
     text: message,
+    showConfirmButton: false,
   })
 }
 

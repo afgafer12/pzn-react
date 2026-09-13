@@ -47,7 +47,7 @@ export default function KeranjangForm(props) {
       "keranjang_id" : keranjang.id,
       "bayar_metode_id" : 1,
       "total_bayar" : 0,
-      "tgl_bayar" : "2026-11-11",
+      "tgl_bayar" : "",
       "jual_produk" : []
     };
     keranjang.keranjang_produk?.forEach(produk => {
@@ -63,10 +63,11 @@ export default function KeranjangForm(props) {
     if (response.status === 200) {
       const responseBody = response.data;
       await alertSuccess(`${entitas} ${lbl.add.success}`);
+      fetchKeranjangDetil();
     }
     }catch(error){
       console.log(error);
-      keranjang.keranjang_produk = [];
+      // keranjang.keranjang_produk = [];
       const msg = error.response?.data?.message ?? error; 
       await alertError(msg);
     }
