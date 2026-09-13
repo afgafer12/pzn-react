@@ -31,7 +31,8 @@ const labelConfigs2 = {
   }, 
   create: {
     lbl: "Buat",
-    btn: "btn btn-success fw-bold",
+    // btn: "btn btn-success fw-bold",
+    btn: "btn border fw-bold",
     btnIcon: "btn btn-outline-primary btn-sm",
     icon: "fa fa-plus",
   }, 
@@ -47,6 +48,7 @@ const labelConfigs2 = {
   delete: {
     lbl: "Delete",
     btn: "btn btn-danger",
+    btnVrnt: "light",
     btnIcon: "btn btn-light btn-smx border",
     icon: "fa fa-trash-o",
     success: 'hapus berhasil',
@@ -54,7 +56,7 @@ const labelConfigs2 = {
   }, 
   add: {
     lbl: "Tambah",
-    btn: "btn btn-success fw-bold",
+    btn: "btn btn-outline-success fw-bold",
     icon: "fa fa-plus",
     success: 'tambah berhasil',
   },
@@ -70,6 +72,13 @@ const labelConfigs2 = {
   }, 
   detil: {
     lbl: "Detail",
+    btn: "btn btn-info",
+    btnIcon: "btn btn-light border",
+    icon: "fa fa-eye",
+    btnIconVrnt: "light",
+  },
+  view: {
+    lbl: "Lihat",
     btn: "btn btn-info",
     btnIcon: "btn btn-light border",
     icon: "fa fa-eye",
