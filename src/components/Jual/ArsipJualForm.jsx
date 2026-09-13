@@ -18,7 +18,7 @@ export default function JualForm({id, onSubmit, wrapper}) {
   const { id: urlId } = useParams();
   // const id = id ?? urlId;
   id = id ?? urlId;
-  const [jualForm, setJualForm] = useState({
+  const [jual, setJual] = useState({
     "no_trans" : "",
     "status_id": "",
     "total_bayar": null,
@@ -37,7 +37,7 @@ export default function JualForm({id, onSubmit, wrapper}) {
 
     "jual_produk" : []
   });
-  const [jual, setJual] = useImmer({
+  const [jualForm, setJualForm] = useImmer({
     "no_trans" : "",
     "status_id": "",
     "total_bayar": null,
@@ -59,58 +59,50 @@ export default function JualForm({id, onSubmit, wrapper}) {
   const [statusList, setStatusList] = useState([]);
 
   const handleChange = (e) => {
-    setJual(draft => {
-      draft[e.target.name]= e.target.value;
+    // console.log('e11');
+    // console.log(e.target);
+    // console.log(e);
+    
+    setJual({
+      ...jual,
+      [e.target.name]: e.target.value
     });
   };
+  // const handleChangeTarget = (name, value) => {
+  //   console.log('name');
+  //   console.log(name);
+  //   console.log(value);
+    
+  //   setJual({
+  //     ...jual,
+  //     [name]: value
+  //   });
+  // };
 
   const handleJualProduk = (index, e) => {
-    // console.log('event');
-    // console.log(e);
-    setJual(draft => {
-      draft.jual_produk[index][e.target.name] = e.target.value;  
-    });
-    const triggerKeys = ['jumlah', 'harga', 'diskon', 'diskon_harga'] 
-    if(triggerKeys.includes(e.target.name)){
-      handleSubTotal(index);
-    }
-    // setJualForm((prev) => ({
-    //   ...jualForm,
-    //   jual_produk: prev?.jual_produk?.map((variant, i) =>
-    //     i === index
-    //       ? {
-    //         ...variant,
-    //         [e.target.name]: e.target.value
-    //       }
-    //       : variant
-    //   ),
-    // }));
-  };
-
-  const handleSubTotal = (index) => {
-    setJual(draft => {
-      const item = draft.jual_produk[index];
-      const totalSub = item?.jumlah * item?.harga;
-      const diskonNilai = (item?.jumlah * item?.harga * item?.diskon / 100) + item.diskon_harga;
-      item.diskon_nilai = diskonNilai;  
-      item.sub_total = totalSub - diskonNilai;
-      let total = 0;
-      draft.jual_produk.forEach(val => {
-        total+= val.sub_total;
-      });
-      draft.total = total;
-    });
+    console.log('event');
+    console.log(e);
+    setJual((prev) => ({
+      ...jual,
+      jual_produk: prev?.jual_produk?.map((variant, i) =>
+        i === index
+          ? {
+            ...variant,
+            [e.target.name]: e.target.value
+          }
+          : variant
+      ),
+    }));
   };
 
   const handleSelectProdukVrnt = (index, e) => {
     const produk_varian_id = e.target.value;
     produkVarianDetil(produk_varian_id).then((resp) => {
-        setJual(draft => {
+        setJualForm(draft => {
           const jual_produk = draft.jual_produk[index];
           if (jual_produk) {
             jual_produk.harga = resp.data.harga_jual;
-            jual_produk.produk_varian_id = resp.data.id;
-            jual_produk.varian = resp.data.varian;
+            jual_produk.produk_varian_id = resp.data.harga_jual;
           }
         });
         // alertSuccess(`Produk ${lbl.edit.success}`);
@@ -140,7 +132,7 @@ export default function JualForm({id, onSubmit, wrapper}) {
 
     if (response.status === 200) {
       await alertSuccess("Contact created successfully");
-      if(onSubmit)onSubmit();
+      onSubmit();
     } else {
       await alertError(responseBody.message);
     }
@@ -148,15 +140,17 @@ export default function JualForm({id, onSubmit, wrapper}) {
   async function update() {
       jualUpdate(id, jual).then((resp) => {
         // const responseBody = response.resp;
+        console.log('resp');
+        console.log(resp);
         alertSuccess(`${entitas} ${lbl.edit.success}`);
-        if(onSubmit)onSubmit();
+        onSubmit();
       }).catch((err) => {
         console.log(err);
         const msg = err.response?.data?.message ?? err; 
         alertError(msg);
       });
     // try{
-    //   const response = await jualUpdate(id, jualForm);
+    //   const response = await jualUpdate(id, jual);
     //   const responseBody = response.data;
     //   await alertSuccess(`${entitas} ${lbl.edit.success}`);
     //   props.onSubmit();
@@ -176,38 +170,29 @@ export default function JualForm({id, onSubmit, wrapper}) {
   }
 
   const handleAddProdukVarian = () => {
-    setJual(draft => {
-      draft.jual_produk.push({
-      "id": "", "jual_id": "", "produk_id": "", "produk_varian_id": null, "varian": "", 
-      "harga": null, "jumlah": null, "diskon": 0, "diskon_harga": 0, "diskon_nilai": 0, "sub_total": 0, "satuan": null,
-      });
-    })
-    // if(!jualForm?.jual_produk){
-    //   setJualForm({...jualForm, jual_produk: [{
-    //     "id": "", "jual_id": "", "produk_id": "", "produk_varian_id": null, "produk_nama": "", 
-    //     "harga": null, "jumlah": null, "diskon": null, "sub_total": null, "satuan": null,
-    //   }]});
-    // }else{
-    //   setJualForm({...jualForm, jual_produk: [...jualForm?.jual_produk, {
-    //     "id": "", "jual_id": "", "produk_id": "", "produk_varian_id": null, "produk_nama": "", 
-    //     "harga": null, "jumlah": null, "diskon": null, "sub_total": null, "satuan": null,
-    //   }]})
-    //   setJualForm(draft => {
-    //     draft.jual_produk.push({
-    //     "id": "", "jual_id": "", "produk_id": "", "produk_varian_id": null, "produk_nama": "", 
-    //     "harga": null, "jumlah": null, "diskon": null, "sub_total": null, "satuan": null,
-    //     });
-    //   })
-    // }
+    if(!jual?.jual_produk){
+      setJual({...jual, jual_produk: [{
+        "id": "", "jual_id": "", "produk_id": "", "produk_varian_id": null, "produk_nama": "", 
+        "harga": null, "jumlah": null, "diskon": null, "sub_total": null, "satuan": null,
+      }]});
+    }else{
+      setJual({...jual, jual_produk: [...jual?.jual_produk, {
+        "id": "", "jual_id": "", "produk_id": "", "produk_varian_id": null, "produk_nama": "", 
+        "harga": null, "jumlah": null, "diskon": null, "sub_total": null, "satuan": null,
+      }]})
+      setJualForm(draft => {
+        draft.jual_produk.push({
+        "id": "", "jual_id": "", "produk_id": "", "produk_varian_id": null, "produk_nama": "", 
+        "harga": null, "jumlah": null, "diskon": null, "sub_total": null, "satuan": null,
+        });
+      })
+    }
   }
   const handleDeleteProdukVarian = (i) => {
-  //  setJualForm(prev => ({
-  //     ...jualForm,
-  //     jual_produk: prev?.jual_produk?.filter((_, index) => index !== i)
-  //   }));
-   setJualForm(draft => {
-    draft.jual_produk[index].splice(i,1);
-   });
+   setJual(prev => ({
+      ...jual,
+      jual_produk: prev?.jual_produk?.filter((_, index) => index !== i)
+    }));
   }
 
   useEffectOnce(() => {
@@ -224,6 +209,19 @@ export default function JualForm({id, onSubmit, wrapper}) {
       handleAddProdukVarian();
     }
   })
+  // const onStatusChange = (e) => {
+  //   const status = statusList.find(category => category.value == e.target.value);
+  //   console.log(e.target);
+  //   handleChange(e);
+  //   console.log(e.target.name);
+  //   console.log(e.target.value);
+    
+  //   // setJual({
+  //   //   ...jual,
+  //   //   status_id: e.target.value,
+  //   //   status: e.target.value,
+  //   // });
+  // }
   const formJual = <>
         <form onSubmit={handleSubmit}>
           <div className="row">
@@ -284,22 +282,22 @@ export default function JualForm({id, onSubmit, wrapper}) {
                           <th>Jumlah</th>
                           <th>Harga</th>
                           <th>Diskon (%)</th>
-                          <th>Diskon Harga</th>
+                          <th>Diskon Nilai</th>
                           <th>Sub Total</th>
                           <th>Aksi</th>
                         </tr>
                       </thead>
                       <tbody>
-                        {jual?.jual_produk?.map((item, i) => (
+                        {jual?.jual_produk?.map((varian, i) => (
                           <tr key={i}>
                             <td>{i+1}.</td>
                             <td>
                               {/* <Input type="number" id={`produk_varian_id_${i}`} name="produk_varian_id"
-                                value={item?.produk_varian_id} onChange={(e) => handleJualProduk(i, e)}
+                                value={varian?.produk_varian_id} onChange={(e) => handleJualProduk(i, e)}
                                 className="form-control" /> */}
                               <div style={{'minWidth': '200px'}}>
-                                {/* <ProdukVarianSelect name="produk_varian_id" value={item?.produk_varian_id} onChange={(e) => handleJualProduk(i, e)} optionValue={'id'}></ProdukVarianSelect> */}
-                                <ProdukVarianSelect name="produk_varian_id" value={item?.produk_varian_id} onChange={(e) => handleSelectProdukVrnt(i, e)} optionValue={'id'}></ProdukVarianSelect>
+                                {/* <ProdukVarianSelect name="produk_varian_id" value={varian?.produk_varian_id} onChange={(e) => handleJualProduk(i, e)} optionValue={'id'}></ProdukVarianSelect> */}
+                                <ProdukVarianSelect name="produk_varian_id" value={varian?.produk_varian_id} onChange={(e) => handleSelectProdukVrnt(i, e)} optionValue={'id'}></ProdukVarianSelect>
                               </div>
                             </td>
                             <td>
@@ -307,33 +305,30 @@ export default function JualForm({id, onSubmit, wrapper}) {
                             </td>
                             <td>
                                 <Input type="number" name="jumlah"
-                                value={item?.jumlah} onChange={(e) => handleJualProduk(i, e)}
+                                value={varian?.jumlah} onChange={(e) => handleJualProduk(i, e)}
                                 className="form-control" />
                             </td>
                             <td>
                               <Input type="number" name="harga"
-                                value={item?.harga} onChange={(e) => handleJualProduk(i, e)}
+                                value={varian?.harga} onChange={(e) => handleJualProduk(i, e)}
                                 className="form-control" />
                               
                             </td>
                             <td>
                               <div style={{"minWidth":"5%"}}>  
                                 <Input type="number" name="diskon"
-                                  value={item?.diskon} onChange={(e) => handleJualProduk(i, e)}
+                                  value={varian?.diskon} onChange={(e) => handleJualProduk(i, e)}
                                   className="form-control" />
                               </div>
                             </td>
                             <td>
-                              <Input type="number" name="diskon_harga"
-                                value={item?.diskon_harga} onChange={(e) => handleJualProduk(i, e)} 
+                              <Input type="number"
+                                value={ (varian?.jumlah * varian?.harga * varian?.diskon / 100) } 
                                 className="form-control"/>
-                              {/* <Input type="number" name="diskon_nilai"
-                                value={item?.diskon_nilai} onChange={(e) => handleJualProduk(i, e)} 
-                                className="form-control" disabled/> */}
                             </td>
                             <td>
                               <Input type="number" name="sub_total"
-                                value={item?.sub_total} onChange={(e) => handleJualProduk(i, e)}
+                                value={varian?.sub_total} onChange={(e) => handleJualProduk(i, e)}
                                 className="form-control" />
                             </td>
                             <td>
@@ -379,9 +374,9 @@ export default function JualForm({id, onSubmit, wrapper}) {
 
         </form>
         <pre>
-          {JSON.stringify(jual, null, 2)}
-          <hr />
           {JSON.stringify(jualForm, null, 2)}
+          <hr />
+          {JSON.stringify(jual, null, 2)}
         </pre>
   </>
 

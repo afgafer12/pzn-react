@@ -15,6 +15,7 @@ export default function ProdukForm(props) {
   const [produk, setProduk] = useState({
     // "id" : null,
     "nama" : "",
+    "gambar" : "",
     "slug" : "",
     "harga_jual" : "",
     "harga_beli" : "",
@@ -60,16 +61,14 @@ export default function ProdukForm(props) {
     }));
   };
 
-  async function fetchProduk() {
-    const response = await produkDetil(id);
-    // const responseBody = await response.json();
-    // console.log(responseBody);
-    if (response.status === 200) {
-      const responseBody = response.data;
-      setProduk(responseBody.data);
-    } else {
-      await alertError(responseBody.errors);
-    }
+  async function fetchProdukDetil() {
+    produkDetil(id).then((resp) => {
+      setProduk(resp.data);
+    }).catch((err) => {
+      console.log(err);
+      const msg = err.response?.data?.message ?? err; 
+      alertError(msg);
+    });
   }
 
   async function create() {
@@ -130,7 +129,7 @@ export default function ProdukForm(props) {
     setStatusList(statusList);
     const idVar = props?.id ?? id;
     if(idVar){
-      fetchProduk().then(() => console.log("Contact detail fetched successfully"));
+      fetchProdukDetil().then(() => console.log("Contact detail fetched successfully"));
     }else{
       handleAddProdukVarian();
     }
@@ -142,7 +141,7 @@ export default function ProdukForm(props) {
         <Card.Title>Produk</Card.Title>
         <form onSubmit={handleSubmit}>
           <div className="row">
-            {produk.gambar && <div className="col-auto">
+            {produk?.gambar && <div className="col-auto">
               <div className="card">
                 <div className="card-body">
                   <img src={produk.gambar_link} height={`240px`} alt={produk.gambar} className="rounded-3 img-fluidx" />

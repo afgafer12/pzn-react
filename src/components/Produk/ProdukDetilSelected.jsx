@@ -68,16 +68,14 @@ export default function ProdukDetilSelected(props) {
     }));
   };
 
-  async function fetchProduk() {
-    const response = await produkDetil(id);
-    if (response.status === 200) {
-      const responseBody = response.data;
-      const produk = responseBody.data
-      setProduk(produk);
-      setProdukKeranjang({...produkKeranjang, produk_varian_id: produk.produk_varian[0].id});
-    // } else {
-    //   await alertError(responseBody.errors);
-    }
+  async function fetchProdukDetil() {
+    produkDetil(id).then((resp) => {
+      setProduk(resp.data);
+    }).catch((err) => {
+      console.log(err);
+      const msg = err.response?.data?.message ?? err; 
+      alertError(msg);
+    });
   }
 
   async function create() {
@@ -127,7 +125,7 @@ export default function ProdukDetilSelected(props) {
     setStatusList(statusList);
     let idVar = props?.id ?? id;
     if(idVar){
-      fetchProduk();
+      fetchProdukDetil();
     }else{
       handleAddProdukVarian();
     }
