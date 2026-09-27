@@ -22,10 +22,6 @@ export const getProdukListFetch = async (token2, {nama, page}) => {
 }
 
 export const getProdukList = async ({nama, page}) => {
-
-  // if (nama) url.searchParams.append('nama', nama);
-  // url.searchParams.append('with_produk_varian', 1);
-  // url.searchParams.append('with_produk_stok', 1);
   const params = {
     'nama': nama,
     'with_produk_varian': 1,

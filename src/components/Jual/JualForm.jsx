@@ -9,7 +9,6 @@ import TokoSelect from "../Shared/TokoSelect/TokoSelect.jsx";
 import ProdukVarianSelect from "../Shared/ProdukVarianSelect/ProdukVarianSelect.jsx";
 import { jualCreate, jualDetil, jualUpdate } from "../../lib/api/JualApi.js";
 import lbl from "../../util/LabelConfigs2.js";
-import { produkDetil } from "../../lib/api/ProdukApi.js";
 import { produkVarianDetil } from "../../lib/api/ProdukVarianApi.js";
 import { useImmer } from "use-immer";
 
@@ -18,42 +17,21 @@ export default function JualForm({id, onSubmit, wrapper}) {
   const { id: urlId } = useParams();
   // const id = id ?? urlId;
   id = id ?? urlId;
-  const [jualForm, setJualForm] = useState({
-    "no_trans" : "",
-    "status_id": "",
-    "total_bayar": null,
-    "toko_id": null,
-    "user_id": "",
-    "bayar_metode_id": "",
-    "tgl_bayar": "",
-    "rek_id": "",
-    "status_kirim_id": "",
-    "pengiriman_id": "",
-    "img_bayar": "",
-    "deskripsi": "",
-    "total": null,
-    "total_diskon_harga": null,
-    
-
-    "jual_produk" : []
-  });
   const [jual, setJual] = useImmer({
     "no_trans" : "",
     "status_id": "",
     "total_bayar": null,
     "toko_id": null,
-    "user_id": "",
-    "bayar_metode_id": "",
-    "tgl_bayar": "",
-    "rek_id": "",
-    "status_kirim_id": "",
-    "pengiriman_id": "",
+    "user_id": null,
+    "bayar_metode_id": null,
+    "tgl_bayar": null,
+    "rek_id": null,
+    "status_kirim_id": null,
+    "kurir_id": null,
     "img_bayar": "",
     "deskripsi": "",
     "total": null,
     "total_diskon_harga": null,
-    
-
     "jual_produk" : []
   });
   const [statusList, setStatusList] = useState([]);
@@ -94,23 +72,33 @@ export default function JualForm({id, onSubmit, wrapper}) {
       const diskonNilai = (item?.jumlah * item?.harga * item?.diskon / 100) + item.diskon_harga;
       item.diskon_nilai = diskonNilai;  
       item.sub_total = totalSub - diskonNilai;
+      handleTotal();
+    });
+  };
+  const handleTotal = () => {
+    console.log('x12');
+    setJual(draft => {
       let total = 0;
       draft.jual_produk.forEach(val => {
         total+= val.sub_total;
       });
       draft.total = total;
     });
-  };
+  }
 
   const handleSelectProdukVrnt = (index, e) => {
     const produk_varian_id = e.target.value;
     produkVarianDetil(produk_varian_id).then((resp) => {
+        handleJualProduk(index,e);
         setJual(draft => {
           const jual_produk = draft.jual_produk[index];
           if (jual_produk) {
-            jual_produk.harga = resp.data.harga_jual;
-            jual_produk.produk_varian_id = resp.data.id;
-            jual_produk.varian = resp.data.varian;
+            const varian = resp.data
+            jual_produk.harga = varian.harga_jual;
+            jual_produk.produk_varian_id = varian.id;
+            jual_produk.varian = varian.varian;
+            jual_produk.produk_id = varian.produk.id;
+            jual_produk.produk_nama = varian.produk.nama;
           }
         });
         // alertSuccess(`Produk ${lbl.edit.success}`);
@@ -119,7 +107,6 @@ export default function JualForm({id, onSubmit, wrapper}) {
       const msg = err.response?.data?.message ?? err; 
       alertError(msg);
     });
-    handleJualProduk(index,e);
   };
 
   async function fetchJual() {
@@ -127,7 +114,6 @@ export default function JualForm({id, onSubmit, wrapper}) {
     if (response.status === 200) {
       const responseBody = response.data;
       setJual(responseBody.data);
-      setJualForm(responseBody.data);
     } else {
       await alertError(responseBody.errors);
     }
@@ -146,25 +132,14 @@ export default function JualForm({id, onSubmit, wrapper}) {
     }
   }
   async function update() {
-      jualUpdate(id, jual).then((resp) => {
-        // const responseBody = response.resp;
-        alertSuccess(`${entitas} ${lbl.edit.success}`);
-        if(onSubmit)onSubmit();
-      }).catch((err) => {
-        console.log(err);
-        const msg = err.response?.data?.message ?? err; 
-        alertError(msg);
-      });
-    // try{
-    //   const response = await jualUpdate(id, jualForm);
-    //   const responseBody = response.data;
-    //   await alertSuccess(`${entitas} ${lbl.edit.success}`);
-    //   props.onSubmit();
-    // }catch(error){
-    //   console.log(error);
-    //   const msg = error.response?.data?.message ?? error; 
-    //   await alertError(msg);
-    // }
+    jualUpdate(id, jual).then((resp) => {
+      alertSuccess(`${entitas} ${lbl.edit.success}`);
+      if(onSubmit)onSubmit();
+    }).catch((err) => {
+      console.log(err);
+      const msg = err.response?.data?.message ?? err; 
+      alertError(msg);
+    });
   }
   async function handleSubmit(e) {
     e.preventDefault();
@@ -178,8 +153,8 @@ export default function JualForm({id, onSubmit, wrapper}) {
   const handleAddProdukVarian = () => {
     setJual(draft => {
       draft.jual_produk.push({
-      "id": "", "jual_id": "", "produk_id": "", "produk_varian_id": null, "varian": "", 
-      "harga": null, "jumlah": null, "diskon": 0, "diskon_harga": 0, "diskon_nilai": 0, "sub_total": 0, "satuan": null,
+        "id": "", "jual_id": "", "produk_id": "", "produk_varian_id": null, "varian": "", "produk_nama": "", 
+        "harga": null, "jumlah": null, "diskon": 0, "diskon_harga": 0, "diskon_nilai": 0, "sub_total": 0, "satuan": null,
       });
     })
     // if(!jualForm?.jual_produk){
@@ -201,13 +176,17 @@ export default function JualForm({id, onSubmit, wrapper}) {
     // }
   }
   const handleDeleteProdukVarian = (i) => {
-  //  setJualForm(prev => ({
-  //     ...jualForm,
-  //     jual_produk: prev?.jual_produk?.filter((_, index) => index !== i)
-  //   }));
-   setJualForm(draft => {
-    draft.jual_produk[index].splice(i,1);
-   });
+    console.log('index');
+    console.log(i);
+    
+    //  setJualForm(prev => ({
+    //     ...jualForm,
+    //     jual_produk: prev?.jual_produk?.filter((_, index) => index !== i)
+    //   }));
+    setJual(draft => {
+      draft.jual_produk.splice(i,1);
+    });
+    handleTotal();
   }
 
   useEffectOnce(() => {
@@ -284,7 +263,7 @@ export default function JualForm({id, onSubmit, wrapper}) {
                           <th>Jumlah</th>
                           <th>Harga</th>
                           <th>Diskon (%)</th>
-                          <th>Diskon Harga</th>
+                          <th>Diskon Harga (Rp)</th>
                           <th>Sub Total</th>
                           <th>Aksi</th>
                         </tr>
@@ -380,8 +359,6 @@ export default function JualForm({id, onSubmit, wrapper}) {
         </form>
         <pre>
           {JSON.stringify(jual, null, 2)}
-          <hr />
-          {JSON.stringify(jualForm, null, 2)}
         </pre>
   </>
 

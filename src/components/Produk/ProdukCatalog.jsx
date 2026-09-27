@@ -26,27 +26,23 @@ export default function ProdukCatalog() {
   const [visible, setVisible] = useState(false);
 
   async function fetchProduk() {
-    const response = await getProdukList(token, {nama, page});
-
-    if (response.status === 200) {
-      const responseBody = response.data;
-      console.log(responseBody);
-      setContacts(responseBody.data);
-      // setTotalPage(responseBody.paging.total_page);
-    } else {
-      await alertError(responseBody.errors);
-    }
+    getProdukList({nama, page}).then((resp) => {
+      const responseBody = resp.data;
+      setContacts(responseBody?.data);
+    }).catch((err) => {
+      console.log(err);
+      const msg = err.response?.data?.message ?? err; 
+      // alertError(msg);
+    });
   }
 
   const handleSubmitProduk = ()=>{
-    console.log('fetchProduk');
     fetchProduk();
     setVisible(false);
   }
 
   useEffect(() => {
-    fetchProduk()
-      .then(() => console.log("Contacts fetched"));
+    fetchProduk();
   }, [reload])
 
   const buttonAksi = (produk) => {

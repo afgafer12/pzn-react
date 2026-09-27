@@ -123,12 +123,12 @@ export default function DashboardLayout() {
     </button> */}
     <br/>
     <div className="mb-3"></div>
-    <div className="container p-1" style={{minHeight: '400px'}}>
+    <div className="container p-1" style={{minHeight: '480px'}}>
       <Outlet/>
     </div>
     {/* <div className={lbl.bg.primary}>&nbsp;</div> */}
     <div className={lbl.bg.primary+` mt-3`} style={{height: '4px'}}></div>
-    <div className="bg-white" style={{height: '240px'}}>
+    <div className="bg-white" style={{height: '120px'}}>
 
     </div>
   </>;
