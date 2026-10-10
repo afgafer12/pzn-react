@@ -125,7 +125,7 @@ export default function JualForm({id, onSubmit, wrapper}) {
     console.log(responseBody);
 
     if (response.status === 200) {
-      await alertSuccess("Contact created successfully");
+      await alertSuccess("created successfully");
       if(onSubmit)onSubmit();
     } else {
       await alertError(responseBody.message);
@@ -198,7 +198,7 @@ export default function JualForm({id, onSubmit, wrapper}) {
     // const idVar = props?.id ?? id;
     const idVar = id;
     if(idVar){
-      fetchJual().then(() => console.log("Contact detail fetched successfully"));
+      fetchJual();
     }else{
       handleAddProdukVarian();
     }

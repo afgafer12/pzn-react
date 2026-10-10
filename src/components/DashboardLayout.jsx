@@ -19,7 +19,6 @@ export default function DashboardLayout() {
   
 
   let navBar = <>
-    {/* <Navbar expand="lg" bg="primary" data-bs-theme="dark" sticky="top"> */}
     <Navbar expand="lg" className={lbl.app.bgPrimary} data-bs-theme="dark" sticky="top">
       <Container fluid>
         <button type="button" onClick={() => setVisible(true)} className="navbar-toggler-side-bar mx-1" style={{visibility: "visible"}}>
@@ -28,8 +27,8 @@ export default function DashboardLayout() {
         
         {/* <Navbar.Brand href="#">Navbar scroll</Navbar.Brand>
         <Navbar.Toggle aria-controls="navbarScroll" /> */}
-        <Navbar.Brand href="/produk/catalog" className="text-uppercase fw-bold border-bottom border-light p-1">
-          <i className={lbl.app.icon+` text-white me-1`}></i>
+        <Navbar.Brand href="/produk/catalog" className="text-uppercase fw-bold p-1">
+          <i className={lbl.app.icon+` me-1`}></i>
           {lbl.app.name}
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="navbarScroll">
@@ -127,8 +126,8 @@ export default function DashboardLayout() {
       <Outlet/>
     </div>
     {/* <div className={lbl.bg.primary}>&nbsp;</div> */}
-    <div className={lbl.bg.primary+` mt-3`} style={{height: '4px'}}></div>
-    <div className="bg-white" style={{height: '120px'}}>
+    {/* <div className={lbl.bg.primary+`x mt-3`} style={{height: '4px'}}></div> */}
+    <div className="bg-dark" style={{height: '120px'}}>
 
     </div>
   </>;

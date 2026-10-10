@@ -129,7 +129,7 @@ export default function ProdukForm(props) {
     setStatusList(statusList);
     const idVar = props?.id ?? id;
     if(idVar){
-      fetchProdukDetil().then(() => console.log("Contact detail fetched successfully"));
+      fetchProdukDetil().then(() => console.log("detail fetched successfully"));
     }else{
       handleAddProdukVarian();
     }

@@ -53,7 +53,7 @@ export default function JualList() {
 
   useEffect(() => {
     fetchJual()
-      .then(() => console.log("Contacts fetched"));
+      .then(() => console.log("fetched"));
 
     setJualId(1);
   }, [reload])
