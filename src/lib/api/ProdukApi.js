@@ -31,6 +31,12 @@ export const getProdukList = async ({nama, page}) => {
   return await axios.get(`/produk`, {params: params});
 }
 
+export const getReadyProdukList = async ({nama, page}) => {
+  const params = {};
+
+  return await axios.get(`/produk/ready`, {params: params});
+}
+
 export const produkList = async (token, {nama, page}) => {
   const url = new URL(`${import.meta.env.VITE_API_ECOMMERCE_PATH}/produk`);
 

@@ -1,11 +1,15 @@
 const configs = {
     bg: {
-      primary: "bg-orange",
       // primary: "bg-primary",
+      primary: "bg-success text-white",
+      // primary: "bg-white text-success",
+      // primary: "bg-orange text-white",
+      secondary: "bg-primary text-white",
     },
     text: {
-      primary: "text-orange",
       // primary: "text-primary",
+      primary: "text-success",
+      // primary: "text-orange",
     },
 }
 const labelConfigs2 = {
@@ -14,8 +18,7 @@ const labelConfigs2 = {
   app:{
     name: "Porjo Commerce",
     icon: "fa fa-opencart",
-    bgPrimary: configs.bg.primary+" text-white",
-    bgSecondary: "bg-dark text-white",
+    bgPrimary: configs.bg.primary+"",
     textPrimary: "text-primary",
   },
   submitForm: {
@@ -59,6 +62,16 @@ const labelConfigs2 = {
     btn: "btn btn-outline-success fw-bold",
     icon: "fa fa-plus",
     success: 'tambah berhasil',
+  },
+  plus: {
+    lbl: "plus",
+    btn: "btn "+configs.bg.secondary,
+    icon: "fa fa-plus",
+  },
+  minus: {
+    lbl: "minus",
+    btn: "btn "+configs.bg.secondary,
+    icon: "fa fa-minus",
   },
   list: {
     lbl: "Data",

@@ -3,7 +3,7 @@ import {useEffect, useState} from "react";
 import {alertConfirm, alertError, alertSuccess} from "../../lib/alert.js";
 import {Link} from "react-router";
 import { Card, Table } from "react-bootstrap";
-import { getProdukList } from "../../lib/api/ProdukApi.js";
+import { getProdukList, getReadyProdukList } from "../../lib/api/ProdukApi.js";
 // import { labelConfigs as lbl } from "../../util/LabelConfigs.js";
 import ProdukForm from "./ProdukForm.jsx";
 import { DataTable } from "primereact/datatable";
@@ -21,14 +21,15 @@ export default function ProdukCatalog() {
   const [produkId, setProdukId] = useState("");
   const [page, setPage] = useState(1);
   const [totalPage, setTotalPage] = useState(1);
-  const [produkList, setContacts] = useState([]);
+  const [produkList, setPordukList] = useState([]);
   const [reload, setReload] = useState(false);
   const [visible, setVisible] = useState(false);
 
   async function fetchProduk() {
-    getProdukList({nama, page}).then((resp) => {
+    // getProdukList({nama, page}).then((resp) => {
+    getReadyProdukList({nama, page}).then((resp) => {
       const responseBody = resp.data;
-      setContacts(responseBody?.data);
+      setPordukList(responseBody?.data);
     }).catch((err) => {
       console.log(err);
       const msg = err.response?.data?.message ?? err; 
@@ -63,7 +64,7 @@ export default function ProdukCatalog() {
         <div className="h-5 fw-bold">PRODUK</div>
 
         <div className="row row-cols-1 row-cols-sm-3 row-cols-md-6 row-cols-md-6 g-2">
-          {Array.from({ length: 3 }, (_, j) => (
+          {Array.from({ length: 4 }, (_, j) => (
           produkList.map((produk, i) => (
           <div key={i} className="col">
             <a href={`${produk.id}/detil-selected`} className="text-decoration-none">
@@ -73,7 +74,17 @@ export default function ProdukCatalog() {
                 {/* <hr className={lbl.bg.primary}/> */}
                 <div className="h-5 fw-bold">{produk.nama}</div>
                 <div className={lbl.text.primary+" fw-bold"}>Rp {produk.harga_jual}</div>
-                <div className="mb-1">Stok : {produk.stok}</div>
+                {/* <div className="mb-1">Stok : {produk.stok}</div>
+                <div className="mb-1">Terjual : {produk.total_jual}</div> */}
+                <div className="row g-0">
+                  <div className="col-md-3">Terjual</div>
+                  <div className="col-auto">:&nbsp;</div>
+                  <div className="col-md">{produk.stok}</div>
+                  <div className="col-12"></div>
+                  <div className="col-md-3">Stok</div>
+                  <div className="col-auto">:&nbsp;</div>
+                  <div className="col-md">{produk.stok}</div>
+                </div>
                 <p className="card-text" style={{ textAlign: "justify" }}>
                   {produk.deskripsi?.split(" ")?.slice(0,10)?.join(" ")}&nbsp;
                   {produk.deskripsi?.split(" ")?.length > 10 && <span>...</span>}

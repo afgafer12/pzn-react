@@ -7,54 +7,103 @@ import Input from "../Shared/Input/index.jsx";
 import { jualCreate, jualDetil, jualUpdate } from "../../lib/api/JualApi.js";
 import { keranjangDelete, keranjangDetil } from "../../lib/api/KeranjangApi.js";
 import lbl from '../../util/LabelConfigs2.js';
+import { useImmer } from "use-immer";
 
 export default function KeranjangForm(props) {
 
   const [entitas, setEntitas] = useState(lbl.order.lbl);
-  const [keranjang, setKeranjang] = useState({
-    "keranjang_id" : "",
-    "keranjang_produk" : []
+  const [keranjang, setKeranjang] = useImmer({
+    "keranjang_id" : null,
+    "keranjang_id" : null,
+    "total" : null,
+    "keranjang_produk" : [],
+    "created_at" : null,
   });
 
   async function fetchKeranjangDetil() {
     const response = await keranjangDetil();
     if (response.status === 200) {
       const responseBody = response.data;
+      const data = responseBody.data;
       setKeranjang(responseBody.data);
+      console.log(responseBody.data);
+      console.log('keranjang_produk');
+      console.log(keranjang.keranjang_produk);
+      console.log(keranjang);
+      data.keranjang_produk.forEach((v,k) => {
+        setKeranjang(draft => {
+          draft.keranjang_produk[k]['harga'] = v.produk_varian.harga_jual;  
+          draft.keranjang_produk[k]['diskon'] = 0;  
+          draft.keranjang_produk[k]['diskon_harga'] = 0;  
+        });    
+        handleSubTotal(k);
+      });
     } else {
       await alertError(responseBody.errors);
     }
   }
 
   const handleChange = (e) => {
-    setKeranjang({
-      ...keranjang,
-      [e.target.name]: e.target.value
+    setKeranjang(draft => {
+      draft[e.target.name]= e.target.value;
     });
   };
 
   const handleKeranjangProduk = (index, e) => {
-    setKeranjang((prev) => ({
-      ...keranjang,
-      keranjang_produk: prev?.keranjang_produk?.map((variant, i) =>
-        i === index ? { ...variant, [e.target.name]: e.target.value } : variant
-      ),
-    }));
+    // setKeranjang((prev) => ({
+    //   ...keranjang,
+    //   keranjang_produk: prev?.keranjang_produk?.map((variant, i) =>
+    //     i === index ? { ...variant, [e.target.name]: e.target.value } : variant
+    //   ),
+    // }));
+    setKeranjang(draft => {
+      draft.keranjang_produk[index][e.target.name] = e.target.value;  
+    });
+    const triggerKeys = ['jumlah', 'harga', 'diskon', 'diskon_harga'] 
+    if(triggerKeys.includes(e.target.name)){
+      handleSubTotal(index);
+    }
   };
+
+  const handleSubTotal = (index) => {
+    setKeranjang(draft => {
+      const item = draft.keranjang_produk[index];
+      const totalSub = item?.jumlah * item?.harga;
+      const diskonNilai = (item?.jumlah * item?.harga * item?.diskon / 100) + item.diskon_harga;
+      item.diskon_nilai = diskonNilai;  
+      item.sub_total = totalSub - diskonNilai;
+      // console.log('item.sub_total');
+      // console.log(item.sub_total);
+      handleTotal();
+    });
+  };
+  const handleTotal = () => {
+    setKeranjang(draft => {
+      let total = 0;
+      draft.keranjang_produk.forEach(val => {
+        total+= val.sub_total;
+      });
+      draft.total = total;
+    });
+  }
 
   async function create() {
     const payload = {
+      "toko_id": null,
       "keranjang_id" : keranjang.id,
-      "bayar_metode_id" : 1,
       "total_bayar" : 0,
-      "tgl_bayar" : "",
+      "bayar_metode_id" : 1,
+      "deskripsi" : "",
       "jual_produk" : []
     };
     keranjang.keranjang_produk?.forEach(produk => {
       payload.jual_produk.push({
         "produk_varian_id": produk.produk_varian_id,
         "jumlah": produk.jumlah,
-        "diskon": produk.diskon ?? 0,
+        "diskon": produk.diskon,
+        "diskon_harga": produk.diskon_harga,
+        "diskon_nilai": produk.diskon_nilai,
+        "sub_total": produk.sub_total,
       });
     });
 
@@ -106,10 +155,10 @@ export default function KeranjangForm(props) {
                           <th>No.</th>
                           <th>Produk</th>
                           <th>Satuan</th>
-                          <th>Qty</th>
+                          <th className="text-center">Jumlah</th>
                           <th>Harga</th>
                           <th>Diskon (%)</th>
-                          <th>Diskon Nilai</th>
+                          <th>Diskon Harga (Rp)</th>
                           <th>Sub Total</th>
                           <th>Aksi</th>
                         </tr>
@@ -121,31 +170,49 @@ export default function KeranjangForm(props) {
                             <td>
                               {produkKrj.produk_varian.produk_id}&nbsp;-&nbsp;
                               {produkKrj.produk_varian_id}&nbsp;
+                              {produkKrj.produk_varian.produk?.nama}&nbsp;-&nbsp;
                               {produkKrj.produk_varian.varian}
                             </td>
                             <td></td>
                             <td>
-                              {produkKrj.jumlah}
+                              <div className="row g-1">
+                                <div className="col-auto">
+                                  <button type="button" className={lbl.plus.btn}>
+                                    <i className={lbl.plus.icon}></i>
+                                  </button>
+                                </div>
+                                <div className="col-md">
+                                  <Input type="number" name="jumlah"
+                                  value={produkKrj.jumlah} onChange={(e) => handleKeranjangProduk(i, e)}
+                                  className="form-control"/>
+                                </div>
+                                <div className="col-auto">
+                                  <button type="button" className={lbl.minus.btn}>
+                                    <i className={lbl.minus.icon}></i>
+                                  </button>
+                                </div>
+                              </div>
                             </td>
                             <td>
-                              {/* {produkKrj.produk_varian.harga_jual} */}
-                              {produkKrj.produk_varian.harga_jual.toLocaleString("id-ID")}
+                              <Input type="number" name="harga"
+                                  value={produkKrj.harga} onChange={(e) => handleKeranjangProduk(i, e)}
+                                  className="form-control" />
                             </td>
                             <td>
                               <div style={{"minWidth":"5%"}}>  
                                 <Input type="number" name="diskon"
-                                  value={10} onChange={(e) => handleKeranjangProduk(i, e)}
+                                  value={produkKrj.diskon} onChange={(e) => handleKeranjangProduk(i, e)}
                                   className="form-control" />
                               </div>
                             </td>
                             <td>
-                              {/* <Input type="number"
-                                value={(produkKrj?.jumlah * produkKrj.produk_varian.harga_jual * produkKrj?.diskon / 100)} 
-                                className="form-control"/> */}
+                              <Input type="number" name="diskon_harga"
+                                  value={produkKrj.diskon_harga} onChange={(e) => handleKeranjangProduk(i, e)}
+                                  className="form-control" />
                             </td>
                             <td>
                               <Input type="number" name="sub_total"
-                                value={(produkKrj?.jumlah * produkKrj.produk_varian.harga_jual * produkKrj?.diskon)} onChange={(e) => handleKeranjangProduk(i, e)}
+                                value={produkKrj?.sub_total} onChange={(e) => handleKeranjangProduk(i, e)}
                                 className="form-control" />
                             </td>
                             <td>
@@ -194,10 +261,11 @@ export default function KeranjangForm(props) {
   // }
   return <>
     <Card>
-      <Card.Header as="h5">
-        {/* {lbl.keranjang.lbl} */}
-      </Card.Header>
+      {/* <Card.Header as="h5">
+        {lbl.keranjang.lbl}
+      </Card.Header> */}
       <Card.Body>
+        <Card.Title>{lbl.cart.lbl}</Card.Title>
         {formKeranjang}
       </Card.Body>
     </Card>
