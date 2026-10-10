@@ -21,25 +21,30 @@ export default function KeranjangForm(props) {
   });
 
   async function fetchKeranjangDetil() {
-    const response = await keranjangDetil();
-    if (response.status === 200) {
-      const responseBody = response.data;
-      const data = responseBody.data;
-      setKeranjang(responseBody.data);
-      console.log(responseBody.data);
-      console.log('keranjang_produk');
-      console.log(keranjang.keranjang_produk);
-      console.log(keranjang);
-      data.keranjang_produk.forEach((v,k) => {
-        setKeranjang(draft => {
-          draft.keranjang_produk[k]['harga'] = v.produk_varian.harga_jual;  
-          draft.keranjang_produk[k]['diskon'] = 0;  
-          draft.keranjang_produk[k]['diskon_harga'] = 0;  
-        });    
-        handleSubTotal(k);
-      });
-    } else {
-      await alertError(responseBody.errors);
+    try{
+      const response = await keranjangDetil();
+      if (response.status === 200) {
+        const responseBody = response.data;
+        const data = responseBody.data;
+        setKeranjang(responseBody.data);
+        console.log(responseBody.data);
+        console.log('keranjang_produk');
+        console.log(keranjang.keranjang_produk);
+        console.log(keranjang);
+        data.keranjang_produk.forEach((v,k) => {
+          setKeranjang(draft => {
+            draft.keranjang_produk[k]['harga'] = v.produk_varian.harga_jual;  
+            draft.keranjang_produk[k]['diskon'] = 0;  
+            draft.keranjang_produk[k]['diskon_harga'] = 0;  
+          });    
+          handleSubTotal(k);
+        });
+      }
+    } catch(err) {
+      setKeranjang({});
+      console.log(err);
+      // const msg = err.response?.data?.message; 
+      // alertError(msg);
     }
   }
 
@@ -108,15 +113,16 @@ export default function KeranjangForm(props) {
     });
 
     try{
-    const response = await jualCreate(payload);
-    if (response.status === 200) {
-      const responseBody = response.data;
-      await alertSuccess(`${entitas} ${lbl.add.success}`);
-      fetchKeranjangDetil();
-    }
+      const response = await jualCreate(payload);
+      if (response.status === 200) {
+        const responseBody = response.data;
+        await alertSuccess(`${entitas} ${lbl.add.success}`);
+        fetchKeranjangDetil();
+      }
     }catch(error){
       console.log(error);
       // keranjang.keranjang_produk = [];
+      // const msg = error.response?.data?.message; 
       const msg = error.response?.data?.message ?? error; 
       await alertError(msg);
     }

@@ -4,7 +4,8 @@ import {alertConfirm, alertError, alertSuccess} from "../../lib/alert.js";
 import {Link} from "react-router";
 import { Card, Table } from "react-bootstrap";
 import { getProdukList } from "../../lib/api/ProdukApi.js";
-import { labelConfigs as lbl } from "../../util/LabelConfigs.js";
+// import { labelConfigs as lbl } from "../../util/LabelConfigs.js";
+import lbl from "../../util/LabelConfigs2.js";
 import ProdukForm from "./ProdukForm.jsx";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
@@ -20,7 +21,7 @@ export default function ProdukList() {
   const [produkId, setProdukId] = useState("");
   const [page, setPage] = useState(1);
   const [totalPage, setTotalPage] = useState(1);
-  const [produkList, setContacts] = useState([]);
+  const [produkList, setProdukList] = useState([]);
   const [reload, setReload] = useState(false);
   const [visible, setVisible] = useState(false);
 
@@ -31,7 +32,7 @@ export default function ProdukList() {
 
     if (response.status === 200) {
       const responseBody = response.data;
-      setContacts(responseBody.data);
+      setProdukList(responseBody.data);
       // setTotalPage(responseBody.paging.total_page);
     } else {
       await alertError(responseBody.errors);
@@ -46,16 +47,16 @@ export default function ProdukList() {
 
   useEffect(() => {
     fetchProduk()
-      .then(() => console.log("Contacts fetched"));
+      .then(() => console.log("fetched"));
   }, [reload])
 
   const buttonAksi = (produk) => {
     return  <>
-            <Link to={`/produk/${produk.id}/edit`} target="_blank" className={lbl.edit.btnIcon+`btn-smx border me-1`}>
+            <Link to={`/produk/${produk.id}/edit`} target="_blank" className={lbl.edit.btnIcon+` btn-smx me-1`}>
               <i className={`${lbl.edit.icon} me-1`}></i>
             </Link>
-            <Button label="Show" variant={lbl.detil.btnIconVrnt} className={`btn-smx border me-1`} onClick={() => {setVisible(true); setProdukId(produk.id)}}>
-              <i className={`${lbl.detil.icon} me-1`}></i>
+            <Button label="Show" variant={lbl.view.btnIconVrnt} className={`btn-smx me-1`} onClick={() => {setVisible(true); setProdukId(produk.id)}}>
+              <i className={`${lbl.view.icon} me-1`}></i>
             </Button>
             </>;
   };

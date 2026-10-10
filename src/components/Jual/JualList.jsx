@@ -63,11 +63,11 @@ export default function JualList() {
 
   const buttonAksi = (produk) => {
     return  <>
-            <Link to={`/jual/${produk.id}/edit`} target="_blank" className={lbl.edit.btnIcon+`btn-smx border me-1`}>
+            <Link to={`/jual/${produk.id}/edit`} target="_blank" className={lbl.edit.btnIcon+` btn-smx me-1`}>
               <i className={`${lbl.edit.icon} me-1`}></i>
             </Link>
-            <Button label="Show" variant={lbl.detil.btnIconVrnt} className={`btn-smx border me-1`} onClick={() => {setVisible(true); setJualId(produk.id)}}>
-              <i className={`${lbl.detil.icon} me-1`}></i>
+            <Button label="Show" variant={lbl.view.btnIconVrnt} className={` btn-smx me-1`} onClick={() => {setVisible(true); setJualId(produk.id)}}>
+              <i className={`${lbl.view.icon} me-1`}></i>
             </Button>
             </>;
   };
@@ -104,13 +104,13 @@ export default function JualList() {
             {/* <Column header="aksi" body={buttonAksi}></Column> */}
             <Column header="aksi" body={(produk) => {
               return <>
-                <Link to={`/jual/${produk.id}/edit`} target="_blank" className={lbl.edit.btnIcon+`btn-smx border me-1`}>
+                <Link to={`/jual/${produk.id}/edit`} target="_blank" className={lbl.edit.btnIcon+`btn-smx me-1`}>
                   <i className={`${lbl.edit.icon} me-1`}></i>
                 </Link>
                 {/* <button type="button" className={lbl.edit.btnIcon+` me-1`} onClick={() => {setVisible(true); setJualId(produk.id)}}>
                   <i className={`${lbl.edit.icon}`}></i>
                 </button> */}
-                <Button label="Show" variant={lbl.detil.btnIconVrnt} className={`btn-smx border me-1`} onClick={() => {setVisible(true); setJualId(produk.id)}}>
+                <Button label="Show" variant={lbl.view.btnIconVrnt} className={`btn-smx me-1`} onClick={() => {setVisible(true); setJualId(produk.id)}}>
                   <i className={`${lbl.view.icon}`}></i>
                 </Button>
                 <button type="button" className={lbl.delete.btnIcon+` me-1`} onClick={() => {deleteProduk(produk.id)}}>
