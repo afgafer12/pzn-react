@@ -3,7 +3,7 @@ import {useState} from "react";
 import {userLogin} from "../../lib/api/UserApi.js";
 import {alertError, alertErrorResp} from "../../lib/alert.js";
 import {useLocalStorage} from "react-use";
-import {labelConfigs as lbl } from "../../util/LabelConfigs.js";
+import lbl from "../../util/LabelConfigs2.js";
 import Input from "../Shared/Input/index.jsx";
 
 export default function UserLogin() {
@@ -11,7 +11,8 @@ export default function UserLogin() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
-  const [_, setToken] = useLocalStorage("token", "")
+  const [token, setToken] = useLocalStorage("token", "");
+  const [user, setUser] = useLocalStorage("user", "");
   const [errors, setErrors] = useState({});
   
   const iconUser = <i className="fa fa-user text-dark"></i>
@@ -31,8 +32,10 @@ export default function UserLogin() {
     // console.log(responseBody);
 
     if (response.status === 200) {
+      const data = responseBody.data;
       const token = responseBody.data.token;
       setToken(token);
+      setUser(data);
       await navigate({
         pathname: "/produk/catalog"
       });

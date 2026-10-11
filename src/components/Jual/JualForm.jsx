@@ -11,6 +11,8 @@ import { jualCreate, jualDetil, jualUpdate } from "../../lib/api/JualApi.js";
 import lbl from "../../util/LabelConfigs2.js";
 import { produkVarianDetil } from "../../lib/api/ProdukVarianApi.js";
 import { useImmer } from "use-immer";
+import StatusJualSelect from "../Shared/StatusJualSelect/StatusJualSelect.jsx";
+import UserSelect from "../Shared/UserSelect/UserSelect.jsx";
 
 export default function JualForm({id, onSubmit, wrapper}) {
   const entitas = 'Penjualan';
@@ -217,15 +219,19 @@ export default function JualForm({id, onSubmit, wrapper}) {
             </div>
             <div className="col-12"></div>
             <div className="col-sm-6">
-              <Input name="user_id" label="user_id" className=""
-                value={jual?.user_id} onChange={handleChange} 
-              />
+              <label htmlFor="user_id" className="form-label">user_id</label>
+              {/* <Input name="user" label="user"
+                value={jual?.user?.nama} disabled
+              /> */}
+              <UserSelect name="user_id" value={jual?.user_id} onChange={handleChange} optionLabel="nama"></UserSelect>
             </div>
             {/* <div className="col-12"></div> */}
             <div className="col-sm-6">
-              <Input name="status_id" label="status_id"
+              <label htmlFor="status_id" className="form-label">status_id</label>
+              {/* <Input name="status_id" label="status_id"
                 value={jual?.status_id ?? ''} onChange={handleChange} 
-              />
+              /> */}
+              <StatusJualSelect name="status_id" value={jual?.status_id} onChange={handleChange} optionLabel="label"></StatusJualSelect>
             </div>
             <div className="col-12"></div>
             {/* <div className="col-sm-6">

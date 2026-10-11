@@ -4,7 +4,7 @@ const configs = {
       primary: "bg-success text-white",
       // primary: "bg-white text-success",
       // primary: "bg-orange text-white",
-      secondary: "bg-primary text-white",
+      secondary: "bg-secondary text-white",
     },
     text: {
       // primary: "text-primary",
@@ -19,7 +19,7 @@ const labelConfigs2 = {
     name: "Porjo Commerce",
     icon: "fa fa-opencart",
     bgPrimary: configs.bg.primary+"",
-    textPrimary: "text-primary",
+    textPrimary: "text-success",
   },
   submitForm: {
     btn: "btn w-100 fw-boldx "+configs.bg.primary,
@@ -35,7 +35,7 @@ const labelConfigs2 = {
   create: {
     lbl: "Buat",
     // btn: "btn btn-success fw-bold",
-    btn: "btn border fw-bold",
+    btn: "btn btn-outline-success fw-bold",
     btnIcon: "btn btn-outline-primary btn-sm",
     icon: "fa fa-plus",
   }, 

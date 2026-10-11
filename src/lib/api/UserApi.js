@@ -1,3 +1,6 @@
+import axios from "../axios";
+const pathRsc = '/user';
+
 export const userRegister = async ({username, password, name}) => {
   return await fetch(`${import.meta.env.VITE_API_PATH}/users`, {
     method: 'POST',
@@ -76,4 +79,8 @@ export const userLogout = async (token) => {
       'Authorization': token
     }
   })
+}
+
+export const getUserList = async (params = {}) => {
+  return await axios.get(pathRsc, {params: params});
 }

@@ -13,7 +13,8 @@ import { Dropdown } from 'react-bootstrap';
 import lbl from '../util/LabelConfigs2.js';
 
 export default function DashboardLayout() {
-  const [token, _] = useLocalStorage("token", "")
+  const [token, setToken] = useLocalStorage("token", "");
+  const [user, setUser] = useLocalStorage("user", "");
   const [visible, setVisible] = useState(false);
   const isLogin = token;
   
@@ -87,6 +88,7 @@ export default function DashboardLayout() {
               <i className={lbl.cart.icon+``}></i>
             </Link>
             {/* {JSON.stringify(token)} */}
+            {/* {JSON.stringify(user)} */}
             { !isLogin && <Link to="/login" className={'btn btn-light btn-sm text-nowrap me-1 '}>
               <i className={lbl.signIn.icon+``}></i>
               Sign In
@@ -95,7 +97,7 @@ export default function DashboardLayout() {
             <Dropdown title="Link" id="navbarScrollingDropdown" align="end" data-bs-theme="light">
               <Dropdown.Toggle variant="light" id="dropdown-basic">
                 <i className="fa fa-user me-1"></i>
-                User
+                {user.username}
               </Dropdown.Toggle>
               <Dropdown.Menu>
                 <Dropdown.Item href="#action3">Action</Dropdown.Item>
@@ -122,12 +124,20 @@ export default function DashboardLayout() {
     </button> */}
     <br/>
     <div className="mb-3"></div>
-    <div className="container p-1" style={{minHeight: '480px'}}>
+    <div className="wrap-outlet container p-1" style={{minHeight: '480px'}}>
       <Outlet/>
+      {false && <div class="overlay">
+        <div class="position-absolute top-50 start-50">
+            <div class="spinner-border text-blue" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+      </div>
+      }
     </div>
     {/* <div className={lbl.bg.primary}>&nbsp;</div> */}
     {/* <div className={lbl.bg.primary+`x mt-3`} style={{height: '4px'}}></div> */}
-    <div className="bg-dark" style={{height: '120px'}}>
+    <div className="footer bg-dark" style={{height: '120px'}}>
 
     </div>
   </>;

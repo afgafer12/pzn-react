@@ -61,7 +61,12 @@ export default function ProdukCatalog() {
     {/* <Card>
       <Card.Body>
         <Card.Title>Produk</Card.Title> */}
-        <div className="h-5 fw-bold">PRODUK</div>
+        {/* <div className="h-5 fw-bold">PRODUK</div> */}
+        <div className="card mb-2">
+          <div className="card-header">
+            <div className="h5 fw-bold">PRODUK</div>
+          </div>
+        </div>
 
         <div className="row row-cols-1 row-cols-sm-3 row-cols-md-6 row-cols-md-6 g-2">
           {Array.from({ length: 4 }, (_, j) => (
@@ -73,17 +78,17 @@ export default function ProdukCatalog() {
               <div className="card-body p-1">
                 {/* <hr className={lbl.bg.primary}/> */}
                 <div className="h-5 fw-bold">{produk.nama}</div>
-                <div className={lbl.text.primary+" fw-bold"}>Rp {produk.harga_jual}</div>
+                <div className={lbl.text.primary+" fw-bold"}>Rp {produk.harga_jual.toLocaleString("id-ID")}</div>
                 {/* <div className="mb-1">Stok : {produk.stok}</div>
                 <div className="mb-1">Terjual : {produk.total_jual}</div> */}
                 <div className="row g-0">
-                  <div className="col-md-3">Terjual</div>
+                  <div className="col-sm">Terjual</div>
                   <div className="col-auto">:&nbsp;</div>
-                  <div className="col-md">{produk.stok}</div>
+                  <div className="col-sm-8">{produk.stok}</div>
                   <div className="col-12"></div>
-                  <div className="col-md-3">Stok</div>
+                  <div className="col-sm">Stok</div>
                   <div className="col-auto">:&nbsp;</div>
-                  <div className="col-md">{produk.stok}</div>
+                  <div className="col-sm-8">{produk.stok}</div>
                 </div>
                 <p className="card-text" style={{ textAlign: "justify" }}>
                   {produk.deskripsi?.split(" ")?.slice(0,10)?.join(" ")}&nbsp;

@@ -231,7 +231,55 @@ export default function KeranjangForm(props) {
                         <tr>
                           <td colSpan={6} className={''}></td>
                           <td className={'fw-bold'}>
-                            Total
+                            Total Tagihan
+                          </td>
+                          <td>
+                              <Input type="number" name="total" label=""
+                                value={keranjang?.total ?? ''} onChange={handleChange} 
+                              />
+                          </td>
+                          <td></td>
+                        </tr>
+                        <tr>
+                          <td colSpan={6} className={''}></td>
+                          <td className={'fw-bold'}>
+                            Status
+                          </td>
+                          <td>
+                              <Input type="number" name="total" label=""
+                                value={keranjang?.total ?? ''} onChange={handleChange} 
+                              />
+                          </td>
+                          <td></td>
+                        </tr>
+                        <tr>
+                          <td colSpan={6} className={''}></td>
+                          <td className={'fw-bold'}>
+                            Bayar Metode
+                          </td>
+                          <td>
+                              <Input type="number" name="total" label=""
+                                value={keranjang?.total ?? ''} onChange={handleChange} 
+                              />
+                          </td>
+                          <td></td>
+                        </tr>
+                        <tr>
+                          <td colSpan={6} className={''}></td>
+                          <td className={'fw-bold'}>
+                            Total Bayar
+                          </td>
+                          <td>
+                              <Input type="number" name="total" label=""
+                                value={keranjang?.total ?? ''} onChange={handleChange} 
+                              />
+                          </td>
+                          <td></td>
+                        </tr>
+                        <tr>
+                          <td colSpan={6} className={''}></td>
+                          <td className={'fw-bold'}>
+                            Bukti Bayar
                           </td>
                           <td>
                               <Input type="number" name="total" label=""

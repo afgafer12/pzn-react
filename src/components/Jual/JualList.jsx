@@ -22,15 +22,23 @@ export default function JualList() {
   const [jualList, setJualList] = useState([]);
   const [reload, setReload] = useState(false);
   const [visible, setVisible] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   async function fetchJual() {
-    const response = await getJualList();
-    if (response.status === 200) {
-      const responseBody = response.data;
-      setJualList(responseBody.data);
-      // setTotalPage(responseBody.paging.total_page);
-    } else {
-      await alertError(responseBody.errors);
+    try{
+      setLoading(true);
+      const response = await getJualList();
+      if (response.status === 200) {
+        const responseBody = response.data;
+        setJualList(responseBody.data);
+        // setTotalPage(responseBody.paging.total_page);
+      } 
+      // else {
+      //   await alertError(responseBody.errors);
+      // }
+    } catch(err) {
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -91,14 +99,18 @@ export default function JualList() {
         
         <DataTable value={jualList} size="small"
           paginator rows={10} rowsPerPageOptions={[3, 1, 10]}
+          loading={loading}
         >
             <Column header="No." body={(data, options) => options.rowIndex + 1 + `.`}></Column>
             <Column field="created_at" header="created_at" body={(rowData) => new Date(rowData.created_at)?.toLocaleString()}></Column>
             {/* <Column field="created_at" header="created_at" body={(rowData) => rowData.created_at.toLocaleDateString("id-ID")}></Column> */}
             <Column field="no_trans" header="no_trans"></Column>
-            <Column field="user_id" header="user_id"></Column>
-            <Column field="status_id" header="status_id"></Column>
-            <Column field="bayar_metode_id" header="bayar_metode_id"></Column>
+            {/* <Column field="user_id" header="user_id"></Column> */}
+            <Column field="user.nama" header="user_id"></Column>
+            {/* <Column field="status_id" header="status_id"></Column> */}
+            <Column field="status.label" header="status_id"></Column>
+            {/* <Column field="bayar_metode_id" header="bayar_metode_id"></Column> */}
+            <Column field="bayar_metode.label" header="bayar_metode_id"></Column>
             <Column field="total" header="total" body={(rowData) => formatNumber(rowData.total)}></Column>
             <Column field="tgl_bayar" header="tgl_bayar"></Column>
             {/* <Column header="aksi" body={buttonAksi}></Column> */}

@@ -67,7 +67,7 @@ const Input = (props) => {
       break;
     case 'text':
     default:
-      input = <InputText name={props.name} value={props.value} 
+      input = <InputText {...props} name={props.name} value={props.value} 
                   onChange={(e) => props.onChange(e)} className="p-inputtext-sm w-100"/>
       // input = <input type={'text'}  placeholder={props.placeholder}  value={props.value} onChange={props.onChange}  className="form-control"/>
                 

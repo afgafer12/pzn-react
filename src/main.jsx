@@ -39,9 +39,8 @@ import AuthProtectedRoute from './util/AuthProtectedRoute.jsx';
 
 createRoot(document.getElementById('root')).render(
   // <StrictMode>
-  //   <PrimeReactProvider value={{ unstyled: false, pt: Bootstrap_PT, cssLayer: true }}>
-
-    <PrimeReactProvider value={{ unstyled: false, pt: '', cssLayer: true }}>
+    <PrimeReactProvider value={{ unstyled: false, pt: Bootstrap_PT, cssLayer: true }}>
+    {/* <PrimeReactProvider value={{ unstyled: false, pt: '', cssLayer: true }}> */}
     <BrowserRouter>
       <Routes>
         {/* <Route element={<Layout/>}> */}
