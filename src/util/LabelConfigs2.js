@@ -20,6 +20,8 @@ const labelConfigs2 = {
     icon: "fa fa-opencart",
     bgPrimary: configs.bg.primary+"",
     textPrimary: "text-success",
+    themeClass: "theme-sucess",
+    wrapLblClass: "label-v1",
   },
   submitForm: {
     btn: "btn w-100 fw-boldx "+configs.bg.primary,
@@ -144,6 +146,9 @@ const labelConfigs2 = {
     lbl: "Unggah",
     btn: "btn btn-primary",
     icon: "fa fa-upload me-1",
+  },
+  navBar:{ 
+    class: "nav-bar-app",
   },
   image: {
     lbl: 'Gambar'

@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import { useEffect, useState } from "react";
 import { Dropdown } from "primereact/dropdown";
 import { getUserList } from "../../../lib/api/UserApi";
 
 export default function UserSelect(props) {
-  const [dataList, setDataList] = React.useState([]);
+  const [dataList, setDataList] = useState([]);
   const [loading, setLoading] = useState(false);
 
   async function fetchData() {
@@ -20,7 +20,7 @@ export default function UserSelect(props) {
     }
   }
 
-  React.useEffect(() => {
+  useEffect(() => {
     fetchData();
   }, []);
 

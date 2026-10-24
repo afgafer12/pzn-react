@@ -1,9 +1,9 @@
-import React from "react";
+import { useEffect, useState } from "react";
 import { tokoList } from "../../../lib/api/TokoApi";
 import { Dropdown } from "primereact/dropdown";
 
 export default function TokoSelectt(props) {
-  const [dataList, setDataList] = React.useState([]);
+  const [dataList, setDataList] = useState([]);
 
   async function fetchData() {
     const response = await tokoList();
@@ -16,7 +16,7 @@ export default function TokoSelectt(props) {
     }
   }
 
-  React.useEffect(() => {
+  useEffect(() => {
     fetchData();
   }, []);
 

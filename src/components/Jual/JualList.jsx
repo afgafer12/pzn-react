@@ -87,7 +87,7 @@ export default function JualList() {
         <Card.Title>{lbl.jual.lbl}</Card.Title>
       </Card.Header>
       <Card.Body>
-        {/* <Card.Title>Produk</Card.Title> */}
+        {/* <JualForm id={1}></JualForm> */}
         
         <div className="text-end mb-3">
           <Link to={`/dashboard/jual/create`} target="_blank" className={lbl.create.btn}>
@@ -132,6 +132,8 @@ export default function JualList() {
             }}></Column>
             {/* <Column field="toko_id" header="toko_id"></Column> */}
         </DataTable>
+
+        <JualForm id={1}></JualForm>
 
       </Card.Body>
     </Card>

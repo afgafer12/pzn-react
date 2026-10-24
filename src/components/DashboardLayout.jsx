@@ -11,6 +11,7 @@ import { Sidebar } from 'primereact/sidebar';
 import { useLocalStorage } from 'react-use';
 import { Dropdown } from 'react-bootstrap';
 import lbl from '../util/LabelConfigs2.js';
+import { LoadingProvider } from './Layout/LoadingProvider.jsx';
 
 export default function DashboardLayout() {
   const [token, setToken] = useLocalStorage("token", "");
@@ -20,7 +21,7 @@ export default function DashboardLayout() {
   
 
   let navBar = <>
-    <Navbar expand="lg" className={lbl.app.bgPrimary} data-bs-theme="dark" sticky="top">
+    <Navbar expand="lg" className={`${lbl.navBar.class} ${lbl.app.bgPrimary}`} data-bs-theme="dark" sticky="top">
       <Container fluid>
         <button type="button" onClick={() => setVisible(true)} className="navbar-toggler-side-bar mx-1" style={{visibility: "visible"}}>
           <span className="navbar-toggler-icon"></span>
@@ -122,24 +123,24 @@ export default function DashboardLayout() {
     {/* <button className="btn btn-primary m-1 btn-sm" onClick={() => setVisible(true)} style={{position: "fixed", top: "72px", zIndex: 1}}>
       <i className="pi pi-arrow-right"></i>
     </button> */}
-    <br/>
+    {/* <br/>
     <div className="mb-3"></div>
     <div className="wrap-outlet container p-1" style={{minHeight: '480px'}}>
       <Outlet/>
-      {false && <div class="overlay">
-        <div class="position-absolute top-50 start-50">
-            <div class="spinner-border text-blue" role="status">
-                <span class="visually-hidden">Loading...</span>
+      {false && <div className="overlay">
+        <div className="position-absolute top-50 start-50">
+            <div className="spinner-border text-blue" role="status">
+                <span className="visually-hidden">Loading...</span>
             </div>
         </div>
       </div>
       }
-    </div>
+    </div> */}
     {/* <div className={lbl.bg.primary}>&nbsp;</div> */}
     {/* <div className={lbl.bg.primary+`x mt-3`} style={{height: '4px'}}></div> */}
-    <div className="footer bg-dark" style={{height: '120px'}}>
+    {/* <div className="footer bg-dark" style={{height: '120px'}}>
 
-    </div>
+    </div> */}
   </>;
     
 
@@ -181,10 +182,48 @@ export default function DashboardLayout() {
   //   </main>
   // </div>
 
-  return <>
-    {navBar}
-    {/* {navBarOld} */}
+  // return <>
+  //   {navBar}
+  //   {/* {navBarOld} */}
 
+  //   <div className="card flex justify-content-center">
+  //       <Sidebar visible={visible} onHide={() => setVisible(false)}>
+  //           <h2>Sidebar</h2>
+  //           <p>
+  //               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+  //               Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+  //           </p>
+  //       </Sidebar>
+  //   </div>
+  // </>
+
+  return <>
+    <div className={`${lbl.app.themeClass} ${lbl.app.wrapLblClass}`}>
+      <header className='sticky-top'>
+        {navBar}
+      </header>
+        {/* {navBar} */}
+        {/* {navBarOld} */}
+      <main>
+        <button className="btn btn-primary m-1 btn-sm" onClick={() => setVisible(true)} style={{position: "fixed", top: "72px", zIndex: 1}}>
+          <i className="pi pi-arrow-right"></i>
+        </button>
+        <br/>
+        <div className="mb-3"></div>
+        <div className="wrap-outlet container p-1" style={{minHeight: '480px'}}>
+          <LoadingProvider>
+          <Outlet/>
+          </LoadingProvider>
+        </div>
+      </main>
+      <footer>    
+        {/* <div className={lbl.bg.primary}>&nbsp;</div> */}
+        {/* <div className={lbl.bg.primary+`x mt-3`} style={{height: '4px'}}></div> */}
+        <div className="footer bg-dark" style={{height: '120px'}}>
+
+        </div>
+      </footer>
+    </div>
     <div className="card flex justify-content-center">
         <Sidebar visible={visible} onHide={() => setVisible(false)}>
             <h2>Sidebar</h2>

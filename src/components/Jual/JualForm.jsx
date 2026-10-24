@@ -13,9 +13,13 @@ import { produkVarianDetil } from "../../lib/api/ProdukVarianApi.js";
 import { useImmer } from "use-immer";
 import StatusJualSelect from "../Shared/StatusJualSelect/StatusJualSelect.jsx";
 import UserSelect from "../Shared/UserSelect/UserSelect.jsx";
+import { useLoading } from "../Layout/LoadingProvider.jsx";
+import Loader from "../Shared/Loader/Loader.jsx";
 
 export default function JualForm({id, onSubmit, wrapper}) {
   const entitas = 'Penjualan';
+  // const { showLoading, hideLoading } = useLoading();
+  const [loading, setLoading] = useState(false);
   const { id: urlId } = useParams();
   // const id = id ?? urlId;
   id = id ?? urlId;
@@ -112,25 +116,33 @@ export default function JualForm({id, onSubmit, wrapper}) {
   };
 
   async function fetchJual() {
+    // showLoading();
+    setLoading(true);
     const response = await jualDetil(id);
     if (response.status === 200) {
       const responseBody = response.data;
       setJual(responseBody.data);
+      // hideLoading();
+      setLoading(false);
     } else {
       await alertError(responseBody.errors);
     }
   }
 
   async function create() {
-    const response = await jualCreate(token, jual);
-    const responseBody = await response.json();
-    console.log(responseBody);
-
-    if (response.status === 200) {
-      await alertSuccess("created successfully");
-      if(onSubmit)onSubmit();
-    } else {
-      await alertError(responseBody.message);
+    try{
+      showLoading();
+      const response = await jualCreate(token, jual);
+      const responseBody = await response.json();
+      console.log(responseBody);
+      if (response.status === 200) {
+        await alertSuccess("created successfully");
+        if(onSubmit)onSubmit();
+      }
+    } catch(err) {
+      console.log(err);
+    } finally{
+      hideLoading();
     }
   }
   async function update() {
@@ -363,6 +375,7 @@ export default function JualForm({id, onSubmit, wrapper}) {
           </div>
 
         </form>
+        <Loader loading={loading}></Loader>
         <pre>
           {JSON.stringify(jual, null, 2)}
         </pre>

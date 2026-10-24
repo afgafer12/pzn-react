@@ -13,6 +13,7 @@ import Button from 'react-bootstrap/Button';
 import { formatNumber } from "../../util/ComponentUtil.js";
 import { Dialog } from "primereact/dialog";
 import lbl from '../../util/LabelConfigs2.js';
+import { Skeleton } from "primereact/skeleton";
 
 export default function ProdukCatalog() {
 
@@ -24,17 +25,24 @@ export default function ProdukCatalog() {
   const [produkList, setPordukList] = useState([]);
   const [reload, setReload] = useState(false);
   const [visible, setVisible] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   async function fetchProduk() {
-    // getProdukList({nama, page}).then((resp) => {
-    getReadyProdukList({nama, page}).then((resp) => {
-      const responseBody = resp.data;
-      setPordukList(responseBody?.data);
-    }).catch((err) => {
+    try{
+      setLoading(true);
+      const response = await getReadyProdukList({nama, page});
+      if (response.status === 200) {
+        const responseBody = response.data;
+        setPordukList(responseBody?.data);
+      }
+    } catch(err) {
+      // console.log(err.response);
       console.log(err);
-      const msg = err.response?.data?.message ?? err; 
+      // const msg = err.response?.data?.message || err; 
       // alertError(msg);
-    });
+    } finally {
+      setLoading(false);
+    }
   }
 
   const handleSubmitProduk = ()=>{
@@ -56,6 +64,15 @@ export default function ProdukCatalog() {
             </Button>
             </>;
   };
+  const loadingTemplate = <>
+      <div className="card h-100">
+        <div className="card-body p-1">
+          <div style={{height: '240px'}}>
+            <Skeleton className="h-100"/>
+          </div>
+        </div>
+      </div>
+  </>
 
   return <>
     {/* <Card>
@@ -69,6 +86,11 @@ export default function ProdukCatalog() {
         </div>
 
         <div className="row row-cols-1 row-cols-sm-3 row-cols-md-6 row-cols-md-6 g-2">
+          {(loading &&Array.from({ length: 18 }, (_, i) => (
+             <div key={i} className="col">
+              {loadingTemplate}  
+            </div>
+          )))}
           {Array.from({ length: 4 }, (_, j) => (
           produkList.map((produk, i) => (
           <div key={i} className="col">
