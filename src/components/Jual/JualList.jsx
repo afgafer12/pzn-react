@@ -14,6 +14,7 @@ import { formatNumber } from "../../util/ComponentUtil.js";
 import { Dialog } from "primereact/dialog";
 import { jualDelete, getJualList } from "../../lib/api/JualApi.js";
 import lbl from "../../util/LabelConfigs2.js";
+import BayarForm from "../Bayar/BayarForm.jsx";
 
 export default function JualList() {
 
@@ -22,6 +23,7 @@ export default function JualList() {
   const [jualList, setJualList] = useState([]);
   const [reload, setReload] = useState(false);
   const [visible, setVisible] = useState(false);
+  const [bayarDialogShow, setBayarDialogShow] = useState(false);
   const [loading, setLoading] = useState(false);
 
   async function fetchJual() {
@@ -116,6 +118,10 @@ export default function JualList() {
             {/* <Column header="aksi" body={buttonAksi}></Column> */}
             <Column header="aksi" body={(produk) => {
               return <>
+                <button type="button" className={lbl.action.btn+` me-1`} onClick={() => {setBayarDialogShow(true)}}>
+                  {/* <i className={`${lbl.delete.icon}`}></i> */}
+                  {lbl.pay.lbl}
+                </button>
                 <Link to={`/jual/${produk.id}/edit`} target="_blank" className={lbl.edit.btnIcon+`btn-smx me-1`}>
                   <i className={`${lbl.edit.icon} me-1`}></i>
                 </Link>
@@ -140,6 +146,9 @@ export default function JualList() {
     
     <Dialog header="Header" visible={visible} style={{ width: '75vw' }} onHide={() => { if (!visible) return; setVisible(false); }}>
       <JualForm id={jualId} onSubmit={handleSubmitProduk} wrapper={'none'}/>
+    </Dialog>
+    <Dialog header={lbl.payment.lbl} visible={bayarDialogShow} onHide={() => { if (!bayarDialogShow) return; setBayarDialogShow(false); }}>
+      <BayarForm wrapper={'none'}/>
     </Dialog>
   </>
 }

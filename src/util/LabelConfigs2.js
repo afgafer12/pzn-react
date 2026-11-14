@@ -2,9 +2,11 @@ const configs = {
     bg: {
       // primary: "bg-primary",
       primary: "bg-success text-white",
-      // primary: "bg-white text-success",
+      primary: "bg-white text-success",
       // primary: "bg-orange text-white",
       secondary: "bg-secondary text-white",
+      // primary: "bg-primary text-white",
+      colorName: "success",
     },
     text: {
       // primary: "text-primary",
@@ -18,13 +20,13 @@ const labelConfigs2 = {
   app:{
     name: "Porjo Commerce",
     icon: "fa fa-opencart",
-    bgPrimary: configs.bg.primary+"",
+    // bgPrimary: configs.bg.primary+"",
     textPrimary: "text-success",
     themeClass: "theme-sucess",
     wrapLblClass: "label-v1",
   },
   submitForm: {
-    btn: "btn w-100 fw-boldx "+configs.bg.primary,
+    btn: `btn btn-${configs.bg.colorName} w-100 fw-boldx `,
     // icon: "fa fa-save",
     icon: "fa fa-save",
   }, 
@@ -46,7 +48,7 @@ const labelConfigs2 = {
     btn: "btn btn-primary",
     // btnIcon: "btn btn-light btn-smx border",
     // btnIcon: "btn btn-outline-dark btn-smx",
-    btnIcon: "btn btn-outline-secondary bg-white text-dark ",
+    btnIcon: "btn btn-outline-dark xbg-white ",
     // icon: "fa fa-pencil-square-o",
     icon: "fa fa-pencil",
     success: 'edit berhasil'
@@ -57,7 +59,7 @@ const labelConfigs2 = {
     btnVrnt: "light",
     // btnIcon: "btn btn-light btn-smx border",
     // btnIcon: "btn btn-outline-dark btn-smx",
-    btnIcon: "btn btn-outline-secondary bg-white text-dark ",
+    btnIcon: "btn btn-outline-dark xbg-white ",
     icon: "fa fa-trash-o",
     success: 'hapus berhasil',
     failed: 'hapus gagal',
@@ -88,17 +90,17 @@ const labelConfigs2 = {
     btn: "btn btn-info",
     // btnIcon: "btn btn-light border",
     // btnIcon: "btn btn-outline-dark btn-smx",
-    btnIcon: "btn btn-outline-secondary bg-white text-dark ",
+    btnIcon: "btn btn-outline-dark xbg-white ",
     icon: "fa fa-eye",
     // btnIconVrnt: "outline-dark",
-    btnIconVrnt: "outline-secondary text-dark bg-white",
+    btnIconVrnt: "outline-dark xbg-white",
   }, 
   detil: {
     lbl: "Detail",
     btn: "btn btn-info",
     // btnIcon: "btn btn-light border",
     // btnIcon: "btn btn-outline-dark btn-smx",
-    btnIcon: "btn btn-outline-secondary bg-white text-dark ",
+    btnIcon: "btn btn-outline-dark xbg-white ",
     icon: "fa fa-eye",
     btnIconVrnt: "light",
   },
@@ -122,6 +124,12 @@ const labelConfigs2 = {
   jual:{ 
     lbl: "Penjualan",
   },
+  pay:{ 
+    lbl: "Bayar",
+  },
+  payment:{ 
+    lbl: "Pembayaran",
+  },
   cart: {
     lbl: "Keranjang",
     icon: "fa fa-cart-plus",
@@ -142,13 +150,19 @@ const labelConfigs2 = {
   link:{ 
     btn: "btn btn-primary",
   },
+  action:{ 
+    btn: "btn btn-outline-dark xbg-white ",
+  },
   upload:{ 
     lbl: "Unggah",
     btn: "btn btn-primary",
     icon: "fa fa-upload me-1",
   },
   navBar:{ 
-    class: "nav-bar-app",
+    class: "nav-bar-app bg-white",
+    theme: "light",
+    // barBottom: configs.bg.primary,
+    barBottom: "bg-success",
   },
   image: {
     lbl: 'Gambar'

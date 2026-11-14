@@ -116,13 +116,11 @@ export default function JualForm({id, onSubmit, wrapper}) {
   };
 
   async function fetchJual() {
-    // showLoading();
     setLoading(true);
     const response = await jualDetil(id);
     if (response.status === 200) {
       const responseBody = response.data;
       setJual(responseBody.data);
-      // hideLoading();
       setLoading(false);
     } else {
       await alertError(responseBody.errors);
